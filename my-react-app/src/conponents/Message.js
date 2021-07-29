@@ -1,7 +1,9 @@
+import styles from "../style/message.module.scss";
+
 export function Message(props) {
 
     const { user } = props
     return (
-        <div>Hello {user.name}!</div>
+        <div className={styles.box +  ' ' + styles.message}>Hello {user.name}!</div>
     );
 }
