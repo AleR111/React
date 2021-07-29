@@ -2,12 +2,12 @@ import './App.css';
 
 import { Message } from "./conponents/Message";
 
-function App() {
+const user = {name: 'ololo'}
+
+export function App() {
   return (
     <div className="App">
-      <Message />
+      <Message user={user}/>
     </div>
   );
 }
-
-export default App;

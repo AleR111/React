@@ -1,7 +1,7 @@
+export function Message(props) {
 
-export function Message() {
-
+    const { user } = props
     return (
-        <div>hello</div>
+        <div>Hello {user.name}!</div>
     );
 }
