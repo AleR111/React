@@ -1,20 +1,35 @@
-import {useState} from "react";
+import {useState, useEffect} from "react";
 
 import './App.css';
 import {Message} from "./conponents/Message";
 
 const useMyState = () => {
-    const [message, setMessage] = useState([{content: 'kek', author: 'lol'}, {content: 'kek', author: 'lol'}])
+    const [message, setMessage] = useState([])
 
-    return {message, setMessage}
+    const [value, setValue] = useState('')
+
+    return {message, setMessage, value, setValue}
 }
 
 export function App() {
-    const {message, setMessage} = useMyState()
+    const {message, setMessage, value, setValue} = useMyState()
+
+    const updateValue = (value) => {
+        setValue(value)
+    }
+
+    const sendMessage = () => {
+        setMessage(state => [...state, {content: value, author: 'lol'}])
+        setValue('')
+    }
 
     return (
         <div className="App">
-            <Message message={message}/>
+            <Message message={message}
+                     value={value}
+                     updateValue={updateValue}
+                     sendMessage={sendMessage}
+            />
         </div>
     );
 }

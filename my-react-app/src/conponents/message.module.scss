@@ -4,11 +4,17 @@
   border: 1px solid #004444;
 }
 
-.messageBox {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  padding: 8px;
+.message {
+  &Box {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 8px;
+  }
+
+  &Input {
+    margin: 8px;
+  }
 }
 
 .author {

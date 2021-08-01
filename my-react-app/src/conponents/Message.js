@@ -1,6 +1,6 @@
 import styles from "./message.module.scss";
 
-export function Message({message}) {
+export function Message({message, sendMessage, value, updateValue}) {
 
     return (
         <div className={styles.box}>
@@ -12,6 +12,11 @@ export function Message({message}) {
                     </div>
                 ))
             }
+
+            <div className={styles.messageInput}>
+                <input type="text" value={value} onChange={(e) => updateValue(e.target.value)}/>
+                <button onClick={sendMessage}>Send</button>
+            </div>
         </div>
     );
 }
