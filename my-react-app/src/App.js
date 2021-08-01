@@ -1,16 +1,20 @@
-import './App.css';
+import {useState} from "react";
 
+import './App.css';
 import {Message} from "./conponents/Message";
 
-const user = {
-    name: 'ololo',
-    message: "What's up?"
+const useMyState = () => {
+    const [message, setMessage] = useState([{content: 'kek', author: 'lol'}, {content: 'kek', author: 'lol'}])
+
+    return {message, setMessage}
 }
 
 export function App() {
+    const {message, setMessage} = useMyState()
+
     return (
         <div className="App">
-            <Message user={user}/>
+            <Message message={message}/>
         </div>
     );
 }
