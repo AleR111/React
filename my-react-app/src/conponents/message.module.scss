@@ -1,0 +1,18 @@
+.box {
+  max-width: 400px;
+  margin: 0 auto;
+  border: 1px solid #004444;
+}
+
+.messageBox {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 8px;
+}
+
+.author {
+  font-size: 16px;
+  color: #5e1313;
+  margin-left: 4px;
+}
