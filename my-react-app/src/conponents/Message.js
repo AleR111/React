@@ -1,12 +1,24 @@
-import styles from "../style/message.module.scss";
+import {memo} from "react";
+import styles from "./message.module.scss";
 
-export function Message(props) {
+export const Message = memo(({message, sendMessage, value, updateValue}) => {
 
-    const {user} = props
+    console.log('mess')
     return (
         <div className={styles.box}>
-            <h4 className={styles.message}>Hello {user.name}!</h4>
-            <p>{user.message}</p>
+            {
+                message.map((elem, id) => (
+                    <div className={styles.messageBox} key={id}>
+                        <p>{elem.content}</p>
+                        <h4 className={styles.author}>{elem.author}</h4>
+                    </div>
+                ))
+            }
+
+            <div className={styles.messageInput}>
+                <input type="text" value={value} onChange={(e) => updateValue(e.target.value)}/>
+                <button onClick={sendMessage}>Send</button>
+            </div>
         </div>
     );
-}
+})
