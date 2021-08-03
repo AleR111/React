@@ -1,27 +1,17 @@
-import {useState, useEffect} from "react";
+import {useState, useEffect, useCallback} from "react";
 
 import './App.css';
 import {Message} from "./conponents/Message";
 
-const useMyState = () => {
+export const App = () => {
     const [message, setMessage] = useState([])
 
     const [value, setValue] = useState('')
 
-    return {message, setMessage, value, setValue}
-}
-
-export function App() {
-    const {message, setMessage, value, setValue} = useMyState()
-
-    // const updateValue = (value) => {
-    //     setValue(value)
-    // }
-
-    const sendMessage = () => {
+    const sendMessage = useCallback(() => {       // не работает, все равно рендарится дочерний компонент
         setMessage(state => [...state, {content: value, author: 'Alex'}])
         setValue('')
-    }
+    }, [value])
 
     useEffect(() => {
 

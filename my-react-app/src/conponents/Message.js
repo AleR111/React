@@ -1,7 +1,9 @@
+import {memo} from "react";
 import styles from "./message.module.scss";
 
-export function Message({message, sendMessage, value, updateValue}) {
+export const Message = memo(({message, sendMessage, value, updateValue}) => {
 
+    console.log('mess')
     return (
         <div className={styles.box}>
             {
@@ -19,4 +21,4 @@ export function Message({message, sendMessage, value, updateValue}) {
             </div>
         </div>
     );
-}
+})
