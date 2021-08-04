@@ -1,7 +1,7 @@
 import {useState, useEffect, useCallback} from "react";
 
 import './App.css';
-import {Message} from "./conponents/Message";
+import {Chats, Messages} from "./components";
 
 export const App = () => {
     const [message, setMessage] = useState([])
@@ -9,8 +9,8 @@ export const App = () => {
     const [value, setValue] = useState('')
 
     const updateValue = useCallback((value) => {
-            setValue(value)
-        }, [])
+        setValue(value)
+    }, [])
 
     const sendMessage = useCallback(() => {
         setMessage(state => [...state, {content: value, author: 'Alex'}])
@@ -29,10 +29,11 @@ export const App = () => {
 
     return (
         <div className="App">
-            <Message message={message}
-                     value={value}
-                     updateValue={updateValue}
-                     sendMessage={sendMessage}
+            <Chats/>
+            <Messages message={message}
+                      value={value}
+                      updateValue={updateValue}
+                      sendMessage={sendMessage}
             />
         </div>
     );

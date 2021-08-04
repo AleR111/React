@@ -1,7 +1,7 @@
 import {memo} from "react";
 import styles from "./message.module.scss";
 
-export const Message = memo(({message, sendMessage, value, updateValue}) => {
+export const Messages = memo(({message, sendMessage, value, updateValue}) => {
 
     console.log('mess')
     return (
