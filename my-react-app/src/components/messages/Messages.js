@@ -1,11 +1,34 @@
-import {memo} from "react";
 import styles from "./message.module.scss";
 
-export const Messages = memo(({message, sendMessage, value, updateValue}) => {
+import {useState, useEffect, useMemo} from "react";
 
-    console.log('mess')
+export const Messages = () => {
+    const [message, setMessage] = useState([])
+
+    const [value, setValue] = useState('')
+
+    const updateValue = (value) => {
+        setValue(value)
+    }
+
+    const sendMessage = () => {
+        setMessage(state => [...state, {content: value, author: 'Alex'}])
+        setValue('')
+    }
+
+    useEffect(() => {
+
+        if (!message.length || message[message.length - 1].author === 'Robot') return
+
+        setTimeout(() => {
+            setMessage(state => [...state, {content: "Hi, I'm Robot", author: 'Robot'}])
+        }, 1500)
+
+    }, [message])
+
     return (
         <div className={styles.box}>
+
             {
                 message.map((elem, id) => (
                     <div className={styles.messageBox} key={id}>
@@ -21,4 +44,4 @@ export const Messages = memo(({message, sendMessage, value, updateValue}) => {
             </div>
         </div>
     );
-})
+}
