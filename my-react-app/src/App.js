@@ -8,7 +8,11 @@ export const App = () => {
 
     const [value, setValue] = useState('')
 
-    const sendMessage = useCallback(() => {       // не работает, все равно рендарится дочерний компонент
+    const updateValue = useCallback((value) => {
+            setValue(value)
+        }, [])
+
+    const sendMessage = useCallback(() => {
         setMessage(state => [...state, {content: value, author: 'Alex'}])
         setValue('')
     }, [value])
@@ -27,7 +31,7 @@ export const App = () => {
         <div className="App">
             <Message message={message}
                      value={value}
-                     updateValue={(value) => setValue(value)}
+                     updateValue={updateValue}
                      sendMessage={sendMessage}
             />
         </div>
