@@ -1,17 +1,18 @@
 import "./App.css"
-import Grid from "@material-ui/core/Grid"
+import {Container, Grid} from "@material-ui/core"
 import { Chats, Messages } from "./components"
-
 
 export const App = () => {
   return (
-    <Grid container={true} spacing={3}>
-      <Grid item={true} xs={6}>
-        <Chats />
+    <Container maxWidth="md">
+      <Grid container={true} spacing={3}>
+        <Grid item={true} xs={4}>
+          <Chats />
+        </Grid>
+        <Grid item={true} xs={8}>
+          <Messages />
+        </Grid>
       </Grid>
-      <Grid item={true} xs={6}>
-        <Messages />
-      </Grid>
-    </Grid>
+    </Container>
   )
 }
