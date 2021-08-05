@@ -36,7 +36,7 @@ export const Messages = () => {
   }, [message])
 
   return (
-    <div className={styles.box}>
+    <div>
       {message.map((elem, id) => (
         <div className={styles.messageBox} key={id}>
           <p>{elem.content}</p>
