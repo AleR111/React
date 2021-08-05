@@ -48,7 +48,6 @@ export const Messages = () => {
         inputRef={inputRef}
         fullWidth={true}
         placeholder="Write a message..."
-        inputProps={{ "aria-label": "description" }}
         autoFocus={true}
         endAdornment={
           <InputAdornment position="end">
