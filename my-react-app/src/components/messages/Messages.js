@@ -2,13 +2,15 @@ import { Input, InputAdornment, IconButton } from "@material-ui/core"
 
 import { SendRounded } from "@material-ui/icons"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import styles from "./message.module.scss"
 
 export const Messages = () => {
   const [message, setMessage] = useState([])
 
   const [value, setValue] = useState("")
+
+  const inputRef = useRef(null)
 
   const updateValue = (value) => {
     setValue(value)
@@ -29,6 +31,8 @@ export const Messages = () => {
         { content: "Hi, I'm Robot", author: "Robot" },
       ])
     }, 1500)
+
+    inputRef.current?.focus()
   }, [message])
 
   return (
@@ -41,12 +45,14 @@ export const Messages = () => {
       ))}
 
       <Input
+        inputRef={inputRef}
+        fullWidth={true}
         placeholder="Write a message..."
         inputProps={{ "aria-label": "description" }}
-        fullWidth={true}
+        autoFocus={true}
         endAdornment={
           <InputAdornment position="end">
-            <IconButton color="inherit" onClick={sendMessage}>
+            <IconButton color="primary" onClick={sendMessage}>
               <SendRounded />
             </IconButton>
           </InputAdornment>
