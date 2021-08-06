@@ -1,11 +1,31 @@
-import { Input, InputAdornment, IconButton } from "@material-ui/core"
-
+import {
+  Input,
+  InputAdornment,
+  IconButton,
+  Grid,
+  Paper,
+} from "@material-ui/core"
+import { makeStyles } from "@material-ui/core/styles"
 import { SendRounded } from "@material-ui/icons"
 
 import { useState, useEffect, useRef } from "react"
-import styles from "./message.module.scss"
+
+// import styles from "./message.module.scss"
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    flexGrow: 1,
+  },
+  paper: {
+    padding: theme.spacing(2),
+    textAlign: "center",
+    color: theme.palette.text.secondary,
+  },
+}))
 
 export const Messages = () => {
+  const classes = useStyles()
+
   const [message, setMessage] = useState([])
 
   const [value, setValue] = useState("")
@@ -37,12 +57,34 @@ export const Messages = () => {
 
   return (
     <div>
-      {message.map((elem, id) => (
-        <div className={styles.messageBox} key={id}>
-          <p>{elem.content}</p>
-          <h4 className={styles.author}>{elem.author}</h4>
-        </div>
-      ))}
+      <Grid container={true} spacing={2}>
+        {message.map((elem, id) => (
+          <Grid item={true} xs={12} key={id}>
+            <Paper variant="outlined" elevation={0} className={classes.paper}>
+              <Grid container={true} spacing={2}>
+                <Grid item={true} xs={10}>
+                  <Paper
+                    variant="outlined"
+                    elevation={0}
+                    className={classes.paper}
+                  >
+                    <p>{elem.content}</p>
+                  </Paper>
+                </Grid>
+                <Grid item={true} xs={2}>
+                  <Paper
+                    variant="outlined"
+                    elevation={0}
+                    className={classes.paper}
+                  >
+                    <h4>{elem.author}</h4>
+                  </Paper>
+                </Grid>
+              </Grid>
+            </Paper>
+          </Grid>
+        ))}
+      </Grid>
 
       <Input
         inputRef={inputRef}
