@@ -2,24 +2,28 @@ import {
   Input,
   InputAdornment,
   IconButton,
-  Grid,
-  Paper,
+  ListItem,
+  ListItemAvatar,
+  Avatar,
+  ListItemText,
+  Divider,
+  List,
 } from "@material-ui/core"
 import { makeStyles } from "@material-ui/core/styles"
 import { SendRounded } from "@material-ui/icons"
 
-import { useState, useEffect, useRef } from "react"
+import React, { useState, useEffect, useRef } from "react"
 
 // import styles from "./message.module.scss"
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    flexGrow: 1,
+    width: "100%",
+    maxWidth: "36ch",
+    backgroundColor: theme.palette.background.paper,
   },
-  paper: {
-    padding: theme.spacing(2),
-    textAlign: "center",
-    color: theme.palette.text.secondary,
+  inline: {
+    display: "inline",
   },
 }))
 
@@ -57,34 +61,22 @@ export const Messages = () => {
 
   return (
     <div>
-      <Grid container={true} spacing={2}>
+      <List className={classes.root}>
         {message.map((elem, id) => (
-          <Grid item={true} xs={12} key={id}>
-            <Paper variant="outlined" elevation={0} className={classes.paper}>
-              <Grid container={true} spacing={2}>
-                <Grid item={true} xs={10}>
-                  <Paper
-                    variant="outlined"
-                    elevation={0}
-                    className={classes.paper}
-                  >
-                    <p>{elem.content}</p>
-                  </Paper>
-                </Grid>
-                <Grid item={true} xs={2}>
-                  <Paper
-                    variant="outlined"
-                    elevation={0}
-                    className={classes.paper}
-                  >
-                    <h4>{elem.author}</h4>
-                  </Paper>
-                </Grid>
-              </Grid>
-            </Paper>
-          </Grid>
+          <div key={id}>
+            <ListItem alignItems="flex-start" >
+              <ListItemAvatar>
+                <Avatar src="/static/images/avatar/1.jpg" />
+              </ListItemAvatar>
+              <ListItemText
+                primary={elem.author}
+                secondary={elem.content}
+              />
+            </ListItem>
+            <Divider variant="inset" component="li" />
+          </div>
         ))}
-      </Grid>
+      </List>
 
       <Input
         inputRef={inputRef}
