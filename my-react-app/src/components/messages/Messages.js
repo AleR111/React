@@ -20,7 +20,8 @@ const useStyles = makeStyles((theme) => ({
   root: {
     width: "100%",
     maxWidth: "36ch",
-    backgroundColor: theme.palette.background.paper,
+    color: theme.font.color,
+    background: theme.background.color,
   },
   inline: {
     display: "inline",

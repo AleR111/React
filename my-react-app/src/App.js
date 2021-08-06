@@ -42,6 +42,7 @@ export const App = () => {
   }
 
   const theme = (theme) => {
+    console.log(321)
     return theme ? darkTheme : lightTheme
   }
 
@@ -68,7 +69,7 @@ export const App = () => {
         />
       </header>
       <ThemeProvider theme={theme(isDarkTheme)}>
-        <Wrapper />
+        <Wrapper theme={theme(isDarkTheme)}/>
       </ThemeProvider>
     </div>
   )
@@ -83,7 +84,7 @@ const useStyles = makeStyles((theme) => {
   }
 })
 
-const Wrapper = () => {
+const Wrapper = ({theme}) => {
   const classes = useStyles()
   return (
     <div className={classes.root}>
@@ -93,7 +94,9 @@ const Wrapper = () => {
             <Chats />
           </Grid>
           <Grid item={true} xs={8}>
+            <ThemeProvider theme={theme}>
             <Messages />
+            </ThemeProvider>
           </Grid>
         </Grid>
       </Container>
