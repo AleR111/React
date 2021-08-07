@@ -11,8 +11,11 @@ import {
 } from "@material-ui/core"
 import { makeStyles } from "@material-ui/core/styles"
 import { SendRounded } from "@material-ui/icons"
-
+// import classNames from "classnames";
 import React, { useState, useEffect, useRef } from "react"
+import styles from './message.module.scss'
+
+
 
 // import styles from "./message.module.scss"
 
@@ -62,7 +65,8 @@ export const Messages = () => {
   }, [message])
 
   return (
-    <div>
+    <div className={styles.container}>
+      <div className={styles.messagesList}>
       <List className={classes.root}>
         {message.map((elem, id) => (
           <div key={id}>
@@ -76,6 +80,7 @@ export const Messages = () => {
           </div>
         ))}
       </List>
+      </div>
 
       <Input
         inputRef={inputRef}

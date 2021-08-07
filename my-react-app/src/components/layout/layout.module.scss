@@ -1,0 +1,19 @@
+.layout {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.content {
+  flex-grow: 1;
+display: grid;
+  grid-template-columns: 1fr 4fr;
+}
+
+.messages {
+background-color: #09141f;
+}
+
+.chats {
+  background-color: rgba(27, 33, 47, 0.96);
+}
