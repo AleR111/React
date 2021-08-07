@@ -1,35 +1,96 @@
-import {useState, useEffect, useCallback} from "react";
+import "./App.css"
+import {
+  Container,
+  Grid,
+  makeStyles,
+  FormControlLabel,
+  Switch,
+} from "@material-ui/core"
+import { createTheme, ThemeProvider } from "@material-ui/core/styles"
+import { useState } from "react"
+import { Chats, Messages } from "./components"
 
-import './App.css';
-import {Message} from "./conponents/Message";
+const themes = {
+  dark: createTheme({
+    font: {
+      color: "rgba(255,255,255,0.89)",
+    },
+    background: {
+      color: "#19181f",
+    },
+  }),
+
+  light: createTheme({
+    font: {
+      color: "rgba(0,0,0,0.89)",
+    },
+    background: {
+      color: "#ffffff",
+    },
+  }),
+}
 
 export const App = () => {
-    const [message, setMessage] = useState([])
+  const [themeName, setThemeName] = useState("light")
 
-    const [value, setValue] = useState('')
+  const handleChange = (event) => {
+    if (event.target.checked) {
+      setThemeName(event.target.name)
+    } else setThemeName(event.target.value)
+  }
 
-    const sendMessage = useCallback(() => {       // не работает, все равно рендарится дочерний компонент
-        setMessage(state => [...state, {content: value, author: 'Alex'}])
-        setValue('')
-    }, [value])
-
-    useEffect(() => {
-
-        if (!message.length || message[message.length - 1].author === 'Robot') return
-
-        setTimeout(() => {
-            setMessage(state => [...state, {content: "Hi, I'm Robot", author: 'Robot'}])
-        }, 1500)
-
-    }, [message])
-
-    return (
-        <div className="App">
-            <Message message={message}
-                     value={value}
-                     updateValue={(value) => setValue(value)}
-                     sendMessage={sendMessage}
+  return (
+    <div>
+      <header
+        style={{
+          color: "rgba(137,159,161,0.82)",
+          height: 50,
+          backgroundColor: "#091628",
+        }}
+      >
+        <FormControlLabel
+          labelPlacement="start"
+          control={
+            <Switch
+              onChange={handleChange}
+              color="primary"
+              name="dark"
+              value="light"
             />
-        </div>
-    );
+          }
+          label="Dark"
+        />
+      </header>
+      <ThemeProvider theme={themes[themeName]}>
+        <Wrapper />
+      </ThemeProvider>
+    </div>
+  )
+}
+
+const useStyles = makeStyles((theme) => {
+  return {
+    root: {
+      color: theme.font.color,
+      background: theme.background.color,
+    },
+  }
+})
+
+const Wrapper = () => {
+  const classes = useStyles()
+  return (
+    <div className={classes.root}>
+      <Container maxWidth="md">
+        <Grid container={true} spacing={3}>
+          <Grid item={true} xs={4}>
+            <Chats />
+          </Grid>
+          <Grid item={true} xs={8}>
+            <Messages />
+          </Grid>
+        </Grid>
+      </Container>
+    </div>
+  )
 }
