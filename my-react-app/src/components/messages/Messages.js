@@ -11,9 +11,10 @@ import {
 } from "@material-ui/core"
 import { makeStyles } from "@material-ui/core/styles"
 import { SendRounded } from "@material-ui/icons"
-// import classNames from "classnames";
+import classNames from "classnames";
 import React, { useState, useEffect, useRef } from "react"
 import styles from './message.module.scss'
+
 
 
 
@@ -28,6 +29,11 @@ const useStyles = makeStyles((theme) => ({
   },
   inline: {
     display: "inline",
+  },
+  input: {
+    color: "#9a9fa1",
+    padding: "10px 15px",
+    fontSize: " 15px",
   },
 }))
 
@@ -65,9 +71,9 @@ export const Messages = () => {
   }, [message])
 
   return (
-    <div className={styles.container}>
-      <div className={styles.messagesList}>
-      <List className={classes.root}>
+   <>
+
+      <List className={classNames(classes.root, styles.messagesList)}>
         {message.map((elem, id) => (
           <div key={id}>
             <ListItem alignItems="flex-start">
@@ -80,9 +86,10 @@ export const Messages = () => {
           </div>
         ))}
       </List>
-      </div>
+
 
       <Input
+          className={classes.input}
         inputRef={inputRef}
         fullWidth={true}
         placeholder="Write a message..."
@@ -97,6 +104,6 @@ export const Messages = () => {
         value={value}
         onChange={(e) => updateValue(e.target.value)}
       />
-    </div>
+    </>
   )
 }
