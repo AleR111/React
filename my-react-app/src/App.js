@@ -10,40 +10,33 @@ import { createTheme, ThemeProvider } from "@material-ui/core/styles"
 import { useState } from "react"
 import { Chats, Messages } from "./components"
 
-const darkTheme = createTheme({
-  font: {
-    color: "rgba(255,255,255,0.89)",
-  },
-  background: {
-    color: "#19181f",
-  },
-})
+const themes = {
+  dark: createTheme({
+    font: {
+      color: "rgba(255,255,255,0.89)",
+    },
+    background: {
+      color: "#19181f",
+    },
+  }),
 
-const lightTheme = createTheme({
-  font: {
-    color: "rgba(0,0,0,0.89)",
-  },
-  background: {
-    color: "#ffffff",
-  },
-})
+  light: createTheme({
+    font: {
+      color: "rgba(0,0,0,0.89)",
+    },
+    background: {
+      color: "#ffffff",
+    },
+  }),
+}
 
 export const App = () => {
-  const [isDarkTheme, setIsDarkTheme] = useState(false)
-
-  const [checked, setChecked] = useState({
-    checkedA: true,
-    checkedB: false,
-  })
+  const [themeName, setThemeName] = useState("light")
 
   const handleChange = (event) => {
-    setChecked({ ...checked, [event.target.name]: event.target.checked })
-    setIsDarkTheme(event.target.checked)
-  }
-
-  const theme = (theme) => {
-    console.log(321)
-    return theme ? darkTheme : lightTheme
+    if (event.target.checked) {
+      setThemeName(event.target.name)
+    } else setThemeName(event.target.value)
   }
 
   return (
@@ -59,17 +52,17 @@ export const App = () => {
           labelPlacement="start"
           control={
             <Switch
-              checked={checked.checkedB}
               onChange={handleChange}
               color="primary"
-              name="checkedB"
+              name="dark"
+              value="light"
             />
           }
           label="Dark"
         />
       </header>
-      <ThemeProvider theme={theme(isDarkTheme)}>
-        <Wrapper theme={theme(isDarkTheme)}/>
+      <ThemeProvider theme={themes[themeName]}>
+        <Wrapper />
       </ThemeProvider>
     </div>
   )
@@ -84,7 +77,7 @@ const useStyles = makeStyles((theme) => {
   }
 })
 
-const Wrapper = ({theme}) => {
+const Wrapper = () => {
   const classes = useStyles()
   return (
     <div className={classes.root}>
@@ -94,9 +87,7 @@ const Wrapper = ({theme}) => {
             <Chats />
           </Grid>
           <Grid item={true} xs={8}>
-            <ThemeProvider theme={theme}>
             <Messages />
-            </ThemeProvider>
           </Grid>
         </Grid>
       </Container>

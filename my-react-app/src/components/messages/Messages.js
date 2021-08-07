@@ -47,8 +47,9 @@ export const Messages = () => {
   }
 
   useEffect(() => {
-    if (!message.length || message[message.length - 1].author === "Robot")
+    if (!message.length || message[message.length - 1].author === "Robot") {
       return
+    }
 
     setTimeout(() => {
       setMessage((state) => [
@@ -65,14 +66,11 @@ export const Messages = () => {
       <List className={classes.root}>
         {message.map((elem, id) => (
           <div key={id}>
-            <ListItem alignItems="flex-start" >
+            <ListItem alignItems="flex-start">
               <ListItemAvatar>
                 <Avatar src="/static/images/avatar/1.jpg" />
               </ListItemAvatar>
-              <ListItemText
-                primary={elem.author}
-                secondary={elem.content}
-              />
+              <ListItemText primary={elem.author} secondary={elem.content} />
             </ListItem>
             <Divider variant="inset" component="li" />
           </div>

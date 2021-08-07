@@ -16,10 +16,6 @@ export const Chats = () => {
     { id: 432, name: "Brenton Oli" },
   ])
 
-  const getAvatar = (name) => {
-    return name.match(/[A-Z]/g).join("")
-  }
-
   return (
     <List component="nav" aria-label="contacts">
       {chatsList.map((elem) => (
@@ -32,4 +28,8 @@ export const Chats = () => {
       ))}
     </List>
   )
+}
+
+const getAvatar = (name) => {
+  return name.match(/[A-Z]/g).join("")
 }
