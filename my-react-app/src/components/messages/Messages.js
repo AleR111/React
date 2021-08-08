@@ -30,11 +30,9 @@ export const Messages = () => {
   const classes = useStyles()
 
   const [message, setMessage] = useState([])
-
   const [value, setValue] = useState("")
 
   const inputRef = useRef(null)
-
   const scrollRef = useRef(0)
 
   const updateValue = (value) => {
@@ -46,7 +44,6 @@ export const Messages = () => {
     setMessage((state) => [...state, { content: value, author: "user" }])
     setValue("")
   }
-
   const sendMessageKey = ({ code }) => {
     if (code === "Enter" && value) {
       setMessage((state) => [...state, { content: value, author: "user" }])
@@ -63,6 +60,7 @@ export const Messages = () => {
 
   useEffect(() => {
     scrollBottom()
+
     if (!message.length || message[message.length - 1].author === "Robot") {
       return
     }
@@ -79,7 +77,7 @@ export const Messages = () => {
 
   return (
     <>
-      <div  className={classNames(classes.root, styles.recipient)}>
+      <div className={classNames(classes.root, styles.recipient)}>
         <h4>friend</h4>
       </div>
 

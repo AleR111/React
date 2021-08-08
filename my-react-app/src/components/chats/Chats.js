@@ -8,7 +8,7 @@ import {
 import { makeStyles } from "@material-ui/core/styles"
 import classNames from "classnames"
 import { useState } from "react"
-// import styles from "./chats.module.scss"
+import styles from "./chats.module.scss"
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -44,9 +44,9 @@ export const Chats = () => {
     { id: 432, name: "Brenton Oli" },
   ])
 
-  // const selectChat = (id) => {
-  //   setSelectedChat(id)
-  // }
+  const selectChat = (id) => {
+    setSelectedChat(id)
+  }
 
   return (
     <List className={classes.root} component="nav" aria-label="contacts">
@@ -55,13 +55,14 @@ export const Chats = () => {
           button={true}
           key={elem.id}
           selected={elem.id === selectedChat}
-          onClick={() => setSelectedChat(elem.id)}
+          onClick={() => selectChat(elem.id)}
           className={classNames(classes.item, classes.itemSelected)}
         >
           <ListItemIcon>
             <Avatar>{getAvatar(elem.name)}</Avatar>
           </ListItemIcon>
           <ListItemText primary={elem.name} />
+          <div className={styles.time}>15:25</div>
         </ListItem>
       ))}
     </List>
