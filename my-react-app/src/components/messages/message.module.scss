@@ -27,6 +27,14 @@
 //  }
 //}
 
+.recipient {
+  min-height: 50px;
+  background-color: rgba(27, 33, 47, 0.96) !important;
+  border-left: 1px solid #000;
+  text-align: center;
+  margin-bottom: 4px;
+}
+
 .messagesList {
   flex-grow: 1;
   padding: 8px;
