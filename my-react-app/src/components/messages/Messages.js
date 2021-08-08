@@ -1,29 +1,15 @@
-import {
-  Input,
-  InputAdornment,
-  IconButton,
-  ListItem,
-  ListItemAvatar,
-  Avatar,
-  ListItemText,
-  Divider,
-  List,
-} from "@material-ui/core"
+import { Input, InputAdornment, IconButton } from "@material-ui/core"
 import { makeStyles } from "@material-ui/core/styles"
 import { SendRounded } from "@material-ui/icons"
-import classNames from "classnames";
+import classNames from "classnames"
 import React, { useState, useEffect, useRef } from "react"
-import styles from './message.module.scss'
-
-
-
+import styles from "./message.module.scss"
 
 // import styles from "./message.module.scss"
 
 const useStyles = makeStyles((theme) => ({
   root: {
     width: "100%",
-    maxWidth: "36ch",
     color: theme.font.color,
     background: theme.background.color,
   },
@@ -31,9 +17,12 @@ const useStyles = makeStyles((theme) => ({
     display: "inline",
   },
   input: {
+    marginTop: "4px",
+    backgroundColor: "#353f4b",
     color: "#9a9fa1",
     padding: "10px 15px",
     fontSize: " 15px",
+    borderLeft: "1px solid #000",
   },
 }))
 
@@ -51,7 +40,7 @@ export const Messages = () => {
   }
 
   const sendMessage = () => {
-    setMessage((state) => [...state, { content: value, author: "Alex" }])
+    setMessage((state) => [...state, { content: value, author: "user" }])
     setValue("")
   }
 
@@ -71,25 +60,27 @@ export const Messages = () => {
   }, [message])
 
   return (
-   <>
+    <>
+      <div>
+        <h4>friend</h4>
+      </div>
 
-      <List className={classNames(classes.root, styles.messagesList)}>
+      <div className={classNames(classes.root, styles.messagesList)}>
         {message.map((elem, id) => (
-          <div key={id}>
-            <ListItem alignItems="flex-start">
-              <ListItemAvatar>
-                <Avatar src="/static/images/avatar/1.jpg" />
-              </ListItemAvatar>
-              <ListItemText primary={elem.author} secondary={elem.content} />
-            </ListItem>
-            <Divider variant="inset" component="li" />
+          <div
+            className={classNames(styles.messageBox, {
+              [styles.messageBoxUser]: elem.author === "user",
+            })}
+            key={id}
+          >
+            <p>{elem.content}</p>
+            <div className={styles.time}>1:59</div>
           </div>
         ))}
-      </List>
-
+      </div>
 
       <Input
-          className={classes.input}
+        className={classes.input}
         inputRef={inputRef}
         fullWidth={true}
         placeholder="Write a message..."

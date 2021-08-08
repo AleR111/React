@@ -29,4 +29,33 @@
 
 .messagesList {
   flex-grow: 1;
+  padding: 8px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+
+}
+
+.messageBox {
+  max-width: 80%;
+  min-width: 45%;
+  background-color: #353f4b;
+  padding: 4px 8px;
+  border-radius: 8px;
+  margin-right: auto;
+
+}
+
+.messageBox:not(:last-child) {
+  margin-bottom: 8px;
+}
+
+.messageBoxUser {
+  margin-left: auto;
+  margin-right: 0;
+  background-color: #2b5278;
+}
+
+.time {
+  text-align: end;
 }
