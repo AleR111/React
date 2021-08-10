@@ -2,7 +2,8 @@ import { createTheme, ThemeProvider } from "@material-ui/core/styles"
 import React from "react"
 import ReactDOM from "react-dom"
 import "./index.css"
-import { Layout, Header, Chats, Messages } from "./components"
+import { BrowserRouter, Switch, Route } from "react-router-dom"
+import { Chat, Page404 } from "./pages"
 
 const themes = {
   dark: createTheme({
@@ -26,9 +27,18 @@ const themes = {
 
 ReactDOM.render(
   <React.StrictMode>
-    <ThemeProvider theme={themes.dark}>
-      <Layout Header={<Header />} Chats={<Chats />} Messages={<Messages />} />
-    </ThemeProvider>
+    <BrowserRouter>
+      <ThemeProvider theme={themes.dark}>
+        <Switch>
+          <Route path={"/chat"}>
+            <Chat />
+          </Route>
+          <Route path={"*"}>
+            <Page404 />
+          </Route>
+        </Switch>
+      </ThemeProvider>
+    </BrowserRouter>
   </React.StrictMode>,
   document.getElementById("root"),
 )
