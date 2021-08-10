@@ -1,7 +1,7 @@
-import { Chats, Header, Layout, Messages } from "../components"
+import { Chats, Layout, Messages } from "../components"
 
 export const Chat = () => {
   return (
-    <Layout Header={<Header />} Chats={<Chats />} Messages={<Messages />} />
+    <Layout Chats={<Chats />} Messages={<Messages />} />
   )
 }
