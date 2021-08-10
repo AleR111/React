@@ -31,26 +31,27 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-export const Chats = () => {
+export const Chats = ({conversation}) => {
   const classes = useStyles()
 
   const [selectedChat, setSelectedChat] = useState(null)
 
-  const [chatsList] = useState([
-    { id: 123, name: "Keeley Lon" },
-    { id: 235, name: "Angelle Jonty" },
-    { id: 543, name: "Myra Justy" },
-    { id: 563, name: "Dwain Bette" },
-    { id: 432, name: "Brenton Oli" },
-  ])
+  // const [chatsList] = useState([
+  //   { id: 123, name: "Keeley Lon" },
+  //   { id: 235, name: "Angelle Jonty" },
+  //   { id: 543, name: "Myra Justy" },
+  //   { id: 563, name: "Dwain Bette" },
+  //   { id: 432, name: "Brenton Oli" },
+  // ])
 
   const selectChat = (id) => {
     setSelectedChat(id)
   }
+  console.log(conversation)
 
   return (
     <List className={classes.root} component="nav" aria-label="contacts">
-      {chatsList.map((elem) => (
+      {conversation.map((elem) => (
         <ListItem
           button={true}
           key={elem.id}
@@ -59,9 +60,9 @@ export const Chats = () => {
           className={classNames(classes.item, classes.itemSelected)}
         >
           <ListItemIcon>
-            <Avatar>{getAvatar(elem.name)}</Avatar>
+            <Avatar>{getAvatar(elem.title)}</Avatar>
           </ListItemIcon>
-          <ListItemText primary={elem.name} />
+          <ListItemText primary={elem.title} />
           <div className={styles.time}>15:25</div>
         </ListItem>
       ))}

@@ -1,0 +1,14 @@
+.prompt {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.promptText {
+  font-weight: 500;
+  color: #fff;
+  background-color: #323a47;
+  padding: 4px 8px;
+  border-radius: 16px;
+}

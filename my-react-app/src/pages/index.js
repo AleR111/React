@@ -1,2 +1,2 @@
-export * from './Chat'
-export * from './Page404'
+export * from './chat'
+export * from './page404'
