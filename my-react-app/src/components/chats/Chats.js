@@ -47,7 +47,7 @@ export const Chats = ({conversation}) => {
   const selectChat = (id) => {
     setSelectedChat(id)
   }
-  console.log(conversation)
+  console.log(123)
 
   return (
     <List className={classes.root} component="nav" aria-label="contacts">
