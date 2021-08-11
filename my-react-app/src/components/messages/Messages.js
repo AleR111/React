@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-export const Messages = () => {
+export const Messages = ({messages}) => {
   const classes = useStyles()
 
   const [message, setMessage] = useState([])
@@ -75,6 +75,8 @@ export const Messages = () => {
     inputRef.current?.focus()
   }, [message, scrollBottom])
 
+  console.log(messages)
+
   return (
     <>
       <div className={classNames(classes.root, styles.recipient)}>
@@ -85,14 +87,14 @@ export const Messages = () => {
         ref={scrollRef}
         className={classNames(classes.root, styles.messagesList)}
       >
-        {message.map((elem, id) => (
+        {messages.map((elem, id) => (
           <div
             className={classNames(styles.messageBox, {
               [styles.messageBoxUser]: elem.author === "user",
             })}
             key={id}
           >
-            <p>{elem.content}</p>
+            <p>{elem.message}</p>
             <div className={styles.time}>1:59</div>
           </div>
         ))}

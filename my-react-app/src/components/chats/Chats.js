@@ -36,18 +36,9 @@ export const Chats = ({conversation}) => {
 
   const [selectedChat, setSelectedChat] = useState(null)
 
-  // const [chatsList] = useState([
-  //   { id: 123, name: "Keeley Lon" },
-  //   { id: 235, name: "Angelle Jonty" },
-  //   { id: 543, name: "Myra Justy" },
-  //   { id: 563, name: "Dwain Bette" },
-  //   { id: 432, name: "Brenton Oli" },
-  // ])
-
   const selectChat = (id) => {
     setSelectedChat(id)
   }
-  console.log(123)
 
   return (
     <List className={classes.root} component="nav" aria-label="contacts">
