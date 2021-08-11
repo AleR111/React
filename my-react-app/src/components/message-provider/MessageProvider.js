@@ -2,6 +2,7 @@ import { useCallback, useMemo, useState } from "react"
 import { useParams } from "react-router-dom"
 
 export const MessageProvider = ({ children }) => {
+  console.log(123)
   const { chatId } = useParams()
 
   const [conversation, setConversation] = useState([
@@ -10,7 +11,7 @@ export const MessageProvider = ({ children }) => {
     { id: "chat426", title: "Myra Justy", value: "" },
   ])
 
-  const [messages] = useState({
+  const [messages, setMessages] = useState({
     chat123: [
       { author: "user", message: "Hi", date: new Date() },
       { author: "bot", message: "Hi, i'm bot", date: new Date() },
@@ -40,11 +41,7 @@ export const MessageProvider = ({ children }) => {
   //   }
   // }
   //
-  // const sendMessage = (value) => {
-  //   if (!value) return
-  //   setMessages((state) => [...state[chatId], { author: "user", message: value, date: new Date() }])
-  //   setValue("")
-  // }
+
 
   const updateValue = useCallback(
     (value) => {
@@ -54,12 +51,19 @@ export const MessageProvider = ({ children }) => {
         return elem
         }),
       )
-      // const qwe = conversation.find(elem => elem.id === chatId).value = value
-      console.log(conversation)
+
     },
-    [chatId, conversation],
+    [chatId],
   )
-  console.log(conversation)
+
+  const sendMessage = useCallback((message) => {
+    console.log(message)
+    if (!message) return
+    setMessages((state) => state[chatId].push( { author: "user", message, date: new Date() }))
+    console.log(messages, message)
+    updateValue("")
+  }, [chatId, messages, updateValue])
+
   const state = useMemo(() => {
     return {
       conversation,
@@ -71,8 +75,9 @@ export const MessageProvider = ({ children }) => {
   const actions = useMemo(() => {
     return {
       updateValue,
+      sendMessage
     }
-  }, [updateValue])
+  }, [updateValue, sendMessage])
 
   return children([state, actions])
 }

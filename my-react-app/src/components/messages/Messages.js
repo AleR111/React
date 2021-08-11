@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-export const Messages = ({messages, updateValue, value}) => {
+export const Messages = ({messages, updateValue, value, sendMessage}) => {
   const classes = useStyles()
 
   console.log(updateValue)
@@ -77,6 +77,11 @@ export const Messages = ({messages, updateValue, value}) => {
   //   inputRef.current?.focus()
   // }, [message, scrollBottom])
 
+    // const sendMessage1 = () => {
+    //     console.log(4444)
+    //     sendMessage(value)
+    // }
+
   console.log(messages)
 
   return (
@@ -112,7 +117,7 @@ export const Messages = ({messages, updateValue, value}) => {
         endAdornment={
           <InputAdornment position="end">
             <IconButton color="primary" >
-              {value && <SendRounded />}
+              {value && <SendRounded onClick={() => sendMessage(value)} />}
             </IconButton>
           </InputAdornment>
         }
