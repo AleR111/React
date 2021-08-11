@@ -2,7 +2,7 @@ import { Input, InputAdornment, IconButton } from "@material-ui/core"
 import { makeStyles } from "@material-ui/core/styles"
 import { SendRounded } from "@material-ui/icons"
 import classNames from "classnames"
-import React, { useState, useEffect, useRef, useCallback } from "react"
+import React, {  useRef} from "react"
 import styles from "./message.module.scss"
 
 // import styles from "./message.module.scss"
@@ -26,54 +26,56 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-export const Messages = ({messages}) => {
+export const Messages = ({messages, updateValue, value}) => {
   const classes = useStyles()
 
-  const [message, setMessage] = useState([])
-  const [value, setValue] = useState("")
+  console.log(updateValue)
+
+  // const [ setMessage] = useState([])
+  // const [value, setValue] = useState("")
 
   const inputRef = useRef(null)
   const scrollRef = useRef(0)
 
-  const updateValue = (value) => {
-    setValue(value)
-  }
+  // const updateValue = (value) => {
+  //   setValue(value)
+  // }
 
-  const sendMessage = () => {
-    if (!value) return
-    setMessage((state) => [...state, { content: value, author: "user" }])
-    setValue("")
-  }
-  const sendMessageKey = ({ code }) => {
-    if (code === "Enter" && value) {
-      setMessage((state) => [...state, { content: value, author: "user" }])
-      setValue("")
-    }
-  }
+  // const sendMessage = () => {
+  //   if (!value) return
+  //   setMessage((state) => [...state, { content: value, author: "user" }])
+  //   setValue("")
+  // }
+  // const sendMessageKey = ({ code }) => {
+  //   if (code === "Enter" && value) {
+  //     setMessage((state) => [...state, { content: value, author: "user" }])
+  //     setValue("")
+  //   }
+  // }
 
-  const scrollBottom = useCallback(() => {
-    if (scrollRef.current) {
-      console.log(scrollRef.current.scrollHeight)
-      scrollRef.current.scrollTo(0, scrollRef.current.scrollHeight)
-    }
-  }, [])
+  // const scrollBottom = useCallback(() => {
+  //   if (scrollRef.current) {
+  //     console.log(scrollRef.current.scrollHeight)
+  //     scrollRef.current.scrollTo(0, scrollRef.current.scrollHeight)
+  //   }
+  // }, [])
 
-  useEffect(() => {
-    scrollBottom()
-
-    if (!message.length || message[message.length - 1].author === "Robot") {
-      return
-    }
-
-    setTimeout(() => {
-      setMessage((state) => [
-        ...state,
-        { content: "Hi, I'm Robot", author: "Robot" },
-      ])
-    }, 1500)
-
-    inputRef.current?.focus()
-  }, [message, scrollBottom])
+  // useEffect(() => {
+  //   scrollBottom()
+  //
+  //   if (!message.length || message[message.length - 1].author === "Robot") {
+  //     return
+  //   }
+  //
+  //   setTimeout(() => {
+  //     setMessage((state) => [
+  //       ...state,
+  //       { content: "Hi, I'm Robot", author: "Robot" },
+  //     ])
+  //   }, 1500)
+  //
+  //   inputRef.current?.focus()
+  // }, [message, scrollBottom])
 
   console.log(messages)
 
@@ -106,10 +108,10 @@ export const Messages = ({messages}) => {
         fullWidth={true}
         placeholder="Write a message..."
         autoFocus={true}
-        onKeyDown={sendMessageKey}
+        // onKeyDown={sendMessageKey}
         endAdornment={
           <InputAdornment position="end">
-            <IconButton color="primary" onClick={sendMessage}>
+            <IconButton color="primary" >
               {value && <SendRounded />}
             </IconButton>
           </InputAdornment>

@@ -9,7 +9,7 @@ export const Chat = () => {
     <Switch>
       <Route path={["/chat/:chatId", '/chat']}>
       <MessageProvider>
-        {([state]) => {
+        {([state, actions]) => {
           console.log(state)
           return (
             <Layout Chats={<Chats {...state} />}>
@@ -19,7 +19,7 @@ export const Chat = () => {
                 </div>
               </Route>
               <Route path="/chat/:chatId">
-                <Messages {...state} />
+                <Messages {...state} {...actions} />
               </Route>
             </Layout>
           )
