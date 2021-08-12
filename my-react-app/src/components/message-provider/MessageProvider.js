@@ -2,7 +2,6 @@ import { useCallback, useMemo, useState, useEffect } from "react"
 import { useParams } from "react-router-dom"
 
 export const MessageProvider = ({ children }) => {
-  console.log(123)
   const { chatId } = useParams()
 
   const [conversation, setConversation] = useState([
@@ -63,7 +62,7 @@ export const MessageProvider = ({ children }) => {
   useEffect(() => {
 
     const currentMessage = messages[chatId][messages[chatId].length - 1]
-    console.log(currentMessage)
+
     if (!messages[chatId] || currentMessage.author === "bot") {
       return
     }
@@ -72,12 +71,12 @@ export const MessageProvider = ({ children }) => {
       sendMessage("Hi, I'm bot", 'bot')
     }, 1500)
 
-  }, [chatId, messages])
+  }, [chatId, messages, sendMessage])
 
   const state = useMemo(() => {
     return {
       conversation,
-      messages: messages[chatId] || [],
+      messages: messages || [],
       value: conversation?.find((elem) => elem.id === chatId).value,
     }
   }, [chatId, conversation, messages])

@@ -4,13 +4,11 @@ import style from "./chat.module.scss"
 
 export const Chat = () => {
   const useMatch = useRouteMatch()
-  console.log(useMatch.path)
   return (
     <Switch>
       <Route path={["/chat/:chatId", '/chat']}>
       <MessageProvider>
         {([state, actions]) => {
-          console.log(state)
           return (
             <Layout Chats={<Chats {...state} />}>
               <Route exact={true} path={`${useMatch.path}`}>
