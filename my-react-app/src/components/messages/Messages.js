@@ -38,7 +38,7 @@ export const Messages = ({
   const classes = useStyles()
 
   const { chatId } = useParams()
-  const message = messages[chatId]
+  const message = messages[chatId] || []
 
   const inputRef = useRef(null)
   const scrollRef = useRef(0)

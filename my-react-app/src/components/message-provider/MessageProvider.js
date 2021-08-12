@@ -64,6 +64,8 @@ export const MessageProvider = ({ children }) => {
   )
 
   useEffect(() => {
+    if (!messages[chatId]) return
+
     const currentMessage = messages[chatId][messages[chatId].length - 1]
 
     if (!messages[chatId] || currentMessage.author === "bot") {
@@ -80,7 +82,7 @@ export const MessageProvider = ({ children }) => {
     return {
       conversation,
       messages: messages || [],
-      value: conversation?.find((elem) => elem.id === chatId).value,
+      value: conversation.find((elem) => elem.id === chatId)?.value,
     }
   }, [chatId, conversation, messages])
 
