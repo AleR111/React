@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from "react"
+import { useCallback, useMemo, useState, useEffect } from "react"
 import { useParams } from "react-router-dom"
 
 export const MessageProvider = ({ children }) => {
@@ -26,14 +26,6 @@ export const MessageProvider = ({ children }) => {
     ],
   })
 
-  // const [value, setValue] = useState("")
-  // console.log(value)
-
-  // const sendMessage = () => {
-  //   if (!value) return
-  //   setMessage((state) => [...state, { content: value, author: "user" }])
-  //   setValue("")
-  // }
   // const sendMessageKey = ({ code }) => {
   //   if (code === "Enter" && value) {
   //     setMessage((state) => [...state, { content: value, author: "user" }])
@@ -56,19 +48,31 @@ export const MessageProvider = ({ children }) => {
   )
 
   const sendMessage = useCallback(
-    (message) => {
-      console.log(message)
+    (message, author = 'user') => {
       if (!message) return
 
       setMessages((state) => {
-        state[chatId].push({ author: "user", message, date: new Date() })
-        return state
+        state[chatId].push({ author, message, date: new Date() })
+        return {...state}
       })
-      console.log(messages, message)
       updateValue("")
     },
-    [chatId, messages, updateValue],
+    [chatId, updateValue],
   )
+
+  useEffect(() => {
+
+    const currentMessage = messages[chatId][messages[chatId].length - 1]
+    console.log(currentMessage)
+    if (!messages[chatId] || currentMessage.author === "bot") {
+      return
+    }
+
+    setTimeout(() => {
+      sendMessage("Hi, I'm bot", 'bot')
+    }, 1500)
+
+  }, [chatId, messages])
 
   const state = useMemo(() => {
     return {
