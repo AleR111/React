@@ -2,7 +2,7 @@ import { Input, InputAdornment, IconButton } from "@material-ui/core"
 import { makeStyles } from "@material-ui/core/styles"
 import { SendRounded } from "@material-ui/icons"
 import classNames from "classnames"
-import { useEffect, useRef } from "react"
+import { useEffect, useRef} from "react"
 import { useParams } from "react-router-dom"
 import styles from "./message.module.scss"
 
@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-export const Messages = ({ messages, updateValue, value, sendMessage }) => {
+export const Messages = ({ messages, updateValue, value, sendMessage, sendMessageKey }) => {
   const { chatId } = useParams()
   const message = messages[chatId]
 
@@ -36,12 +36,12 @@ export const Messages = ({ messages, updateValue, value, sendMessage }) => {
   const inputRef = useRef(null)
   const scrollRef = useRef(0)
 
-  // const sendMessageKey = ({ code }) => {
-  //   if (code === "Enter" && value) {
-  //     setMessage((state) => [...state, { content: value, author: "user" }])
-  //     setValue("")
-  //   }
-  // }
+  // const pressKey = useCallback(({ code }) => {
+  //     console.log(3123)
+  //     if (code === "Enter" && value) {
+  //         sendMessageKey(value)
+  //     }
+  // }, [sendMessageKey])
 
   useEffect(() => {
     inputRef.current?.focus()
@@ -77,7 +77,7 @@ export const Messages = ({ messages, updateValue, value, sendMessage }) => {
         fullWidth={true}
         placeholder="Write a message..."
         autoFocus={true}
-        // onKeyDown={sendMessageKey}
+        onKeyDown={(e) => {sendMessageKey(e.code, value)}}
         endAdornment={
           <InputAdornment position="end">
             <IconButton color="primary" onClick={() => sendMessage(value)}>

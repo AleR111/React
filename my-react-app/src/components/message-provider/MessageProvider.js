@@ -25,14 +25,6 @@ export const MessageProvider = ({ children }) => {
     ],
   })
 
-  // const sendMessageKey = ({ code }) => {
-  //   if (code === "Enter" && value) {
-  //     setMessage((state) => [...state, { content: value, author: "user" }])
-  //     setValue("")
-  //   }
-  // }
-  //
-
   const updateValue = useCallback(
     (value) => {
       setConversation((state) =>
@@ -47,20 +39,31 @@ export const MessageProvider = ({ children }) => {
   )
 
   const sendMessage = useCallback(
-    (message, author = 'user') => {
+    (message, author = "user") => {
+      console.log(32111)
       if (!message) return
 
       setMessages((state) => {
         state[chatId].push({ author, message, date: new Date() })
-        return {...state}
+        return { ...state }
       })
       updateValue("")
     },
     [chatId, updateValue],
   )
 
-  useEffect(() => {
+  const sendMessageKey = useCallback(
+    (code, message) => {
+      console.log(code)
+      if (code === "Enter" && message) {
+        console.log(3333)
+        sendMessage(message)
+      }
+    },
+    [sendMessage],
+  )
 
+  useEffect(() => {
     const currentMessage = messages[chatId][messages[chatId].length - 1]
 
     if (!messages[chatId] || currentMessage.author === "bot") {
@@ -68,9 +71,8 @@ export const MessageProvider = ({ children }) => {
     }
 
     setTimeout(() => {
-      sendMessage("Hi, I'm bot", 'bot')
+      sendMessage("Hi, I'm bot", "bot")
     }, 1500)
-
   }, [chatId, messages, sendMessage])
 
   const state = useMemo(() => {
@@ -85,8 +87,9 @@ export const MessageProvider = ({ children }) => {
     return {
       updateValue,
       sendMessage,
+      sendMessageKey,
     }
-  }, [updateValue, sendMessage])
+  }, [updateValue, sendMessage, sendMessageKey])
 
   return children([state, actions])
 }
