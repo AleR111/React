@@ -40,7 +40,6 @@ export const MessageProvider = ({ children }) => {
 
   const sendMessage = useCallback(
     (message, author = "user") => {
-      console.log(32111)
       if (!message) return
 
       setMessages((state) => {
@@ -54,9 +53,7 @@ export const MessageProvider = ({ children }) => {
 
   const sendMessageKey = useCallback(
     (code, message) => {
-      console.log(code)
       if (code === "Enter" && message) {
-        console.log(3333)
         sendMessage(message)
       }
     },

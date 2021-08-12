@@ -8,7 +8,7 @@ import {
 import { makeStyles } from "@material-ui/core/styles"
 import classNames from "classnames"
 import { useState } from "react"
-import { Link, useRouteMatch } from "react-router-dom"
+import { Link } from "react-router-dom"
 import styles from "./chats.module.scss"
 
 const useStyles = makeStyles((theme) => ({
@@ -33,8 +33,6 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 export const Chats = ({ conversation }) => {
-  const match = useRouteMatch()
-  console.log(match.url)
   const classes = useStyles()
 
   const [selectedChat, setSelectedChat] = useState(null)
