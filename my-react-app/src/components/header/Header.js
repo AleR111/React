@@ -1,11 +1,12 @@
-import { AppBar, Toolbar, IconButton, InputBase } from "@material-ui/core"
+import { AppBar, Toolbar, IconButton } from "@material-ui/core"
 import { makeStyles } from "@material-ui/core/styles"
-import { Menu, Search, AccountCircle } from "@material-ui/icons"
+import { Menu, AccountCircle, Chat } from "@material-ui/icons"
+import { Switch, Link } from "react-router-dom"
 
 const useStyles = makeStyles((theme) => ({
   header: {
     backgroundColor: theme.background.color,
-    boxShadow: 'none'
+    boxShadow: "none",
   },
   grow: {
     flexGrow: 1,
@@ -59,42 +60,36 @@ export const Header = () => {
 
   return (
     <div className={classes.grow}>
-      <AppBar className={classes.header} color='inherit' position="static">
-        <Toolbar>
-          <IconButton
-            edge="start"
-            className={classes.menuButton}
-            // color="inherit"
-            aria-label="open drawer"
-          >
-            <Menu />
-          </IconButton>
-          <div className={classes.search}>
-            <div className={classes.searchIcon}>
-              <Search />
-            </div>
-            <InputBase
-              placeholder="Search…"
-              classes={{
-                root: classes.inputRoot,
-                input: classes.inputInput,
-              }}
-              inputProps={{ "aria-label": "search" }}
-            />
-          </div>
-          <div className={classes.grow} />
-          <div>
+      <Switch>
+        <AppBar className={classes.header} color="inherit" position="static">
+          <Toolbar>
             <IconButton
-              edge="end"
-              aria-label="account of current user"
-              aria-haspopup="true"
+              edge="start"
+              className={classes.menuButton}
               // color="inherit"
+              aria-label="open drawer"
             >
-              <AccountCircle />
+              <Menu />
             </IconButton>
-          </div>
-        </Toolbar>
-      </AppBar>
+            <Link to={'/chat'}>
+            <Chat />
+            </Link>
+            <div className={classes.grow} />
+            <div>
+              <Link to={'/profile'}>
+              <IconButton
+                edge="end"
+                aria-label="account of current user"
+                aria-haspopup="true"
+                // color="inherit"
+              >
+                <AccountCircle />
+              </IconButton>
+              </Link>
+            </div>
+          </Toolbar>
+        </AppBar>
+      </Switch>
     </div>
   )
 }

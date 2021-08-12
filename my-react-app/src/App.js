@@ -1,7 +1,7 @@
 import { Route, Switch } from "react-router-dom"
 import "./App.css"
 import { Header } from "./components"
-import { Chat, Page404 } from "./pages"
+import { Chat, Page404, Profile } from "./pages"
 
 export const App = () => {
   return (
@@ -13,6 +13,9 @@ export const App = () => {
         <Route path={"/chat"}>
           <Chat />
         </Route>
+          <Route path={"/profile"}>
+              <Profile />
+          </Route>
         <Route path={"*"}>
           <Page404 />
         </Route>
