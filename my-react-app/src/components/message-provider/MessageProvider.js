@@ -73,6 +73,7 @@ export const MessageProvider = ({ children }) => {
     setTimeout(() => {
       sendMessage("Hi, I'm bot", "bot")
     }, 1500)
+
   }, [chatId, messages, sendMessage])
 
   const state = useMemo(() => {
