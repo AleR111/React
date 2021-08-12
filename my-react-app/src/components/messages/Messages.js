@@ -116,8 +116,8 @@ export const Messages = ({messages, updateValue, value, sendMessage}) => {
         // onKeyDown={sendMessageKey}
         endAdornment={
           <InputAdornment position="end">
-            <IconButton color="primary" >
-              {value && <SendRounded onClick={() => sendMessage(value)} />}
+            <IconButton color="primary" onClick={() => sendMessage(value)}>
+              {value && <SendRounded />}
             </IconButton>
           </InputAdornment>
         }

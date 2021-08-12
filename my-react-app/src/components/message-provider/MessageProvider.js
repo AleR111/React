@@ -42,27 +42,33 @@ export const MessageProvider = ({ children }) => {
   // }
   //
 
-
   const updateValue = useCallback(
     (value) => {
       setConversation((state) =>
-      state.map((elem) => {
-          if (elem.id === chatId) return  { id: elem.id, title: elem.title, value}
-        return elem
+        state.map((elem) => {
+          if (elem.id === chatId)
+            return { id: elem.id, title: elem.title, value }
+          return elem
         }),
       )
-
     },
     [chatId],
   )
 
-  const sendMessage = useCallback((message) => {
-    console.log(message)
-    if (!message) return
-    setMessages((state) => state[chatId].push( { author: "user", message, date: new Date() }))
-    console.log(messages, message)
-    updateValue("")
-  }, [chatId, messages, updateValue])
+  const sendMessage = useCallback(
+    (message) => {
+      console.log(message)
+      if (!message) return
+
+      setMessages((state) => {
+        state[chatId].push({ author: "user", message, date: new Date() })
+        return state
+      })
+      console.log(messages, message)
+      updateValue("")
+    },
+    [chatId, messages, updateValue],
+  )
 
   const state = useMemo(() => {
     return {
@@ -75,7 +81,7 @@ export const MessageProvider = ({ children }) => {
   const actions = useMemo(() => {
     return {
       updateValue,
-      sendMessage
+      sendMessage,
     }
   }, [updateValue, sendMessage])
 
