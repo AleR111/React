@@ -29,8 +29,9 @@ export const MessageProvider = ({ children }) => {
     (value) => {
       setConversation((state) =>
         state.map((elem) => {
-          if (elem.id === chatId)
+          if (elem.id === chatId) {
             return { id: elem.id, title: elem.title, value }
+          }
           return elem
         }),
       )
