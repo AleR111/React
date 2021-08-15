@@ -1,95 +1,153 @@
-import { AppBar, Toolbar, IconButton } from "@material-ui/core"
-import { makeStyles } from "@material-ui/core/styles"
-import { Menu, AccountCircle, Chat } from "@material-ui/icons"
-import { Switch, Link } from "react-router-dom"
+import {
+  Drawer,
+  CssBaseline,
+  AppBar,
+  Toolbar,
+  List,
+  Divider,
+  IconButton,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+} from "@material-ui/core"
+import { makeStyles, useTheme } from "@material-ui/core/styles"
+import {
+  Menu,
+  ChevronLeft,
+  ChevronRight,
+  Inbox,
+  Mail,
+} from "@material-ui/icons"
+import classNames from "classnames"
+import { useState } from "react"
+
+const drawerWidth = 240
 
 const useStyles = makeStyles((theme) => ({
   header: {
-    backgroundColor: theme.background.color,
     boxShadow: "none",
+    backgroundColor: "#212227",
   },
-  grow: {
-    flexGrow: 1,
+  root: {
+    display: "flex",
+  },
+  appBar: {
+    transition: theme.transitions.create(["margin", "width"], {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+  },
+  appBarShift: {
+    width: `calc(100% - ${drawerWidth}px)`,
+    marginLeft: drawerWidth,
+    transition: theme.transitions.create(["margin", "width"], {
+      easing: theme.transitions.easing.easeOut,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
   },
   menuButton: {
     marginRight: theme.spacing(2),
   },
-  title: {
+  hide: {
     display: "none",
-    [theme.breakpoints.up("sm")]: {
-      display: "block",
-    },
   },
-  search: {
-    position: "relative",
-    borderRadius: theme.shape.borderRadius,
-    backgroundColor: theme.background.color,
-    marginRight: theme.spacing(2),
-    marginLeft: 0,
-    width: "100%",
-    [theme.breakpoints.up("sm")]: {
-      marginLeft: theme.spacing(3),
-      width: "auto",
-    },
+  drawer: {
+    width: drawerWidth,
+    flexShrink: 0,
   },
-  searchIcon: {
-    padding: theme.spacing(0, 2),
-    height: "100%",
-    position: "absolute",
-    pointerEvents: "none",
+  drawerPaper: {
+    width: drawerWidth,
+  },
+  drawerHeader: {
     display: "flex",
     alignItems: "center",
-    justifyContent: "center",
+    padding: theme.spacing(0, 1),
+    // necessary for content to be below app bar
+    ...theme.mixins.toolbar,
+    justifyContent: "flex-end",
   },
-  inputRoot: {
-    color: "inherit",
+  content: {
+    flexGrow: 1,
+    padding: theme.spacing(3),
+    transition: theme.transitions.create("margin", {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+    marginLeft: -drawerWidth,
   },
-  inputInput: {
-    padding: theme.spacing(1, 1, 1, 0),
-    paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
-    transition: theme.transitions.create("width"),
-    width: "100%",
-    [theme.breakpoints.up("md")]: {
-      width: "20ch",
-    },
+  contentShift: {
+    transition: theme.transitions.create("margin", {
+      easing: theme.transitions.easing.easeOut,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+    marginLeft: 0,
   },
 }))
 
 export const Header = () => {
   const classes = useStyles()
+  const theme = useTheme()
+  const [open, setOpen] = useState(false)
+
+  const handleDrawerOpen = () => {
+    setOpen(true)
+  }
+
+  const handleDrawerClose = () => {
+    setOpen(false)
+  }
 
   return (
-    <div className={classes.grow}>
-      <Switch>
-        <AppBar className={classes.header} color="inherit" position="static">
-          <Toolbar>
-            <IconButton
-              edge="start"
-              className={classes.menuButton}
-              // color="inherit"
-              aria-label="open drawer"
-            >
-              <Menu />
-            </IconButton>
-            <Link to={'/chat'}>
-            <Chat />
-            </Link>
-            <div className={classes.grow} />
-            <div>
-              <Link to={'/profile'}>
-              <IconButton
-                edge="end"
-                aria-label="account of current user"
-                aria-haspopup="true"
-                // color="inherit"
-              >
-                <AccountCircle />
-              </IconButton>
-              </Link>
-            </div>
-          </Toolbar>
-        </AppBar>
-      </Switch>
+    <div className={classes.root}>
+      <CssBaseline />
+      <AppBar
+        position="fixed"
+        className={classNames(
+          classes.appBar,
+          {
+            [classes.appBarShift]: open,
+          },
+          classes.header,
+        )}
+      >
+        <Toolbar>
+          <IconButton
+            color="inherit"
+            aria-label="open drawer"
+            onClick={handleDrawerOpen}
+            edge="start"
+            className={classNames(classes.menuButton, open && classes.hide)}
+          >
+            <Menu />
+          </IconButton>
+        </Toolbar>
+      </AppBar>
+      <Drawer
+        className={classes.drawer}
+        variant="persistent"
+        anchor="left"
+        open={open}
+        classes={{
+          paper: classes.drawerPaper,
+        }}
+      >
+        <div className={classes.drawerHeader}>
+          <IconButton onClick={handleDrawerClose}>
+            {theme.direction === "ltr" ? <ChevronLeft /> : <ChevronRight />}
+          </IconButton>
+        </div>
+        <Divider />
+        <List>
+          {["Inbox"].map((text, index) => (
+            <ListItem button={true} key={text}>
+              <ListItemIcon>
+                {index % 2 === 0 ? <Inbox /> : <Mail />}
+              </ListItemIcon>
+              <ListItemText primary={text} />
+            </ListItem>
+          ))}
+        </List>
+      </Drawer>
     </div>
   )
 }
