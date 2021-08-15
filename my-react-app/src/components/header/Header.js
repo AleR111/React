@@ -21,7 +21,9 @@ import {
   Mail,
 } from "@material-ui/icons"
 import classNames from "classnames"
-import { useState } from "react"
+import {useMemo, useState} from "react"
+import { useSelector, useDispatch } from "react-redux"
+import { switcher } from "../../store/themeSwitcher"
 
 const drawerWidth = 240
 
@@ -98,16 +100,13 @@ export const Header = () => {
   const handleDrawerClose = () => {
     setOpen(false)
   }
-/////////////
 
-  const [state, setState] = useState({
-    checkedA: true,
-    checkedB: true,
-  });
+  const selectorTheme = useMemo(() => (state) => {
+    return state.themeSwitcher.theme
+  },[])
 
-  const handleChange = (event) => {
-    setState({ ...state, [event.target.name]: event.target.checked });
-  };
+  const themeApp = useSelector(selectorTheme)
+  const dispatch = useDispatch()
 
   return (
     <div className={classes.root}>
@@ -162,11 +161,9 @@ export const Header = () => {
             labelPlacement="end"
             control={
               <Switch
-                checked={state.checkedB}
-                onChange={handleChange}
+                checked={themeApp === "dark"}
+                onChange={() => dispatch(switcher())}
                 color="primary"
-                name="checkedB"
-                value="light"
               />
             }
             label="Dark"

@@ -1,4 +1,4 @@
-import { DARK, LIGHT } from "./types"
+import { SWITCHER } from "./types"
 
 const initialState = {
   theme: "dark",
@@ -6,15 +6,10 @@ const initialState = {
 
 export const switcherReducer = (state = initialState, action) => {
   switch (action.type) {
-    case DARK:
+    case SWITCHER:
       return {
         ...state,
-        theme: "dark",
-      }
-    case LIGHT:
-      return {
-        ...state,
-        theme: "light",
+        theme: state.theme === "dark" ? "light" : "dark",
       }
     default:
       return state
