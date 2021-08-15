@@ -9,6 +9,8 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
+  Switch,
+  FormControlLabel,
 } from "@material-ui/core"
 import { makeStyles, useTheme } from "@material-ui/core/styles"
 import {
@@ -96,6 +98,16 @@ export const Header = () => {
   const handleDrawerClose = () => {
     setOpen(false)
   }
+/////////////
+  
+  const [state, setState] = useState({
+    checkedA: true,
+    checkedB: true,
+  });
+
+  const handleChange = (event) => {
+    setState({ ...state, [event.target.name]: event.target.checked });
+  };
 
   return (
     <div className={classes.root}>
@@ -146,6 +158,19 @@ export const Header = () => {
               <ListItemText primary={text} />
             </ListItem>
           ))}
+          <FormControlLabel
+            labelPlacement="end"
+            control={
+              <Switch
+                checked={state.checkedB}
+                onChange={handleChange}
+                color="primary"
+                name="checkedB"
+                value="light"
+              />
+            }
+            label="Dark"
+          />
         </List>
       </Drawer>
     </div>
