@@ -1,0 +1,23 @@
+.layout {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.content {
+  flex-grow: 1;
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  overflow-y: hidden;
+}
+
+.messages {
+  overflow-y: hidden;
+  display: flex;
+  flex-direction: column;
+  background-color: #09141f;
+}
+
+.chats {
+  background-color: rgba(27, 33, 47, 0.96);
+}

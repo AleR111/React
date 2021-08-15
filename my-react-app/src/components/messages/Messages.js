@@ -1,97 +1,95 @@
-import {
-  Input,
-  InputAdornment,
-  IconButton,
-  ListItem,
-  ListItemAvatar,
-  Avatar,
-  ListItemText,
-  Divider,
-  List,
-} from "@material-ui/core"
+import { Input, InputAdornment, IconButton } from "@material-ui/core"
 import { makeStyles } from "@material-ui/core/styles"
 import { SendRounded } from "@material-ui/icons"
-
-import React, { useState, useEffect, useRef } from "react"
+import classNames from "classnames"
+import { useEffect, useRef } from "react"
+import { useParams } from "react-router-dom"
+import styles from "./message.module.scss"
 
 // import styles from "./message.module.scss"
 
 const useStyles = makeStyles((theme) => ({
   root: {
     width: "100%",
-    maxWidth: "36ch",
     color: theme.font.color,
     background: theme.background.color,
   },
   inline: {
     display: "inline",
   },
+  input: {
+    marginTop: "4px",
+    backgroundColor: "#353f4b",
+    color: "#9a9fa1",
+    padding: "10px 15px",
+    fontSize: " 15px",
+    borderLeft: "1px solid #000",
+  },
 }))
 
-export const Messages = () => {
+export const Messages = ({
+  messages,
+  updateValue,
+  value,
+  sendMessage,
+  sendMessageKey,
+}) => {
+
   const classes = useStyles()
 
-  const [message, setMessage] = useState([])
-
-  const [value, setValue] = useState("")
+  const { chatId } = useParams()
+  const message = messages[chatId] || []
 
   const inputRef = useRef(null)
-
-  const updateValue = (value) => {
-    setValue(value)
-  }
-
-  const sendMessage = () => {
-    setMessage((state) => [...state, { content: value, author: "Alex" }])
-    setValue("")
-  }
+  const scrollRef = useRef(0)
 
   useEffect(() => {
-    if (!message.length || message[message.length - 1].author === "Robot") {
-      return
-    }
-
-    setTimeout(() => {
-      setMessage((state) => [
-        ...state,
-        { content: "Hi, I'm Robot", author: "Robot" },
-      ])
-    }, 1500)
-
     inputRef.current?.focus()
-  }, [message])
+    scrollRef.current?.scrollTo(0, scrollRef.current.scrollHeight)
+  }, [chatId, messages])
 
   return (
-    <div>
-      <List className={classes.root}>
+    <>
+      <div className={classNames(classes.root, styles.recipient)}>
+        <h4>friend</h4>
+      </div>
+
+      <div
+        ref={scrollRef}
+        className={classNames(classes.root, styles.messagesList)}
+      >
         {message.map((elem, id) => (
-          <div key={id}>
-            <ListItem alignItems="flex-start">
-              <ListItemAvatar>
-                <Avatar src="/static/images/avatar/1.jpg" />
-              </ListItemAvatar>
-              <ListItemText primary={elem.author} secondary={elem.content} />
-            </ListItem>
-            <Divider variant="inset" component="li" />
+          <div
+            className={classNames(styles.messageBox, {
+              [styles.messageBoxUser]: elem.author === "user",
+            })}
+            key={id}
+          >
+            <p>{elem.message}</p>
+            <div className={styles.time}>1:59</div>
           </div>
         ))}
-      </List>
+      </div>
 
       <Input
+        className={classes.input}
         inputRef={inputRef}
         fullWidth={true}
         placeholder="Write a message..."
         autoFocus={true}
+        onKeyDown={(e) => {
+          sendMessageKey(e.code, value)
+        }}
         endAdornment={
           <InputAdornment position="end">
-            <IconButton color="primary" onClick={sendMessage}>
-              <SendRounded />
+            <IconButton color="primary" onClick={() => sendMessage(value)}>
+              {value && <SendRounded />}
             </IconButton>
           </InputAdornment>
         }
         value={value}
         onChange={(e) => updateValue(e.target.value)}
       />
-    </div>
+    </>
   )
 }
