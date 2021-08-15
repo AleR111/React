@@ -7,8 +7,7 @@ import {
 } from "@material-ui/core"
 import { makeStyles } from "@material-ui/core/styles"
 import classNames from "classnames"
-import { useState } from "react"
-import { Link } from "react-router-dom"
+import { Link, useParams } from "react-router-dom"
 import styles from "./chats.module.scss"
 
 const useStyles = makeStyles((theme) => ({
@@ -32,23 +31,17 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-export const Chats = ({ conversation }) => {
+export const Chats = ({ conversations }) => {
   const classes = useStyles()
-
-  const [selectedChat, setSelectedChat] = useState(null)
-
-  const selectChat = (id) => {
-    setSelectedChat(id)
-  }
+  const { chatId } = useParams()
 
   return (
     <List className={classes.root} component="nav" aria-label="contacts">
-      {conversation.map((elem) => (
+      {conversations.map((elem) => (
         <Link to={`/chat/${elem.id}`} key={elem.id}>
           <ListItem
             button={true}
-            selected={elem.id === selectedChat}
-            onClick={() => selectChat(elem.id)}
+            selected={elem.id === chatId}
             className={classNames(classes.item, classes.itemSelected)}
           >
             <ListItemIcon>

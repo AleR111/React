@@ -1,10 +1,10 @@
-import { useCallback, useMemo, useState, useEffect } from "react"
+import { useMemo, useState, useEffect } from "react"
 import { useParams } from "react-router-dom"
 
 export const MessageProvider = ({ children }) => {
   const { chatId } = useParams()
 
-  const [conversation, setConversation] = useState([
+  const [conversations, setConversation] = useState([
     { id: "chat123", title: "Keeley Lon", value: "" },
     { id: "chat241", title: "Angelle Jonty", value: "" },
     { id: "chat426", title: "Myra Justy", value: "" },
@@ -25,41 +25,47 @@ export const MessageProvider = ({ children }) => {
     ],
   })
 
-  const updateValue = useCallback(
-    (value) => {
-      setConversation((state) =>
-        state.map((elem) => {
-          if (elem.id === chatId) {
-            return { id: elem.id, title: elem.title, value }
+  const state = useMemo(() => {
+    return {
+      conversations,
+      messages: messages || [],
+      value: conversations.find((elem) => elem.id === chatId)?.value,
+    }
+  }, [chatId, conversations, messages])
+
+  const actions = useMemo(() => {
+    return {
+      updateValue: (value) => {
+        setConversation((state) =>
+          state.map((elem) => {
+            if (elem.id === chatId) {
+              return { id: elem.id, title: elem.title, value }
+            }
+            return elem
+          }),
+        )
+      },
+      sendMessage: (message, author = "user") => {
+        if (!message) return
+
+        setMessages((state) => {
+          return {
+            ...state,
+            [chatId]: [
+              ...(state[chatId] || []),
+              { author, message, date: new Date() },
+            ],
           }
-          return elem
-        }),
-      )
-    },
-    [chatId],
-  )
-
-  const sendMessage = useCallback(
-    (message, author = "user") => {
-      if (!message) return
-
-      setMessages((state) => {
-        state[chatId].push({ author, message, date: new Date() })
-        return { ...state }
-      })
-      updateValue("")
-    },
-    [chatId, updateValue],
-  )
-
-  const sendMessageKey = useCallback(
-    (code, message) => {
-      if (code === "Enter" && message) {
-        sendMessage(message)
-      }
-    },
-    [sendMessage],
-  )
+        })
+        actions.updateValue("")
+      },
+      sendMessageKey: (code, message) => {
+        if (code === "Enter" && message) {
+          actions.sendMessage(message)
+        }
+      },
+    }
+  }, [chatId])
 
   useEffect(() => {
     if (!messages[chatId]) return
@@ -71,26 +77,9 @@ export const MessageProvider = ({ children }) => {
     }
 
     setTimeout(() => {
-      sendMessage("Hi, I'm bot", "bot")
+      actions.sendMessage("Hi, I'm bot", "bot")
     }, 1500)
-
-  }, [chatId, messages, sendMessage])
-
-  const state = useMemo(() => {
-    return {
-      conversation,
-      messages: messages || [],
-      value: conversation.find((elem) => elem.id === chatId)?.value,
-    }
-  }, [chatId, conversation, messages])
-
-  const actions = useMemo(() => {
-    return {
-      updateValue,
-      sendMessage,
-      sendMessageKey,
-    }
-  }, [updateValue, sendMessage, sendMessageKey])
+  }, [actions, chatId, messages])
 
   return children([state, actions])
 }

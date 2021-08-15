@@ -3,21 +3,21 @@ import { Chats, Layout, Messages, MessageProvider } from "../../components"
 import style from "./chat.module.scss"
 
 export const Chat = () => {
-  const useMatch = useRouteMatch()
-    console.log(useMatch.path)
+  const match = useRouteMatch()
+
   return (
     <Switch>
-      <Route path={[`${useMatch.path}/:chatId`, `${useMatch.path}/`]}>
+      <Route path={[`${match.path}/:chatId`, `${match.path}/`]}>
       <MessageProvider>
         {([state, actions]) => {
           return (
-            <Layout Chats={<Chats {...state} />}>
-              <Route exact={true} path={`${useMatch.path}`}>
+            <Layout chats={<Chats {...state} />}>
+              <Route exact={true} path={`${match.path}`}>
                 <div className={style.prompt}>
                   <h4 className={style.promptText}>Select a chat!</h4>
                 </div>
               </Route>
-              <Route path={`${useMatch.path}/:chatId`}>
+              <Route path={`${match.path}/:chatId`}>
                 <Messages {...state} {...actions} />
               </Route>
             </Layout>
