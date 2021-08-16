@@ -47,6 +47,7 @@ export const Messages = ({
   value,
   sendMessage,
   sendMessageKey,
+    conversations
 }) => {
   const classes = useStyles()
 
@@ -56,6 +57,7 @@ export const Messages = ({
   const inputRef = useRef(null)
   const scrollRef = useRef(0)
 
+  const currentConversation = conversations.find(elem => elem.id === chatId)
   useEffect(() => {
     inputRef.current?.focus()
     scrollRef.current?.scrollTo(0, scrollRef.current.scrollHeight)
@@ -64,7 +66,7 @@ export const Messages = ({
   return (
     <>
       <div className={classNames(classes.messagesHeader, styles.recipient)}>
-        <h4>friend</h4>
+        <h4>{currentConversation.title}</h4>
       </div>
 
       <div
