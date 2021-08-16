@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     width: "100%",
     color: theme.font.color,
-    background: theme.background.color,
+    backgroundColor: theme.background.color,
   },
   inline: {
     display: "inline",
