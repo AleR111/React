@@ -39,9 +39,9 @@ export const App = () => {
   return (
     <ThemeProvider theme={themes[themeApp]}>
       <div className={"App"}>
-        <div>
+
           <Header />
-        </div>
+
         <Switch>
           <Route path={"/chat"}>
             <Chat />

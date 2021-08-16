@@ -11,6 +11,8 @@ import {
   ListItemText,
   Switch,
   FormControlLabel,
+    Avatar,
+  ListItemAvatar
 } from "@material-ui/core"
 import { makeStyles, useTheme } from "@material-ui/core/styles"
 import {
@@ -23,6 +25,7 @@ import {
 import classNames from "classnames"
 import {useMemo, useState} from "react"
 import { useSelector, useDispatch } from "react-redux"
+import { Link } from "react-router-dom"
 import { switcher } from "../../store/themeSwitcher"
 
 const drawerWidth = 240
@@ -31,6 +34,7 @@ const useStyles = makeStyles((theme) => ({
   header: {
     boxShadow: "none",
     backgroundColor: "#212227",
+    position: 'unset'
   },
   root: {
     display: "flex",
@@ -69,6 +73,7 @@ const useStyles = makeStyles((theme) => ({
     // necessary for content to be below app bar
     ...theme.mixins.toolbar,
     justifyContent: "flex-end",
+    paddingLeft: '0'
   },
   content: {
     flexGrow: 1,
@@ -109,7 +114,7 @@ export const Header = () => {
   const dispatch = useDispatch()
 
   return (
-    <div className={classes.root}>
+    <>
       <CssBaseline />
       <AppBar
         position="fixed"
@@ -143,13 +148,32 @@ export const Header = () => {
         }}
       >
         <div className={classes.drawerHeader}>
+          <ListItem alignItems="flex-start">
+            <ListItemAvatar>
+              <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
+            </ListItemAvatar>
+            <ListItemText
+                primary="Remy Sharp"
+                secondary={
+                  <Link to={`/profile`}>Profile</Link>
+                }
+            />
+          </ListItem>
           <IconButton onClick={handleDrawerClose}>
             {theme.direction === "ltr" ? <ChevronLeft /> : <ChevronRight />}
           </IconButton>
         </div>
         <Divider />
         <List>
-          {["Inbox"].map((text, index) => (
+          <Link to={`/chat`}>
+          <ListItem button={true}>
+            <ListItemIcon>
+               <Mail />
+            </ListItemIcon>
+            <ListItemText primary={'Chats'} />
+          </ListItem>
+          </Link>
+          {["New Group", "New Channel", "Contacts", "Setting"].map((text, index) => (
             <ListItem button={true} key={text}>
               <ListItemIcon>
                 {index % 2 === 0 ? <Inbox /> : <Mail />}
@@ -158,18 +182,19 @@ export const Header = () => {
             </ListItem>
           ))}
           <FormControlLabel
-            labelPlacement="end"
-            control={
-              <Switch
-                checked={themeApp === "dark"}
-                onChange={() => dispatch(switcher())}
-                color="primary"
-              />
-            }
-            label="Dark"
+              labelPlacement="end"
+              control={
+                <Switch
+                    checked={themeApp === "dark"}
+                    onChange={() => dispatch(switcher())}
+                    color="primary"
+                />
+              }
+              label="Dark Mode"
           />
         </List>
+
       </Drawer>
-    </div>
+    </>
   )
 }
