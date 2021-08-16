@@ -33,7 +33,7 @@ const drawerWidth = 240
 const useStyles = makeStyles((theme) => ({
   header: {
     boxShadow: "none",
-    backgroundColor: "#212227",
+    backgroundColor: theme.header.backgroundColor,
     position: 'unset'
   },
   root: {
@@ -55,6 +55,7 @@ const useStyles = makeStyles((theme) => ({
   },
   menuButton: {
     marginRight: theme.spacing(2),
+    color: theme.burger.color
   },
   hide: {
     display: "none",
@@ -128,7 +129,6 @@ export const Header = () => {
       >
         <Toolbar>
           <IconButton
-            color="inherit"
             aria-label="open drawer"
             onClick={handleDrawerOpen}
             edge="start"
