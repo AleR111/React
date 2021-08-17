@@ -3,6 +3,7 @@ import { makeStyles } from "@material-ui/core/styles"
 import { SendRounded } from "@material-ui/icons"
 import classNames from "classnames"
 import { useEffect, useRef } from "react"
+import { useSelector } from "react-redux"
 import { useParams } from "react-router-dom"
 import styles from "./message.module.scss"
 
@@ -42,26 +43,29 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 export const Messages = ({
-  messages,
   updateValue,
   value,
   sendMessage,
   sendMessageKey,
-    conversations
 }) => {
   const classes = useStyles()
 
   const { chatId } = useParams()
-  const message = messages[chatId] || []
+
+  const message =
+    useSelector((state) => state.messagesStore.messages[chatId]) || []
 
   const inputRef = useRef(null)
   const scrollRef = useRef(0)
 
-  const currentConversation = conversations.find(elem => elem.id === chatId)
+  const currentConversation = useSelector((state) =>
+    state.conversationsStore.conversations.find((elem) => elem.id === chatId),
+  )
+
   useEffect(() => {
     inputRef.current?.focus()
     scrollRef.current?.scrollTo(0, scrollRef.current.scrollHeight)
-  }, [chatId, messages])
+  }, [chatId])
 
   return (
     <>

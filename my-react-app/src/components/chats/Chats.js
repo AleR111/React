@@ -7,6 +7,7 @@ import {
 } from "@material-ui/core"
 import { makeStyles } from "@material-ui/core/styles"
 import classNames from "classnames"
+import { useSelector } from "react-redux"
 import { Link, useParams } from "react-router-dom"
 import styles from "./chats.module.scss"
 
@@ -17,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
     // background: 'rgba(27, 33, 47, 0.96)',
   },
   chats: {
-    backgroundColor: theme.chats.backgroundColor
+    backgroundColor: theme.chats.backgroundColor,
   },
   itemSelected: {
     "&.Mui-selected": {
@@ -34,9 +35,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-export const Chats = ({ conversations }) => {
+export const Chats = () => {
   const classes = useStyles()
   const { chatId } = useParams()
+
+  const { conversations } = useSelector((state) => state.conversationsStore)
 
   return (
     <List className={classes.root} component="nav" aria-label="contacts">
