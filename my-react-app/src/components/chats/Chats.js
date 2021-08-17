@@ -16,6 +16,9 @@ const useStyles = makeStyles((theme) => ({
     color: theme.font.color,
     // background: 'rgba(27, 33, 47, 0.96)',
   },
+  chats: {
+    backgroundColor: theme.chats.backgroundColor
+  },
   itemSelected: {
     "&.Mui-selected": {
       backgroundColor: "#2b5278",

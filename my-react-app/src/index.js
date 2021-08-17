@@ -1,37 +1,18 @@
-import { createTheme, ThemeProvider } from "@material-ui/core/styles"
 import React from "react"
 import ReactDOM from "react-dom"
 import "./index.css"
+import { Provider } from "react-redux"
 import { BrowserRouter } from "react-router-dom"
 import { App } from "./App"
-
-const themes = {
-  dark: createTheme({
-    font: {
-      color: "rgba(255,255,255,0.89)",
-    },
-    background: {
-      color: "#19181f",
-    },
-  }),
-
-  light: createTheme({
-    font: {
-      color: "rgba(0,0,0,0.89)",
-    },
-    background: {
-      color: "#ffffff",
-    },
-  }),
-}
+import { store } from "./store"
 
 ReactDOM.render(
   <React.StrictMode>
-    <BrowserRouter>
-      <ThemeProvider theme={themes.dark}>
+    <Provider store={store}>
+      <BrowserRouter>
         <App />
-      </ThemeProvider>
-    </BrowserRouter>
+      </BrowserRouter>
+    </Provider>
   </React.StrictMode>,
   document.getElementById("root"),
 )

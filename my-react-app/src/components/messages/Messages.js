@@ -9,17 +9,31 @@ import styles from "./message.module.scss"
 // import styles from "./message.module.scss"
 
 const useStyles = makeStyles((theme) => ({
-  root: {
+  messagesHeader: {
     width: "100%",
     color: theme.font.color,
-    background: theme.background.color,
+    backgroundColor: theme.chats.backgroundColor,
+  },
+  massages: {
+    width: "100%",
+    color: theme.font.color,
+    backgroundColor: theme.messagesList.backgroundColor,
+    borderTop: theme.messagesList.border,
+    borderBottom: theme.messagesList.border,
   },
   inline: {
     display: "inline",
   },
+  message: {
+    backgroundColor: theme.companionMessage.backgroundColor,
+  },
+  userMessage: {
+    marginLeft: "auto",
+    marginRight: 0,
+    backgroundColor: theme.userMessage.backgroundColor,
+  },
   input: {
-    marginTop: "4px",
-    backgroundColor: "#353f4b",
+    backgroundColor: theme.messagesInput.backgroundColor,
     color: "#9a9fa1",
     padding: "10px 15px",
     fontSize: " 15px",
@@ -33,8 +47,8 @@ export const Messages = ({
   value,
   sendMessage,
   sendMessageKey,
+    conversations
 }) => {
-
   const classes = useStyles()
 
   const { chatId } = useParams()
@@ -43,6 +57,7 @@ export const Messages = ({
   const inputRef = useRef(null)
   const scrollRef = useRef(0)
 
+  const currentConversation = conversations.find(elem => elem.id === chatId)
   useEffect(() => {
     inputRef.current?.focus()
     scrollRef.current?.scrollTo(0, scrollRef.current.scrollHeight)
@@ -50,18 +65,18 @@ export const Messages = ({
 
   return (
     <>
-      <div className={classNames(classes.root, styles.recipient)}>
-        <h4>friend</h4>
+      <div className={classNames(classes.messagesHeader, styles.recipient)}>
+        <h4>{currentConversation.title}</h4>
       </div>
 
       <div
         ref={scrollRef}
-        className={classNames(classes.root, styles.messagesList)}
+        className={classNames(classes.massages, styles.messagesList)}
       >
         {message.map((elem, id) => (
           <div
-            className={classNames(styles.messageBox, {
-              [styles.messageBoxUser]: elem.author === "user",
+            className={classNames(styles.messageBox, classes.message, {
+              [classes.userMessage]: elem.author === "user",
             })}
             key={id}
           >
