@@ -49,8 +49,9 @@ export const Messages = () => {
 
   const { chatId } = useParams()
 
-  const message =
-    useSelector((state) => state.messagesStore.messages[chatId]) || []
+  const currentConversation = useSelector((state) =>
+    state.conversationsStore.conversations.find((elem) => elem.id === chatId),
+  )
 
   const { value } = useSelector(
     (state) =>
@@ -59,20 +60,22 @@ export const Messages = () => {
       ) || "",
   )
 
+  const message =
+    useSelector((state) => state.messagesStore.messages[chatId]) || []
+
   const dispatch = useDispatch()
 
+  const handleSendMessage = () => {
+    dispatch(sendMessage({ author: "user", message: value }, chatId))
+    dispatch(updateValue("", chatId))
+  }
+
   const sendMessageKey = (code) => {
-    if (code === "Enter" && value) {
-      dispatch(sendMessage({ author: "user", message: value }, chatId))
-    }
+    if (code === "Enter" && value) handleSendMessage()
   }
 
   const inputRef = useRef(null)
   const scrollRef = useRef(0)
-
-  const currentConversation = useSelector((state) =>
-    state.conversationsStore.conversations.find((elem) => elem.id === chatId),
-  )
 
   useEffect(() => {
     inputRef.current?.focus()
@@ -113,12 +116,7 @@ export const Messages = () => {
         }}
         endAdornment={
           <InputAdornment position="end">
-            <IconButton
-              color="primary"
-              onClick={() =>
-                dispatch(sendMessage({ author: "user", message: value }, chatId))
-              }
-            >
+            <IconButton color="primary" onClick={() => handleSendMessage()}>
               {value && <SendRounded />}
             </IconButton>
           </InputAdornment>
