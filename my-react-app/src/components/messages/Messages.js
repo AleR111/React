@@ -5,10 +5,13 @@ import classNames from "classnames"
 import { useEffect, useRef } from "react"
 import { useSelector, useDispatch } from "react-redux"
 import { useParams } from "react-router-dom"
-import { updateValue } from "../../store/conversations"
-import { sendMessage } from "../../store/messages"
+import {
+  updateValue,
+  getCurrentConversations,
+  getValue,
+} from "../../store/conversations"
+import { sendMessage, getMessage } from "../../store/messages"
 import styles from "./message.module.scss"
-
 // import styles from "./message.module.scss"
 
 const useStyles = makeStyles((theme) => ({
@@ -50,18 +53,12 @@ export const Messages = () => {
   const { chatId } = useParams()
 
   const currentConversation = useSelector((state) =>
-    state.conversationsStore.conversations.find((elem) => elem.id === chatId),
+    getCurrentConversations(state, chatId),
   )
 
-  const { value } = useSelector(
-    (state) =>
-      state.conversationsStore.conversations.find(
-        (elem) => elem.id === chatId,
-      ) || "",
-  )
+  const value = useSelector((state) => getValue(state, chatId))
 
-  const message =
-    useSelector((state) => state.messagesStore.messages[chatId]) || []
+  const message = useSelector((state) => getMessage(state, chatId)) || []
 
   const dispatch = useDispatch()
 
