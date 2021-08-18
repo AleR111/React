@@ -1,4 +1,4 @@
-import { UPDATE_VALUE } from "./types"
+import { UPDATE_VALUE, DELETE_CONVERSATION } from "./types"
 
 const initialState = {
   conversations: [
@@ -22,6 +22,12 @@ export const conversationsReducer = (state = initialState, action) => {
             }
           return elem
         }),
+      }
+    case DELETE_CONVERSATION:
+      return {
+        ...state,
+        conversations: state.conversations.filter((elem) => elem.id !== action.payload
+        ),
       }
     default:
       return state
