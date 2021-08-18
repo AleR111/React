@@ -44,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-export const Messages = ({ sendMessageKey }) => {
+export const Messages = () => {
   const classes = useStyles()
 
   const { chatId } = useParams()
@@ -61,6 +61,12 @@ export const Messages = ({ sendMessageKey }) => {
 
   const dispatch = useDispatch()
 
+  const sendMessageKey = (code) => {
+    if (code === "Enter" && value) {
+      dispatch(sendMessage({ author: "user", message: value }, chatId))
+    }
+  }
+
   const inputRef = useRef(null)
   const scrollRef = useRef(0)
 
@@ -71,7 +77,7 @@ export const Messages = ({ sendMessageKey }) => {
   useEffect(() => {
     inputRef.current?.focus()
     scrollRef.current?.scrollTo(0, scrollRef.current.scrollHeight)
-  }, [chatId])
+  }, [chatId, message])
 
   return (
     <>
@@ -103,7 +109,7 @@ export const Messages = ({ sendMessageKey }) => {
         placeholder="Write a message..."
         autoFocus={true}
         onKeyDown={(e) => {
-          sendMessageKey(e.code, value)
+          sendMessageKey(e.code)
         }}
         endAdornment={
           <InputAdornment position="end">
