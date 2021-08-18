@@ -82,7 +82,7 @@ export const Messages = () => {
   return (
     <>
       <div className={classNames(classes.messagesHeader, styles.recipient)}>
-        <h4>{currentConversation.title}</h4>
+        <h4>{currentConversation?.title}</h4>
       </div>
 
       <div

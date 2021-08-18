@@ -12,11 +12,10 @@ import { makeStyles } from "@material-ui/core/styles"
 import { Delete } from "@material-ui/icons"
 import classNames from "classnames"
 import { useState } from "react"
-import {useDispatch, useSelector} from "react-redux"
-import { Link, useParams } from "react-router-dom"
-import {deleteConversation, getConversations } from "../../store/conversations"
+import { useDispatch, useSelector } from "react-redux"
+import { Link, useParams, useHistory } from "react-router-dom"
+import { deleteConversation, getConversations } from "../../store/conversations"
 import styles from "./chats.module.scss"
-
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -45,6 +44,8 @@ const useStyles = makeStyles((theme) => ({
 export const Chats = () => {
   const classes = useStyles()
 
+  const history = useHistory()
+
   const [contextChatId, setContextChatId] = useState(null)
 
   const { chatId } = useParams()
@@ -67,8 +68,8 @@ export const Chats = () => {
   const dispatch = useDispatch()
 
   const deleteChat = () => {
-    console.log(contextChatId)
     dispatch(deleteConversation(contextChatId))
+    if (contextChatId === chatId) history.push("/chat")
     handleClose()
   }
   return (
