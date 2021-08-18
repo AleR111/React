@@ -1,1 +1,1 @@
-export const SWITCHER = '@themeSwitcher/switcher'
+export const SEND_MESSAGE = '@messages/send message'

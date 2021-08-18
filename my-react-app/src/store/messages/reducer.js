@@ -1,3 +1,5 @@
+import { SEND_MESSAGE } from "./types"
+
 const initialState = {
   messages: {
     chat123: [
@@ -12,11 +14,22 @@ const initialState = {
       { author: "user", message: "Hi", date: new Date() },
       { author: "bot", message: "Hi, i'm bot", date: new Date() },
     ],
-  }
+  },
 }
 
 export const messagesReducer = (state = initialState, action) => {
   switch (action.type) {
+    case SEND_MESSAGE:
+      return {
+        ...state,
+        messages: {
+          ...state.messages,
+          [action.payload.chatId]: [
+            ...state.messages[action.payload.chatId] || [],
+            { ...action.payload.message, date: new Date() },
+          ],
+        },
+      }
     default:
       return state
   }

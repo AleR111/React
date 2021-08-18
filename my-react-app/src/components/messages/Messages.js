@@ -6,6 +6,7 @@ import { useEffect, useRef } from "react"
 import { useSelector, useDispatch } from "react-redux"
 import { useParams } from "react-router-dom"
 import { updateValue } from "../../store/conversations"
+import { sendMessage } from "../../store/messages"
 import styles from "./message.module.scss"
 
 // import styles from "./message.module.scss"
@@ -43,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-export const Messages = ({ sendMessage, sendMessageKey }) => {
+export const Messages = ({ sendMessageKey }) => {
   const classes = useStyles()
 
   const { chatId } = useParams()
@@ -51,8 +52,11 @@ export const Messages = ({ sendMessage, sendMessageKey }) => {
   const message =
     useSelector((state) => state.messagesStore.messages[chatId]) || []
 
-  const { value } = useSelector((state) =>
-    state.conversationsStore.conversations.find((elem) => elem.id === chatId) || '',
+  const { value } = useSelector(
+    (state) =>
+      state.conversationsStore.conversations.find(
+        (elem) => elem.id === chatId,
+      ) || "",
   )
 
   const dispatch = useDispatch()
@@ -103,7 +107,12 @@ export const Messages = ({ sendMessage, sendMessageKey }) => {
         }}
         endAdornment={
           <InputAdornment position="end">
-            <IconButton color="primary" onClick={() => sendMessage(value)}>
+            <IconButton
+              color="primary"
+              onClick={() =>
+                dispatch(sendMessage({ author: "user", message: value }, chatId))
+              }
+            >
               {value && <SendRounded />}
             </IconButton>
           </InputAdornment>

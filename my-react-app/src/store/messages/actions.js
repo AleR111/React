@@ -1,3 +1,9 @@
-import {SWITCHER} from "./types";
+import { SEND_MESSAGE } from "./types"
 
-export const switcher = () => ({type: SWITCHER})
+export const sendMessage = (message, chatId) => ({
+  type: SEND_MESSAGE,
+  payload: {
+    message,
+    chatId,
+  },
+})
