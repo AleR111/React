@@ -4,9 +4,11 @@ import {
   ListItemText,
   ListItemIcon,
   Avatar,
+  Popover,
 } from "@material-ui/core"
 import { makeStyles } from "@material-ui/core/styles"
 import classNames from "classnames"
+import { useState } from "react"
 import { useSelector } from "react-redux"
 import { Link, useParams } from "react-router-dom"
 import { getConversations } from "../../store/conversations"
@@ -42,14 +44,29 @@ export const Chats = () => {
 
   const conversations = useSelector(getConversations)
 
+  const [anchorEl, setAnchorEl] = useState(null)
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget)
+  }
+
+  const handleClose = () => {
+    setAnchorEl(null)
+  }
+
+  const open = Boolean(anchorEl)
+
   return (
-    <List className={classes.root} component="nav" aria-label="contacts">
+    <List className={classes.root} component="nav" aria-label="contacts" onContextMenu={(e) => e.preventDefault()}>
       {conversations.map((elem) => (
         <Link to={`/chat/${elem.id}`} key={elem.id}>
           <ListItem
             button={true}
             selected={elem.id === chatId}
             className={classNames(classes.item, classes.itemSelected)}
+            variant="contained"
+            color="primary"
+            onContextMenu={handleClick}
           >
             <ListItemIcon>
               <Avatar>{getAvatar(elem.title)}</Avatar>
@@ -59,6 +76,21 @@ export const Chats = () => {
           </ListItem>
         </Link>
       ))}
+      <Popover
+        open={open}
+        anchorEl={anchorEl}
+        onClose={handleClose}
+        anchorOrigin={{
+          vertical: "center",
+          horizontal: "center",
+        }}
+        transformOrigin={{
+          vertical: "top",
+          horizontal: "left",
+        }}
+      >
+        The content of the Popover.
+      </Popover>
     </List>
   )
 }
