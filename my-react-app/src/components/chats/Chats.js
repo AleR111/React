@@ -5,8 +5,11 @@ import {
   ListItemIcon,
   Avatar,
   Popover,
+  Paper,
+  Button,
 } from "@material-ui/core"
 import { makeStyles } from "@material-ui/core/styles"
+import { Delete } from "@material-ui/icons"
 import classNames from "classnames"
 import { useState } from "react"
 import { useSelector } from "react-redux"
@@ -40,13 +43,17 @@ const useStyles = makeStyles((theme) => ({
 
 export const Chats = () => {
   const classes = useStyles()
+
+  const [contextChatId, setContextChatId] = useState(null)
+
   const { chatId } = useParams()
 
   const conversations = useSelector(getConversations)
 
   const [anchorEl, setAnchorEl] = useState(null)
 
-  const handleClick = (event) => {
+  const handleClick = (id) => (event) => {
+    setContextChatId(id)
     setAnchorEl(event.currentTarget)
   }
 
@@ -56,8 +63,17 @@ export const Chats = () => {
 
   const open = Boolean(anchorEl)
 
+  const deleteChat = () => {
+    console.log(contextChatId)
+    handleClose()
+  }
   return (
-    <List className={classes.root} component="nav" aria-label="contacts" onContextMenu={(e) => e.preventDefault()}>
+    <List
+      className={classes.root}
+      component="nav"
+      aria-label="contacts"
+      onContextMenu={(e) => e.preventDefault()}
+    >
       {conversations.map((elem) => (
         <Link to={`/chat/${elem.id}`} key={elem.id}>
           <ListItem
@@ -66,7 +82,7 @@ export const Chats = () => {
             className={classNames(classes.item, classes.itemSelected)}
             variant="contained"
             color="primary"
-            onContextMenu={handleClick}
+            onContextMenu={handleClick(elem.id)}
           >
             <ListItemIcon>
               <Avatar>{getAvatar(elem.title)}</Avatar>
@@ -89,7 +105,15 @@ export const Chats = () => {
           horizontal: "left",
         }}
       >
-        The content of the Popover.
+        <Paper variant="outlined">
+          <Button
+            onClick={deleteChat}
+            variant="contained"
+            startIcon={<Delete />}
+          >
+            Delete
+          </Button>
+        </Paper>
       </Popover>
     </List>
   )
