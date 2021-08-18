@@ -1,3 +1,6 @@
-import {SWITCHER} from "./types";
+import { UPDATE_VALUE } from "./types"
 
-export const switcher = () => ({type: SWITCHER})
+export const updateValue = (value, chatId) => ({
+  type: UPDATE_VALUE,
+  payload: { value, chatId },
+})

@@ -1,1 +1,1 @@
-export const SWITCHER = '@themeSwitcher/switcher'
+export const UPDATE_VALUE = '@conversation/update value'

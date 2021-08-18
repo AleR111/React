@@ -3,8 +3,9 @@ import { makeStyles } from "@material-ui/core/styles"
 import { SendRounded } from "@material-ui/icons"
 import classNames from "classnames"
 import { useEffect, useRef } from "react"
-import { useSelector } from "react-redux"
+import { useSelector, useDispatch } from "react-redux"
 import { useParams } from "react-router-dom"
+import { updateValue } from "../../store/conversations"
 import styles from "./message.module.scss"
 
 // import styles from "./message.module.scss"
@@ -42,18 +43,19 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-export const Messages = ({
-  updateValue,
-  value,
-  sendMessage,
-  sendMessageKey,
-}) => {
+export const Messages = ({ sendMessage, sendMessageKey }) => {
   const classes = useStyles()
 
   const { chatId } = useParams()
 
   const message =
     useSelector((state) => state.messagesStore.messages[chatId]) || []
+
+  const { value } = useSelector((state) =>
+    state.conversationsStore.conversations.find((elem) => elem.id === chatId) || '',
+  )
+
+  const dispatch = useDispatch()
 
   const inputRef = useRef(null)
   const scrollRef = useRef(0)
@@ -107,7 +109,7 @@ export const Messages = ({
           </InputAdornment>
         }
         value={value}
-        onChange={(e) => updateValue(e.target.value)}
+        onChange={(e) => dispatch(updateValue(e.target.value, chatId))}
       />
     </>
   )
