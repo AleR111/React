@@ -15,6 +15,7 @@ import { useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { Link, useParams, useHistory } from "react-router-dom"
 import { deleteConversation, getConversations } from "../../store/conversations"
+import { deleteConversationMessages } from "../../store/messages"
 import styles from "./chats.module.scss"
 
 const useStyles = makeStyles((theme) => ({
@@ -69,6 +70,7 @@ export const Chats = () => {
 
   const deleteChat = () => {
     dispatch(deleteConversation(contextChatId))
+    dispatch(deleteConversationMessages(contextChatId))
     if (contextChatId === chatId) history.push("/chat")
     handleClose()
   }

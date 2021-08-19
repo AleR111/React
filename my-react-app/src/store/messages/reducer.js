@@ -1,4 +1,4 @@
-import { SEND_MESSAGE } from "./types"
+import { SEND_MESSAGE, DELETE_CONVERSATION_MESSAGES } from "./types"
 
 const initialState = {
   messages: {
@@ -17,6 +17,14 @@ const initialState = {
   },
 }
 
+const deleteMessages = (state, id) => {
+  const newMessages = {}
+  for(const elem in state.messages) {
+    if (elem !== id) newMessages[elem] = state.messages[elem]
+  }
+  return newMessages
+}
+
 export const messagesReducer = (state = initialState, action) => {
   switch (action.type) {
     case SEND_MESSAGE:
@@ -29,6 +37,11 @@ export const messagesReducer = (state = initialState, action) => {
             { ...action.payload.message, date: new Date() },
           ],
         },
+      }
+    case DELETE_CONVERSATION_MESSAGES:
+      return {
+        ...state,
+        messages: deleteMessages(state, action.payload)
       }
     default:
       return state
