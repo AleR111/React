@@ -7,6 +7,7 @@ import {
   Button,
 } from "@material-ui/core"
 import { makeStyles } from "@material-ui/core/styles"
+import {useState} from "react";
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -24,6 +25,12 @@ const useStyles = makeStyles((theme) => ({
 
 export const NewChatModal = ({ handleCloseModal, openModal }) => {
   const classes = useStyles()
+
+    const [value,  setValue] = useState('')
+
+  const createNewChat = () => {
+
+  }
 
   return (
     <div>
@@ -44,8 +51,9 @@ export const NewChatModal = ({ handleCloseModal, openModal }) => {
               <div>
             <TextField
               id="standard-search"
-              label="New Chat"
-              value={"sdf"}
+              label="Chat Name"
+              value={value}
+              onChange={(e) => setValue(e.target.value)}
               autoFocus={true}
             />
               </div>
@@ -56,8 +64,8 @@ export const NewChatModal = ({ handleCloseModal, openModal }) => {
                   variant="text"
                   fullWidth={true}
               >
-                  <Button>Cancel</Button>
-                  <Button>Create</Button>
+                  <Button onClick={handleCloseModal}>Cancel</Button>
+                  <Button onClick={createNewChat}>Create</Button>
               </ButtonGroup>
           </div>
 
