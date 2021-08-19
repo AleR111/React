@@ -11,8 +11,8 @@ import {
   ListItemText,
   Switch,
   FormControlLabel,
-    Avatar,
-  ListItemAvatar
+  Avatar,
+  ListItemAvatar,
 } from "@material-ui/core"
 import { makeStyles, useTheme } from "@material-ui/core/styles"
 import {
@@ -23,10 +23,11 @@ import {
   Mail,
 } from "@material-ui/icons"
 import classNames from "classnames"
-import {useMemo, useState} from "react"
+import { useMemo, useState } from "react"
 import { useSelector, useDispatch } from "react-redux"
 import { Link } from "react-router-dom"
 import { switcher } from "../../store/themeSwitcher"
+import { NewChatModal } from "./newChatModal"
 
 const drawerWidth = 240
 
@@ -34,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
   header: {
     boxShadow: "none",
     backgroundColor: theme.header.backgroundColor,
-    position: 'unset'
+    position: "unset",
   },
   root: {
     display: "flex",
@@ -55,7 +56,7 @@ const useStyles = makeStyles((theme) => ({
   },
   menuButton: {
     marginRight: theme.spacing(2),
-    color: theme.burger.color
+    color: theme.burger.color,
   },
   hide: {
     display: "none",
@@ -74,7 +75,7 @@ const useStyles = makeStyles((theme) => ({
     // necessary for content to be below app bar
     ...theme.mixins.toolbar,
     justifyContent: "flex-end",
-    paddingLeft: '0'
+    paddingLeft: "0",
   },
   content: {
     flexGrow: 1,
@@ -107,12 +108,25 @@ export const Header = () => {
     setOpen(false)
   }
 
-  const selectorTheme = useMemo(() => (state) => {
-    return state.themeSwitcher.theme
-  },[])
+  const selectorTheme = useMemo(
+    () => (state) => {
+      return state.themeSwitcher.theme
+    },
+    [],
+  )
 
   const themeApp = useSelector(selectorTheme)
   const dispatch = useDispatch()
+
+  const [openModal, setOpenModal] = useState(false)
+
+  const handleOpenModal = () => {
+    setOpenModal(true)
+  }
+
+  const handleCloseModal = () => {
+    setOpenModal(false)
+  }
 
   return (
     <>
@@ -153,10 +167,8 @@ export const Header = () => {
               <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
             </ListItemAvatar>
             <ListItemText
-                primary="Remy Sharp"
-                secondary={
-                  <Link to={`/profile`}>Profile</Link>
-                }
+              primary="Remy Sharp"
+              secondary={<Link to={`/profile`}>Profile</Link>}
             />
           </ListItem>
           <IconButton onClick={handleDrawerClose}>
@@ -166,14 +178,20 @@ export const Header = () => {
         <Divider />
         <List>
           <Link to={`/chat`}>
-          <ListItem button={true}>
-            <ListItemIcon>
-               <Mail />
-            </ListItemIcon>
-            <ListItemText primary={'Chats'} />
-          </ListItem>
+            <ListItem button={true}>
+              <ListItemIcon>
+                <Mail />
+              </ListItemIcon>
+              <ListItemText primary={"Chats"} />
+            </ListItem>
           </Link>
-          {["New Group", "New Channel", "Contacts", "Setting"].map((text, index) => (
+          <ListItem button={true} onClick={handleOpenModal}>
+            <ListItemIcon>
+              <Inbox />
+            </ListItemIcon>
+            <ListItemText primary={"New Chat"} />
+          </ListItem>
+          {["New Channel", "Contacts", "Setting"].map((text, index) => (
             <ListItem button={true} key={text}>
               <ListItemIcon>
                 {index % 2 === 0 ? <Inbox /> : <Mail />}
@@ -182,19 +200,19 @@ export const Header = () => {
             </ListItem>
           ))}
           <FormControlLabel
-              labelPlacement="end"
-              control={
-                <Switch
-                    checked={themeApp === "dark"}
-                    onChange={() => dispatch(switcher())}
-                    color="primary"
-                />
-              }
-              label="Dark Mode"
+            labelPlacement="end"
+            control={
+              <Switch
+                checked={themeApp === "dark"}
+                onChange={() => dispatch(switcher())}
+                color="primary"
+              />
+            }
+            label="Dark Mode"
           />
         </List>
-
       </Drawer>
+      <NewChatModal handleCloseModal={handleCloseModal} openModal={openModal} />
     </>
   )
 }
