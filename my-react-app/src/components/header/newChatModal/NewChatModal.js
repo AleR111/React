@@ -1,4 +1,11 @@
-import { Modal, Fade, Backdrop } from "@material-ui/core"
+import {
+  Modal,
+  Fade,
+  Backdrop,
+  TextField,
+  ButtonGroup,
+  Button,
+} from "@material-ui/core"
 import { makeStyles } from "@material-ui/core/styles"
 
 const useStyles = makeStyles((theme) => ({
@@ -34,11 +41,26 @@ export const NewChatModal = ({ handleCloseModal, openModal }) => {
       >
         <Fade in={openModal}>
           <div className={classes.paper}>
-            <h2 id="transition-modal-title">Transition modal</h2>
-            <p id="transition-modal-description">
-              react-transition-group animates me.
-            </p>
+              <div>
+            <TextField
+              id="standard-search"
+              label="New Chat"
+              value={"sdf"}
+              autoFocus={true}
+            />
+              </div>
+              <ButtonGroup
+                  orientation="horizontal"
+                  color="primary"
+                  aria-label="vertical contained primary button group"
+                  variant="text"
+                  fullWidth={true}
+              >
+                  <Button>Cancel</Button>
+                  <Button>Create</Button>
+              </ButtonGroup>
           </div>
+
         </Fade>
       </Modal>
     </div>
