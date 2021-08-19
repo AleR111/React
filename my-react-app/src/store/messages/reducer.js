@@ -19,7 +19,7 @@ const initialState = {
 
 const deleteMessages = (state, id) => {
   const newMessages = {}
-  for(const elem in state.messages) {
+  for (const elem in state.messages) {
     if (elem !== id) newMessages[elem] = state.messages[elem]
   }
   return newMessages
@@ -33,7 +33,7 @@ export const messagesReducer = (state = initialState, action) => {
         messages: {
           ...state.messages,
           [action.payload.chatId]: [
-            ...state.messages[action.payload.chatId] || [],
+            ...(state.messages[action.payload.chatId] || []),
             { ...action.payload.message, date: new Date() },
           ],
         },
@@ -41,7 +41,7 @@ export const messagesReducer = (state = initialState, action) => {
     case DELETE_CONVERSATION_MESSAGES:
       return {
         ...state,
-        messages: deleteMessages(state, action.payload)
+        messages: deleteMessages(state, action.payload),
       }
     default:
       return state

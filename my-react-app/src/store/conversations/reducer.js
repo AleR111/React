@@ -1,4 +1,8 @@
-import { UPDATE_VALUE, DELETE_CONVERSATION, CREATE_NEW_CONVERSATION } from "./types"
+import {
+  UPDATE_VALUE,
+  DELETE_CONVERSATION,
+  CREATE_NEW_CONVERSATION,
+} from "./types"
 
 const initialState = {
   conversations: [
@@ -6,6 +10,11 @@ const initialState = {
     { id: "chat241", title: "Angelle Jonty", value: "" },
     { id: "chat426", title: "Myra Justy", value: "" },
   ],
+}
+
+const getId = () => {
+  const data = new Date()
+  return data.getTime()
 }
 
 export const conversationsReducer = (state = initialState, action) => {
@@ -26,13 +35,17 @@ export const conversationsReducer = (state = initialState, action) => {
     case DELETE_CONVERSATION:
       return {
         ...state,
-        conversations: state.conversations.filter((elem) => elem.id !== action.payload
+        conversations: state.conversations.filter(
+          (elem) => elem.id !== action.payload,
         ),
       }
     case CREATE_NEW_CONVERSATION:
       return {
         ...state,
-        conversations: [...state.conversations, { id: "chat4261", title: action.payload, value: "" }]
+        conversations: [
+          ...state.conversations,
+          { id: `chat${getId()}`, title: action.payload, value: "" },
+        ],
       }
     default:
       return state
