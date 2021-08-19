@@ -1,4 +1,4 @@
-import { UPDATE_VALUE, DELETE_CONVERSATION } from "./types"
+import { UPDATE_VALUE, DELETE_CONVERSATION, CREATE_NEW_CONVERSATION } from "./types"
 
 const initialState = {
   conversations: [
@@ -28,6 +28,11 @@ export const conversationsReducer = (state = initialState, action) => {
         ...state,
         conversations: state.conversations.filter((elem) => elem.id !== action.payload
         ),
+      }
+    case CREATE_NEW_CONVERSATION:
+      return {
+        ...state,
+        conversations: [...state.conversations, { id: "chat4261", title: action.payload, value: "" }]
       }
     default:
       return state
