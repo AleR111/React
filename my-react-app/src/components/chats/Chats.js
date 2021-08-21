@@ -71,8 +71,8 @@ export const Chats = () => {
   const deleteChat = () => {
     dispatch(deleteConversation(contextChatId))
     dispatch(deleteConversationMessages(contextChatId))
-    if (contextChatId === chatId) history.push("/chat")
     handleClose()
+    if (contextChatId === chatId) history.push("/chat")
   }
   return (
     <List

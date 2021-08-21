@@ -22,14 +22,13 @@ export const conversationsReducer = (state = initialState, action) => {
     case UPDATE_VALUE:
       return {
         ...state,
-        conversations: state.conversations.map((elem) => {
-          if (elem.id === action.payload.chatId)
+        conversations: state.conversations.map((conversations) => {
+          if (conversations.id === action.payload.chatId)
             return {
-              id: elem.id,
-              title: elem.title,
+              ...conversations,
               value: action.payload.value,
             }
-          return elem
+          return conversations
         }),
       }
     case DELETE_CONVERSATION:
