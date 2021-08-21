@@ -1,4 +1,5 @@
 import { createStore, combineReducers, applyMiddleware, compose } from "redux"
+import thunk from "redux-thunk"
 import { conversationsReducer } from "./conversations"
 import { messagesReducer } from "./messages"
 import { botAnswer } from "./middlewares/botAnswer"
@@ -11,7 +12,7 @@ export const store = createStore(
     messagesStore: messagesReducer,
   }),
   compose(
-    applyMiddleware(botAnswer),
+    applyMiddleware(botAnswer, thunk),
     window.__REDUX_DEVTOOLS_EXTENSION__
       ? window.__REDUX_DEVTOOLS_EXTENSION__()
       : (args) => args,
