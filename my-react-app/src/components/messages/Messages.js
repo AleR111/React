@@ -3,9 +3,15 @@ import { makeStyles } from "@material-ui/core/styles"
 import { SendRounded } from "@material-ui/icons"
 import classNames from "classnames"
 import { useEffect, useRef } from "react"
+import { useSelector, useDispatch } from "react-redux"
 import { useParams } from "react-router-dom"
+import {
+  updateValue,
+  getCurrentConversations,
+  getValue,
+} from "../../store/conversations"
+import { sendMessage, getMessage } from "../../store/messages"
 import styles from "./message.module.scss"
-
 // import styles from "./message.module.scss"
 
 const useStyles = makeStyles((theme) => ({
@@ -41,32 +47,42 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-export const Messages = ({
-  messages,
-  updateValue,
-  value,
-  sendMessage,
-  sendMessageKey,
-    conversations
-}) => {
+export const Messages = () => {
   const classes = useStyles()
 
   const { chatId } = useParams()
-  const message = messages[chatId] || []
+
+  const currentConversation = useSelector((state) =>
+    getCurrentConversations(state, chatId),
+  )
+
+  const value = useSelector((state) => getValue(state, chatId))
+
+  const message = useSelector((state) => getMessage(state, chatId)) || []
+
+  const dispatch = useDispatch()
+
+  const handleSendMessage = () => {
+    dispatch(sendMessage({ author: "user", message: value }, chatId))
+    dispatch(updateValue("", chatId))
+  }
+
+  const sendMessageKey = (code) => {
+    if (code === "Enter" && value) handleSendMessage()
+  }
 
   const inputRef = useRef(null)
   const scrollRef = useRef(0)
 
-  const currentConversation = conversations.find(elem => elem.id === chatId)
   useEffect(() => {
     inputRef.current?.focus()
     scrollRef.current?.scrollTo(0, scrollRef.current.scrollHeight)
-  }, [chatId, messages])
+  }, [chatId, message])
 
   return (
     <>
       <div className={classNames(classes.messagesHeader, styles.recipient)}>
-        <h4>{currentConversation.title}</h4>
+        <h4>{currentConversation?.title}</h4>
       </div>
 
       <div
@@ -93,17 +109,17 @@ export const Messages = ({
         placeholder="Write a message..."
         autoFocus={true}
         onKeyDown={(e) => {
-          sendMessageKey(e.code, value)
+          sendMessageKey(e.code)
         }}
         endAdornment={
           <InputAdornment position="end">
-            <IconButton color="primary" onClick={() => sendMessage(value)}>
+            <IconButton color="primary" onClick={() => handleSendMessage()}>
               {value && <SendRounded />}
             </IconButton>
           </InputAdornment>
         }
         value={value}
-        onChange={(e) => updateValue(e.target.value)}
+        onChange={(e) => dispatch(updateValue(e.target.value, chatId))}
       />
     </>
   )
