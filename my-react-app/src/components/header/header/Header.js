@@ -23,11 +23,7 @@ import {
   Mail,
 } from "@material-ui/icons"
 import classNames from "classnames"
-import { useMemo, useState } from "react"
-import { useSelector, useDispatch } from "react-redux"
 import { Link } from "react-router-dom"
-import { switcher } from "../../store/themeSwitcher"
-import { NewChatModal } from "./newChatModal"
 
 const drawerWidth = 240
 
@@ -95,38 +91,16 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-export const Header = () => {
+export const Header = ({
+  handleDrawerOpen,
+  handleDrawerClose,
+  handleOpenModal,
+  themeApp,
+  onSwitcher,
+  open,
+}) => {
   const classes = useStyles()
   const theme = useTheme()
-  const [open, setOpen] = useState(false)
-
-  const handleDrawerOpen = () => {
-    setOpen(true)
-  }
-
-  const handleDrawerClose = () => {
-    setOpen(false)
-  }
-
-  const selectorTheme = useMemo(
-    () => (state) => {
-      return state.themeSwitcher.theme
-    },
-    [],
-  )
-
-  const themeApp = useSelector(selectorTheme)
-  const dispatch = useDispatch()
-
-  const [openModal, setOpenModal] = useState(false)
-
-  const handleOpenModal = () => {
-    setOpenModal(true)
-  }
-
-  const handleCloseModal = () => {
-    setOpenModal(false)
-  }
 
   return (
     <>
@@ -204,7 +178,7 @@ export const Header = () => {
             control={
               <Switch
                 checked={themeApp === "dark"}
-                onChange={() => dispatch(switcher())}
+                onChange={onSwitcher}
                 color="primary"
               />
             }
@@ -212,7 +186,6 @@ export const Header = () => {
           />
         </List>
       </Drawer>
-      <NewChatModal handleCloseModal={handleCloseModal} openModal={openModal} />
     </>
   )
 }
