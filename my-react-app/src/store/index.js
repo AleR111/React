@@ -8,22 +8,22 @@ import { botAnswer } from "./middlewares/botAnswer"
 import { switcherReducer } from "./themeSwitcher"
 
 const persistConfig = {
-    key: 'root',
-    storage,
-    whitelist: ['themeSwitcher']
+  key: "root",
+  storage,
+  whitelist: ["themeSwitcher"],
 }
 
 const rootPersistReducer = persistReducer(
-    persistConfig,
-    combineReducers({
-        themeSwitcher: switcherReducer,
-        conversationsStore: conversationsReducer,
-        messagesStore: messagesReducer,
-    }),
+  persistConfig,
+  combineReducers({
+    themeSwitcher: switcherReducer,
+    conversationsStore: conversationsReducer,
+    messagesStore: messagesReducer,
+  }),
 )
 
 export const store = createStore(
-    rootPersistReducer,
+  rootPersistReducer,
   compose(
     applyMiddleware(botAnswer, thunk),
     window.__REDUX_DEVTOOLS_EXTENSION__

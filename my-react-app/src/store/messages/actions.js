@@ -12,3 +12,18 @@ export const deleteConversationMessages = (contextChatId) => ({
   type: DELETE_CONVERSATION_MESSAGES,
   payload: contextChatId,
 })
+
+export const sendMessageWithThunk = (message, chatId) => (dispatch) => {
+  dispatch(sendMessage(message, chatId))
+
+  if (message.author === "user") {
+    setTimeout(() => {
+      dispatch(
+        sendMessage(
+          { author: "bot", message: "Hi, i'm bot, from thunk" },
+          chatId,
+        ),
+      )
+    }, 2000)
+  }
+}

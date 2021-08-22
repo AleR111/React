@@ -6,7 +6,11 @@ import {
   getCurrentConversations,
   getValue,
 } from "../../store/conversations"
-import { sendMessage, getMessage } from "../../store/messages"
+import {
+  sendMessage,
+  getMessage,
+  sendMessageWithThunk,
+} from "../../store/messages"
 import { Messages } from "./messages"
 
 export const MessagesContainer = () => {
@@ -27,8 +31,13 @@ export const MessagesContainer = () => {
     dispatch(updateValue("", chatId))
   }
 
+  const handleSendMessageWithThunk = () => {
+    dispatch(sendMessageWithThunk({ author: "user", message: value }, chatId))
+    dispatch(updateValue("", chatId))
+  }
+
   const sendMessageKey = (code) => {
-    if (code === "Enter" && value) handleSendMessage()
+    if (code === "Enter" && value) handleSendMessageWithThunk()
   }
 
   const onUpdateValue = (e) => {
