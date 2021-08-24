@@ -1,3 +1,4 @@
+import { updateValue } from "../conversations"
 import { SEND_MESSAGE, DELETE_CONVERSATION_MESSAGES } from "./types"
 
 export const sendMessage = (message, chatId) => ({
@@ -15,6 +16,7 @@ export const deleteConversationMessages = (contextChatId) => ({
 
 export const sendMessageWithThunk = (message, chatId) => (dispatch) => {
   dispatch(sendMessage(message, chatId))
+  dispatch(updateValue("", chatId))
 
   if (message.author === "user") {
     setTimeout(() => {

@@ -33,7 +33,6 @@ export const MessagesContainer = () => {
 
   const handleSendMessageWithThunk = () => {
     dispatch(sendMessageWithThunk({ author: "user", message: value }, chatId))
-    dispatch(updateValue("", chatId))
   }
 
   const sendMessageKey = (code) => {
