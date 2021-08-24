@@ -1,5 +1,5 @@
 import { Switch, Route, useRouteMatch } from "react-router-dom"
-import { Chats, Layout, Messages } from "../../components"
+import { Chats, Layout, MessagesContainer } from "../../components"
 import style from "./chat.module.scss"
 
 export const Chat = () => {
@@ -15,7 +15,7 @@ export const Chat = () => {
             </div>
           </Route>
           <Route path={`${match.path}/:chatId`}>
-            <Messages />
+            <MessagesContainer />
           </Route>
         </Layout>
       </Route>

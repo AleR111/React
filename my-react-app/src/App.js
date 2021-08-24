@@ -3,7 +3,7 @@ import { useMemo } from "react"
 import { useSelector } from "react-redux"
 import { Route, Switch } from "react-router-dom"
 import "./App.css"
-import { Header } from "./components"
+import {HeaderContainer} from "./components/header/HeaderContainer";
 import { Chat, Page404, Profile } from "./pages"
 
 const themes = {
@@ -89,7 +89,7 @@ export const App = () => {
     <ThemeProvider theme={themes[themeApp]}>
       <div className={"App"}>
 
-          <Header />
+          <HeaderContainer />
 
         <Switch>
           <Route path={"/chat"}>

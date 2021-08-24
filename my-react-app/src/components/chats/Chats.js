@@ -4,19 +4,17 @@ import {
   ListItemText,
   ListItemIcon,
   Avatar,
-  Popover,
-  Paper,
-  Button,
 } from "@material-ui/core"
 import { makeStyles } from "@material-ui/core/styles"
-import { Delete } from "@material-ui/icons"
+
 import classNames from "classnames"
 import { useState } from "react"
-import { useDispatch, useSelector } from "react-redux"
-import { Link, useParams, useHistory } from "react-router-dom"
-import { deleteConversation, getConversations } from "../../store/conversations"
-import { deleteConversationMessages } from "../../store/messages"
+import { useSelector } from "react-redux"
+import { Link, useParams } from "react-router-dom"
+import { getConversations } from "../../store/conversations"
+
 import styles from "./chats.module.scss"
+import { PopoverComp } from "./popover"
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -45,14 +43,11 @@ const useStyles = makeStyles((theme) => ({
 export const Chats = () => {
   const classes = useStyles()
 
-  const history = useHistory()
-
-  const [contextChatId, setContextChatId] = useState(null)
-
   const { chatId } = useParams()
 
   const conversations = useSelector(getConversations)
 
+  const [contextChatId, setContextChatId] = useState(null)
   const [anchorEl, setAnchorEl] = useState(null)
 
   const handleClick = (id) => (event) => {
@@ -60,20 +55,6 @@ export const Chats = () => {
     setAnchorEl(event.currentTarget)
   }
 
-  const handleClose = () => {
-    setAnchorEl(null)
-  }
-
-  const open = Boolean(anchorEl)
-
-  const dispatch = useDispatch()
-
-  const deleteChat = () => {
-    dispatch(deleteConversation(contextChatId))
-    dispatch(deleteConversationMessages(contextChatId))
-    handleClose()
-    if (contextChatId === chatId) history.push("/chat")
-  }
   return (
     <List
       className={classes.root}
@@ -99,29 +80,13 @@ export const Chats = () => {
           </ListItem>
         </Link>
       ))}
-      <Popover
-        open={open}
+
+      <PopoverComp
         anchorEl={anchorEl}
-        onClose={handleClose}
-        anchorOrigin={{
-          vertical: "center",
-          horizontal: "center",
-        }}
-        transformOrigin={{
-          vertical: "top",
-          horizontal: "left",
-        }}
-      >
-        <Paper variant="outlined">
-          <Button
-            onClick={deleteChat}
-            variant="contained"
-            startIcon={<Delete />}
-          >
-            Delete
-          </Button>
-        </Paper>
-      </Popover>
+        setAnchorEl={setAnchorEl}
+        contextChatId={contextChatId}
+        chatId={chatId}
+      />
     </List>
   )
 }

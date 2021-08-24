@@ -1,18 +1,8 @@
-import { Input, InputAdornment, IconButton } from "@material-ui/core"
+import { IconButton, Input, InputAdornment } from "@material-ui/core"
 import { makeStyles } from "@material-ui/core/styles"
 import { SendRounded } from "@material-ui/icons"
 import classNames from "classnames"
-import { useEffect, useRef } from "react"
-import { useSelector, useDispatch } from "react-redux"
-import { useParams } from "react-router-dom"
-import {
-  updateValue,
-  getCurrentConversations,
-  getValue,
-} from "../../store/conversations"
-import { sendMessage, getMessage } from "../../store/messages"
-import styles from "./message.module.scss"
-// import styles from "./message.module.scss"
+import styles from "../message.module.scss"
 
 const useStyles = makeStyles((theme) => ({
   messagesHeader: {
@@ -47,38 +37,17 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-export const Messages = () => {
+export const Messages = ({
+  currentConversation,
+  scrollRef,
+  message,
+  inputRef,
+  sendMessageKey,
+  handleSendMessage,
+  value,
+  onUpdateValue,
+}) => {
   const classes = useStyles()
-
-  const { chatId } = useParams()
-
-  const currentConversation = useSelector((state) =>
-    getCurrentConversations(state, chatId),
-  )
-
-  const value = useSelector((state) => getValue(state, chatId))
-
-  const message = useSelector((state) => getMessage(state, chatId)) || []
-
-  const dispatch = useDispatch()
-
-  const handleSendMessage = () => {
-    dispatch(sendMessage({ author: "user", message: value }, chatId))
-    dispatch(updateValue("", chatId))
-  }
-
-  const sendMessageKey = (code) => {
-    if (code === "Enter" && value) handleSendMessage()
-  }
-
-  const inputRef = useRef(null)
-  const scrollRef = useRef(0)
-
-  useEffect(() => {
-    inputRef.current?.focus()
-    scrollRef.current?.scrollTo(0, scrollRef.current.scrollHeight)
-  }, [chatId, message])
-
   return (
     <>
       <div className={classNames(classes.messagesHeader, styles.recipient)}>
@@ -119,7 +88,7 @@ export const Messages = () => {
           </InputAdornment>
         }
         value={value}
-        onChange={(e) => dispatch(updateValue(e.target.value, chatId))}
+        onChange={(e) => onUpdateValue(e)}
       />
     </>
   )
