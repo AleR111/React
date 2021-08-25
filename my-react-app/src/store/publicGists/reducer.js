@@ -1,4 +1,4 @@
-import { loadingStart, loadingSuccess, loadingError } from "./types"
+import { LOADING_START, LOADING_SUCCESS, LOADING_ERROR } from "./types"
 
 const initialState = {
   data: [],
@@ -8,18 +8,18 @@ const initialState = {
 
 export const publicGistsReducer = (state = initialState, action) => {
   switch (action.type) {
-    case loadingStart:
+    case LOADING_START:
       return {
         ...state,
         isPending: true,
       }
-    case loadingSuccess:
+    case LOADING_SUCCESS:
       return {
         ...state,
         isPending: false,
         data: action.payload,
       }
-    case loadingError:
+    case LOADING_ERROR:
       return {
         ...state,
         isPending: false,
