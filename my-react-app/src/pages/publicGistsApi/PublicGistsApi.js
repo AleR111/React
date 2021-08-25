@@ -1,4 +1,4 @@
-import { LinearProgress } from "@material-ui/core"
+import { LinearProgress, Button, Container } from "@material-ui/core"
 import { makeStyles } from "@material-ui/core/styles"
 import { Pagination } from "@material-ui/lab"
 import { useEffect, useState } from "react"
@@ -45,7 +45,20 @@ export const PublicGistsApi = () => {
   }
 
   if (error) {
-    return <h1 className={classes.error}>{error}</h1>
+    return (
+      <Container maxWidth="xl">
+        <h1 className={classes.error}>{error}</h1>
+        <div className={classes.root}>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => dispatch(getPublicGists())}
+          >
+            Reload
+          </Button>
+        </div>
+      </Container>
+    )
   }
 
   return (
