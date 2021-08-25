@@ -159,6 +159,14 @@ export const Header = ({
               <ListItemText primary={"Chats"} />
             </ListItem>
           </Link>
+          <Link to={`/public_gists_api`}>
+            <ListItem button={true}>
+              <ListItemIcon>
+                <Mail />
+              </ListItemIcon>
+              <ListItemText primary={"Public Gists Api"} />
+            </ListItem>
+          </Link>
           <ListItem button={true} onClick={handleOpenModal}>
             <ListItemIcon>
               <Inbox />
