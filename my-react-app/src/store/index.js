@@ -5,6 +5,7 @@ import thunk from "redux-thunk"
 import { conversationsReducer } from "./conversations"
 import { messagesReducer } from "./messages"
 import { botAnswer } from "./middlewares/botAnswer"
+import { publicGistsReducer } from "./pablicGists"
 import { switcherReducer } from "./themeSwitcher"
 
 const persistConfig = {
@@ -19,6 +20,7 @@ const rootPersistReducer = persistReducer(
     themeSwitcher: switcherReducer,
     conversationsStore: conversationsReducer,
     messagesStore: messagesReducer,
+    publicGistsStore: publicGistsReducer,
   }),
 )
 
