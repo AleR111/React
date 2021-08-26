@@ -14,7 +14,6 @@ export const getPublicGists =
       }
 
       const data = await response.json()
-        console.log(data)
       dispatch(loadingSuccess(data))
     } catch (error) {
       console.log(error.message)
@@ -33,7 +32,6 @@ export const searchPublicGistsByLogin =
                 }
 
                 const data = await response.json()
-                console.log(data)
                 dispatch(loadingSuccess(data))
             } catch (error) {
                 console.log(error.message)

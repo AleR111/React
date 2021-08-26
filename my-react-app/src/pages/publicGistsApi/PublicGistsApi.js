@@ -9,7 +9,8 @@ import {
 import { makeStyles } from "@material-ui/core/styles"
 import { Search } from "@material-ui/icons"
 import { Pagination } from "@material-ui/lab"
-import { useEffect, useState } from "react"
+import debounce from "lodash.debounce"
+import {useCallback, useEffect, useState} from "react"
 import { useDispatch, useSelector } from "react-redux"
 import {
   getPublicGists,
@@ -49,7 +50,7 @@ export const PublicGistsApi = () => {
   const classes = useStyles()
 
   const [page, setPage] = useState(1)
-  const [search, setSearch] = useState("")
+  const [search, setSearch] = useState('')
 
   const { data, isPending, error } = useSelector(
     (store) => store.publicGistsStore,
@@ -69,6 +70,14 @@ export const PublicGistsApi = () => {
     if (!search) return
     dispatch(searchPublicGistsByLogin(search))
   }, [dispatch, search])
+
+  const changeHandler = event => {
+    setSearch(event.target.value);
+  };
+
+  const debouncedChangeHandler = useCallback(
+      debounce(changeHandler, 1500)
+      , []);
 
   if (isPending) {
     return (
@@ -102,8 +111,7 @@ export const PublicGistsApi = () => {
           className={classes.input}
           placeholder="Search"
           inputProps={{ "aria-label": "search google maps" }}
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
+          onChange={debouncedChangeHandler}
         />
         <IconButton
           type="submit"
