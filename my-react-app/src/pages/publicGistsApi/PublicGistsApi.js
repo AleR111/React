@@ -1,9 +1,20 @@
-import { LinearProgress, Button, Container } from "@material-ui/core"
+import {
+  LinearProgress,
+  Button,
+  Container,
+  Paper,
+  InputBase,
+  IconButton,
+} from "@material-ui/core"
 import { makeStyles } from "@material-ui/core/styles"
+import { Search } from "@material-ui/icons"
 import { Pagination } from "@material-ui/lab"
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { getPublicGists } from "../../store/publicGists/thunks"
+import {
+  getPublicGists,
+  searchPublicGistsByLogin,
+} from "../../store/publicGists/thunks"
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -12,8 +23,25 @@ const useStyles = makeStyles((theme) => ({
       marginTop: theme.spacing(2),
     },
   },
+  rootInput: {
+    padding: "2px 4px",
+    display: "flex",
+    alignItems: "center",
+    width: 400,
+  },
   error: {
     color: "red",
+  },
+  input: {
+    marginLeft: theme.spacing(1),
+    flex: 1,
+  },
+  iconButton: {
+    padding: 10,
+  },
+  divider: {
+    height: 28,
+    margin: 4,
   },
 }))
 
@@ -21,6 +49,7 @@ export const PublicGistsApi = () => {
   const classes = useStyles()
 
   const [page, setPage] = useState(1)
+  const [search, setSearch] = useState("")
 
   const { data, isPending, error } = useSelector(
     (store) => store.publicGistsStore,
@@ -35,6 +64,11 @@ export const PublicGistsApi = () => {
   useEffect(() => {
     dispatch(getPublicGists())
   }, [dispatch])
+
+  useEffect(() => {
+    if (!search) return
+    dispatch(searchPublicGistsByLogin(search))
+  }, [dispatch, search])
 
   if (isPending) {
     return (
@@ -62,9 +96,27 @@ export const PublicGistsApi = () => {
   }
 
   return (
-    <>
+    <Container maxWidth="xl">
+      <Paper component="form" className={classes.rootInput}>
+        <InputBase
+          className={classes.input}
+          placeholder="Search"
+          inputProps={{ "aria-label": "search google maps" }}
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
+        <IconButton
+          type="submit"
+          className={classes.iconButton}
+          aria-label="search"
+        >
+          <Search />
+        </IconButton>
+      </Paper>
       <div>
-        {data.map((elem, index) => {
+        {
+          data.length === 1 ?  <div>{data[0].login}: <a href={data[0].url}>{data[0].url}</a></div> :
+          data.map((elem, index) => {
           return <div key={index}>{elem.owner.login}</div>
         })}
       </div>
@@ -76,6 +128,6 @@ export const PublicGistsApi = () => {
           onChange={(e, page) => newPage(page)}
         />
       </div>
-    </>
+    </Container>
   )
 }

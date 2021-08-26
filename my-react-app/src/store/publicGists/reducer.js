@@ -18,6 +18,7 @@ export const publicGistsReducer = (state = initialState, action) => {
         ...state,
         isPending: false,
         data: action.payload,
+        error: false
       }
     case LOADING_ERROR:
       return {
