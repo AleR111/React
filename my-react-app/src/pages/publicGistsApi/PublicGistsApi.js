@@ -10,7 +10,7 @@ import { makeStyles } from "@material-ui/core/styles"
 import { Search } from "@material-ui/icons"
 import { Pagination } from "@material-ui/lab"
 import debounce from "lodash.debounce"
-import {useCallback, useEffect, useState} from "react"
+import { useCallback, useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import {
   getPublicGists,
@@ -50,7 +50,7 @@ export const PublicGistsApi = () => {
   const classes = useStyles()
 
   const [page, setPage] = useState(1)
-  const [search, setSearch] = useState('')
+  const [search, setSearch] = useState("")
 
   const { data, isPending, error } = useSelector(
     (store) => store.publicGistsStore,
@@ -63,6 +63,7 @@ export const PublicGistsApi = () => {
   }
 
   useEffect(() => {
+    if (data.length) return
     dispatch(getPublicGists())
   }, [dispatch])
 
@@ -71,13 +72,11 @@ export const PublicGistsApi = () => {
     dispatch(searchPublicGistsByLogin(search))
   }, [dispatch, search])
 
-  const changeHandler = event => {
-    setSearch(event.target.value);
-  };
+  const changeHandler = (event) => {
+    setSearch(event.target.value)
+  }
 
-  const debouncedChangeHandler = useCallback(
-      debounce(changeHandler, 1500)
-      , []);
+  const debouncedChangeHandler = useCallback(debounce(changeHandler, 1500), [])
 
   if (isPending) {
     return (
@@ -122,28 +121,36 @@ export const PublicGistsApi = () => {
         </IconButton>
       </Paper>
       <div>
-        {data.login ? (
-          <div>
-            {data.login}: <a href={data.url}>{data.url}</a>
-          </div>
-        ) : (
+        {data.length ? (
           data.map((elem, index) => {
             return (
               <div key={index}>
-                {elem.owner.login}:<a href={elem.owner.url}>{elem.owner.url}</a>
+                {elem.owner.login}:
+                <a href={elem.owner.url} rel="noreferrer" target="_blank">
+                  {elem.owner.url}
+                </a>
               </div>
             )
           })
+        ) : (
+          <div>
+            {data.login}:{" "}
+            <a href={data.url} rel="noreferrer" target="_blank">
+              {data.url}
+            </a>
+          </div>
         )}
       </div>
-      <div className={classes.root}>
-        <Pagination
-          count={data.length}
-          page={page}
-          shape="rounded"
-          onChange={(e, page) => newPage(page)}
-        />
-      </div>
+      {data.length && (
+        <div className={classes.root}>
+          <Pagination
+            count={data.length}
+            page={page}
+            shape="rounded"
+            onChange={(e, page) => newPage(page)}
+          />
+        </div>
+      )}
     </Container>
   )
 }
