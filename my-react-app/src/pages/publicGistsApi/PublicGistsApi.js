@@ -114,11 +114,19 @@ export const PublicGistsApi = () => {
         </IconButton>
       </Paper>
       <div>
-        {
-          data.length === 1 ?  <div>{data[0].login}: <a href={data[0].url}>{data[0].url}</a></div> :
+        {data.login ? (
+          <div>
+            {data.login}: <a href={data.url}>{data.url}</a>
+          </div>
+        ) : (
           data.map((elem, index) => {
-          return <div key={index}>{elem.owner.login}</div>
-        })}
+            return (
+              <div key={index}>
+                {elem.owner.login}:<a href={elem.owner.url}>{elem.owner.url}</a>
+              </div>
+            )
+          })
+        )}
       </div>
       <div className={classes.root}>
         <Pagination
