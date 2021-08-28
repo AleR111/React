@@ -5,6 +5,7 @@ import {
   InputAdornment,
   FormControl,
   TextField,
+  Button,
 } from "@material-ui/core"
 import { makeStyles } from "@material-ui/core/styles"
 import { Visibility, VisibilityOff } from "@material-ui/icons"
@@ -24,9 +25,13 @@ const useStyles = makeStyles((theme) => ({
   textField: {
     width: "25ch",
   },
+  header: {
+    fontSize: "24px",
+    fontWeight: "400",
+  },
 }))
 
-export const AuthForm = () => {
+export const AuthForm = ({ header, button }) => {
   const classes = useStyles()
   const [values, setValues] = useState({
     login: "",
@@ -47,39 +52,51 @@ export const AuthForm = () => {
   }
 
   return (
-    <div className={classes.root}>
-      <div>
-        <FormControl fullWidth={true} className={classes.margin}>
-          <TextField
-            id="standard-basic"
-            label="Login"
-            value={values.login}
-            onChange={handleChange("login")}
-          />
-        </FormControl>
-        <FormControl fullWidth={true} className={classes.margin}>
-          <InputLabel htmlFor="standard-adornment-password">
-            Password
-          </InputLabel>
-          <Input
-            id="standard-adornment-password"
-            type={values.showPassword ? "text" : "password"}
-            value={values.password}
-            onChange={handleChange("password")}
-            endAdornment={
-              <InputAdornment position="end">
-                <IconButton
-                  aria-label="toggle password visibility"
-                  onClick={handleClickShowPassword}
-                  onMouseDown={handleMouseDownPassword}
-                >
-                  {values.showPassword ? <Visibility /> : <VisibilityOff />}
-                </IconButton>
-              </InputAdornment>
-            }
-          />
-        </FormControl>
+    <>
+      <h2 className={classes.header}>{header}</h2>
+      <div className={classes.root}>
+        <div>
+          <FormControl fullWidth={true} className={classes.margin}>
+            <TextField
+              id="standard-basic"
+              label="Login"
+              value={values.login}
+              onChange={handleChange("login")}
+            />
+          </FormControl>
+          <FormControl fullWidth={true} className={classes.margin}>
+            <InputLabel htmlFor="standard-adornment-password">
+              Password
+            </InputLabel>
+            <Input
+              id="standard-adornment-password"
+              type={values.showPassword ? "text" : "password"}
+              value={values.password}
+              onChange={handleChange("password")}
+              endAdornment={
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={handleClickShowPassword}
+                    onMouseDown={handleMouseDownPassword}
+                  >
+                    {values.showPassword ? <Visibility /> : <VisibilityOff />}
+                  </IconButton>
+                </InputAdornment>
+              }
+            />
+          </FormControl>
+
+          <Button
+            className={classes.margin}
+            fullWidth={true}
+            color="primary"
+            href="#outlined-buttons"
+          >
+            {button}
+          </Button>
+        </div>
       </div>
-    </div>
+    </>
   )
 }
