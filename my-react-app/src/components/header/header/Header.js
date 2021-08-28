@@ -36,6 +36,9 @@ const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
   },
+  grow: {
+    flexGrow: 1,
+  },
   appBar: {
     transition: theme.transitions.create(["margin", "width"], {
       easing: theme.transitions.easing.sharp,
@@ -124,6 +127,19 @@ export const Header = ({
           >
             <Menu />
           </IconButton>
+          <div className={classes.grow} />
+          <div>
+            <Link to={`/sign-in`}>
+              <ListItem button={true}>
+                <ListItemText primary={"sign in"} />
+              </ListItem>
+            </Link>
+            <Link to={`/sign-up`}>
+              <ListItem button={true}>
+                <ListItemText primary={"sign up"} />
+              </ListItem>
+            </Link>
+          </div>
         </Toolbar>
       </AppBar>
       <Drawer

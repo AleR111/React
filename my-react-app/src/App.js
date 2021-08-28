@@ -4,7 +4,7 @@ import { useSelector } from "react-redux"
 import { Route, Switch } from "react-router-dom"
 import "./App.css"
 import {HeaderContainer} from "./components";
-import { Chat, Page404, Profile } from "./pages"
+import {Chat, Page404, Profile, SignIp, SignUp} from "./pages"
 import {PublicGistsApi} from "./pages/publicGistsApi";
 
 const themes = {
@@ -85,7 +85,7 @@ export const App = () => {
   )
 
   const themeApp = useSelector(selectorTheme)
-    console.log(themes[themeApp])
+
   return (
     <ThemeProvider theme={themes[themeApp]}>
       <div className={"App"}>
@@ -101,6 +101,12 @@ export const App = () => {
           </Route>
           <Route path={"/public_gists_api"}>
             <PublicGistsApi />
+          </Route>
+          <Route path={"/sign-in"}>
+            <SignIp />
+          </Route>
+          <Route path={"/sign-up"}>
+            <SignUp />
           </Route>
           <Route path={"*"}>
             <Page404 />
