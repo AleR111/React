@@ -3,8 +3,9 @@ import { useMemo } from "react"
 import { useSelector } from "react-redux"
 import { Route, Switch } from "react-router-dom"
 import "./App.css"
-import {HeaderContainer} from "./components/header/HeaderContainer";
+import {HeaderContainer} from "./components";
 import { Chat, Page404, Profile } from "./pages"
+import {PublicGistsApi} from "./pages/publicGistsApi";
 
 const themes = {
   dark: createTheme({
@@ -97,6 +98,9 @@ export const App = () => {
           </Route>
           <Route path={"/profile"}>
             <Profile />
+          </Route>
+          <Route path={"/public_gists_api"}>
+            <PublicGistsApi />
           </Route>
           <Route path={"*"}>
             <Page404 />
