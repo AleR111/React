@@ -33,8 +33,6 @@ export const PublicPage = ({ ...params }) => {
       </div>
     )
   } else return data ? <Redirect to="/chat" /> : <Route {...params} />
-
-  // return data ? <Redirect to="/chat" /> : <Route {...params} />
 }
 
 export const PrivatePage = ({ ...params }) => {

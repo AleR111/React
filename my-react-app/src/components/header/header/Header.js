@@ -125,14 +125,16 @@ export const Header = ({
         )}
       >
         <Toolbar>
-          <IconButton
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            edge="start"
-            className={classNames(classes.menuButton, open && classes.hide)}
-          >
-            <Menu />
-          </IconButton>
+          {auth && (
+            <IconButton
+              aria-label="open drawer"
+              onClick={handleDrawerOpen}
+              edge="start"
+              className={classNames(classes.menuButton, open && classes.hide)}
+            >
+              <Menu />
+            </IconButton>
+          )}
           <div className={classes.grow} />
           <div>
             {auth ? (
