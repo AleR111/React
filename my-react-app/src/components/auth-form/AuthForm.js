@@ -6,10 +6,11 @@ import {
   FormControl,
   TextField,
   Button,
-    Container
+  Container,
 } from "@material-ui/core"
 import { makeStyles } from "@material-ui/core/styles"
 import { Visibility, VisibilityOff } from "@material-ui/icons"
+import classNames from "classnames"
 import { useState } from "react"
 
 const useStyles = makeStyles((theme) => ({
@@ -29,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
   header: {
     fontSize: "24px",
     fontWeight: "400",
-    color: '#1623b3'
+    color: "#1623b3",
   },
   link: {
     textAlign: "center",
@@ -42,8 +43,11 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   container: {
-    marginTop: '10%'
-  }
+    marginTop: "10%",
+  },
+  error: {
+    color: "red",
+  },
 }))
 
 export const AuthForm = ({ header, button, link, onSubmit }) => {
@@ -53,6 +57,7 @@ export const AuthForm = ({ header, button, link, onSubmit }) => {
     password: "",
     showPassword: false,
   })
+  const [error, setError] = useState("")
 
   const handleChange = (prop) => (event) => {
     setValues({ ...values, [prop]: event.target.value })
@@ -70,18 +75,23 @@ export const AuthForm = ({ header, button, link, onSubmit }) => {
     console.log(13212)
     try {
       await onSubmit(values.email, values.password)
-    } catch (error) {console.log(error)}
+    } catch (error) {
+      setError(error.message)
+    }
   }
 
   return (
-    <Container maxWidth='xs' className={classes.container}>
+    <Container maxWidth="xs" className={classes.container}>
       <h2 className={classes.header}>{header}</h2>
+      {error && (
+        <div className={classNames(classes.error, classes.margin)}>{error}</div>
+      )}
       <div className={classes.root}>
         <div>
           <FormControl fullWidth={true} className={classes.margin}>
             <TextField
               id="standard-basic"
-              label="Login"
+              label="Email"
               value={values.email}
               onChange={handleChange("email")}
             />
