@@ -6,6 +6,7 @@ import {
   FormControl,
   TextField,
   Button,
+    Container
 } from "@material-ui/core"
 import { makeStyles } from "@material-ui/core/styles"
 import { Visibility, VisibilityOff } from "@material-ui/icons"
@@ -28,10 +29,24 @@ const useStyles = makeStyles((theme) => ({
   header: {
     fontSize: "24px",
     fontWeight: "400",
+    color: '#1623b3'
   },
+  link: {
+    textAlign: "center",
+    "& a": {
+      textDecoration: "none",
+      color: "#5467a8",
+      "&:hover": {
+        color: "#000e3b",
+      },
+    },
+  },
+  container: {
+    marginTop: '10%'
+  }
 }))
 
-export const AuthForm = ({ header, button }) => {
+export const AuthForm = ({ header, button, link }) => {
   const classes = useStyles()
   const [values, setValues] = useState({
     login: "",
@@ -52,7 +67,7 @@ export const AuthForm = ({ header, button }) => {
   }
 
   return (
-    <>
+    <Container maxWidth='xs' className={classes.container}>
       <h2 className={classes.header}>{header}</h2>
       <div className={classes.root}>
         <div>
@@ -95,8 +110,9 @@ export const AuthForm = ({ header, button }) => {
           >
             {button}
           </Button>
+          <div className={classes.link}>{link}</div>
         </div>
       </div>
-    </>
+    </Container>
   )
 }
