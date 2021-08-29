@@ -13,6 +13,7 @@ import {
   FormControlLabel,
   Avatar,
   ListItemAvatar,
+  Button,
 } from "@material-ui/core"
 import { makeStyles, useTheme } from "@material-ui/core/styles"
 import {
@@ -101,6 +102,8 @@ export const Header = ({
   themeApp,
   onSwitcher,
   open,
+  auth,
+  signOut,
 }) => {
   const classes = useStyles()
   const theme = useTheme()
@@ -139,6 +142,7 @@ export const Header = ({
                 <ListItemText primary={"sign up"} />
               </ListItem>
             </Link>
+            {auth && <Button onClick={signOut}>Sign out</Button>}
           </div>
         </Toolbar>
       </AppBar>

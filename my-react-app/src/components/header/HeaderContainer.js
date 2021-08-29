@@ -1,10 +1,11 @@
 import { useMemo, useState } from "react"
 import { useSelector, useDispatch } from "react-redux"
+import { firebaseApp } from "../../api/firebase"
 import { switcher } from "../../store/themeSwitcher"
 import { Header } from "./header"
 import { NewChatModal } from "./newChatModal"
 
-export const HeaderContainer = () => {
+export const HeaderContainer = ({ auth }) => {
   const [open, setOpen] = useState(false)
 
   const handleDrawerOpen = () => {
@@ -39,6 +40,8 @@ export const HeaderContainer = () => {
     setOpenModal(false)
   }
 
+  const signOut = () => firebaseApp.auth().signOut()
+
   return (
     <>
       <Header
@@ -48,6 +51,8 @@ export const HeaderContainer = () => {
         themeApp={themeApp}
         onSwitcher={onSwitcher}
         open={open}
+        auth={auth}
+        signOut={signOut}
       />
       <NewChatModal handleCloseModal={handleCloseModal} openModal={openModal} />
     </>
