@@ -1,3 +1,3 @@
-export const LOADING_START = '@publicGists/loading start'
-export const LOADING_SUCCESS = '@publicGists/loading success'
-export const LOADING_ERROR = '@publicGists/loading error'
+export const LOADING_START = '@auth/loading start'
+export const LOADING_SUCCESS = '@auth/loading success'
+export const LOADING_ERROR = '@auth/loading error'
