@@ -12,6 +12,7 @@ export const authReducer = (state = initialState, action) => {
       return {
         ...state,
         isPending: true,
+        data: null,
       }
     case LOADING_SUCCESS:
       return {
