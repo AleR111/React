@@ -93,6 +93,9 @@ const useStyles = makeStyles((theme) => ({
     }),
     marginLeft: 0,
   },
+  button: {
+    textDecoration: "none",
+  },
 }))
 
 export const Header = ({
@@ -132,17 +135,15 @@ export const Header = ({
           </IconButton>
           <div className={classes.grow} />
           <div>
-            <Link to={`/sign-in`}>
-              <ListItem button={true}>
-                <ListItemText primary={"sign in"} />
-              </ListItem>
-            </Link>
-            <Link to={`/sign-up`}>
-              <ListItem button={true}>
-                <ListItemText primary={"sign up"} />
-              </ListItem>
-            </Link>
-            {auth && <Button onClick={signOut}>Sign out</Button>}
+            {auth ? (
+              <Button color="secondary" onClick={signOut}>
+                Sign out
+              </Button>
+            ) : (
+              <Link className={classes.button} to={`/sign-in`}>
+                <Button color="primary">sign in</Button>
+              </Link>
+            )}
           </div>
         </Toolbar>
       </AppBar>

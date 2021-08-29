@@ -1,13 +1,13 @@
 import { createTheme, ThemeProvider } from "@material-ui/core/styles"
-import { useEffect, useMemo, useState } from "react"
-import { useSelector } from "react-redux"
+import { useEffect, useMemo } from "react"
+import {useDispatch, useSelector} from "react-redux"
 import { Route, Switch } from "react-router-dom"
 import "./App.css"
-import { firebaseApp } from "./api/firebase"
 import { HeaderContainer } from "./components"
 import { Chat, Page404, Profile, SignIp, SignUp } from "./pages"
 import { PublicGistsApi } from "./pages/publicGistsApi"
 import { PrivatePage, PublicPage } from "./route"
+import {requestAuth} from "./store/auth/thunks";
 
 const themes = {
   dark: createTheme({
@@ -85,26 +85,23 @@ export const App = () => {
   )
 
   const themeApp = useSelector(selectorTheme)
-
-  const [auth, setAuth] = useState()
+  const dispatch = useDispatch()
 
   useEffect(() => {
-    firebaseApp.auth().onAuthStateChanged((user) => {
-      user ? setAuth(user) : setAuth(false)
-    })
-  }, [])
+    dispatch(requestAuth())
+  }, [dispatch])
 
   return (
     <ThemeProvider theme={themes[themeApp]}>
       <div className={"App"}>
-        <HeaderContainer auth={auth} />
+        <HeaderContainer />
 
         <Switch>
-          <PrivatePage auth={auth} path={"/chat"} component={Chat} />
-          <PrivatePage auth={auth} path={"/profile"} component={Profile} />
+          <PrivatePage path={"/chat"} component={Chat} />
+          <PrivatePage path={"/profile"} component={Profile} />
           <Route path={"/public_gists_api"} component={PublicGistsApi} />
-          <PublicPage auth={auth} path={"/sign-in"} component={SignIp} />
-          <PublicPage auth={auth} path={"/sign-up"} component={SignUp} />
+          <PublicPage path={"/sign-in"} component={SignIp} />
+          <PublicPage path={"/sign-up"} component={SignUp} />
           <Route path={"*"} component={Page404} />
         </Switch>
       </div>

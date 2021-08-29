@@ -5,7 +5,7 @@ import { switcher } from "../../store/themeSwitcher"
 import { Header } from "./header"
 import { NewChatModal } from "./newChatModal"
 
-export const HeaderContainer = ({ auth }) => {
+export const HeaderContainer = () => {
   const [open, setOpen] = useState(false)
 
   const handleDrawerOpen = () => {
@@ -39,7 +39,7 @@ export const HeaderContainer = ({ auth }) => {
   const handleCloseModal = () => {
     setOpenModal(false)
   }
-
+  const { data } = useSelector((store) => store.authStore)
   const signOut = () => firebaseApp.auth().signOut()
 
   return (
@@ -51,7 +51,7 @@ export const HeaderContainer = ({ auth }) => {
         themeApp={themeApp}
         onSwitcher={onSwitcher}
         open={open}
-        auth={auth}
+        auth={data}
         signOut={signOut}
       />
       <NewChatModal handleCloseModal={handleCloseModal} openModal={openModal} />
