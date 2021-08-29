@@ -46,10 +46,10 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
-export const AuthForm = ({ header, button, link }) => {
+export const AuthForm = ({ header, button, link, onSubmit }) => {
   const classes = useStyles()
   const [values, setValues] = useState({
-    login: "",
+    email: "",
     password: "",
     showPassword: false,
   })
@@ -66,6 +66,13 @@ export const AuthForm = ({ header, button, link }) => {
     event.preventDefault()
   }
 
+  const handleOnSubmit = async () => {
+    console.log(13212)
+    try {
+      await onSubmit(values.email, values.password)
+    } catch (error) {console.log(error)}
+  }
+
   return (
     <Container maxWidth='xs' className={classes.container}>
       <h2 className={classes.header}>{header}</h2>
@@ -75,8 +82,8 @@ export const AuthForm = ({ header, button, link }) => {
             <TextField
               id="standard-basic"
               label="Login"
-              value={values.login}
-              onChange={handleChange("login")}
+              value={values.email}
+              onChange={handleChange("email")}
             />
           </FormControl>
           <FormControl fullWidth={true} className={classes.margin}>
@@ -107,6 +114,7 @@ export const AuthForm = ({ header, button, link }) => {
             fullWidth={true}
             color="primary"
             href="#outlined-buttons"
+            onClick={handleOnSubmit}
           >
             {button}
           </Button>
