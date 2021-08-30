@@ -1,5 +1,6 @@
+import debounce from "lodash.debounce"
 import { database } from "../../api/firebase"
-import { createNewConversation } from "./actions"
+import { createNewConversation, updateValue } from "./actions"
 import { GET_CONVERSATIONS_FROM_DB } from "./types"
 
 export const getConversationsFromDB = () => (dispatch) => {
@@ -28,4 +29,13 @@ export const createNewConversationInDB = (title) => async (dispatch) => {
   const id = `chat${getId()}`
   await database.ref("conversations").child(id).set({ id, title, value: "" })
   dispatch(createNewConversation(id, title))
+}
+
+const inputDebounce = debounce((value, chatId) => {
+  database.ref("conversations").child(chatId).update({ value })
+}, 500)
+
+export const updateValueInDB = (value, chatId) => (dispatch) => {
+  inputDebounce(value, chatId)
+  dispatch(updateValue(value, chatId))
 }

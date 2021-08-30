@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react"
 import { useSelector, useDispatch } from "react-redux"
 import { useParams } from "react-router-dom"
 import {
-  updateValue,
+  updateValueInDB,
   getCurrentConversations,
   getValue,
 } from "../../store/conversations"
@@ -28,7 +28,7 @@ export const MessagesContainer = () => {
 
   const handleSendMessage = () => {
     dispatch(sendMessage({ author: "user", message: value }, chatId))
-    dispatch(updateValue("", chatId))
+    dispatch(updateValueInDB("", chatId))
   }
 
   const handleSendMessageWithThunk = () => {
@@ -40,7 +40,7 @@ export const MessagesContainer = () => {
   }
 
   const onUpdateValue = (e) => {
-    dispatch(updateValue(e.target.value, chatId))
+    dispatch(updateValueInDB(e.target.value, chatId))
   }
 
   const inputRef = useRef(null)
