@@ -9,7 +9,7 @@ import {
 import { makeStyles } from "@material-ui/core/styles"
 import { useState } from "react"
 import { useDispatch } from "react-redux"
-import {createNewConversationToDB} from "../../../store/conversations"
+import {createNewConversationInDB} from "../../../store/conversations"
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -34,7 +34,7 @@ export const NewChatModal = ({ handleCloseModal, openModal }) => {
 
   const createNewChat = () => {
     console.log(value)
-    dispatch(createNewConversationToDB(value))
+    dispatch(createNewConversationInDB(value))
     handleCloseModal()
   }
 

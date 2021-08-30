@@ -9,7 +9,7 @@ import {
 import {
   sendMessage,
   getMessage,
-  sendMessageWithThunk,
+  sendMessageInDB,
 } from "../../store/messages"
 import { Messages } from "./messages"
 
@@ -32,7 +32,7 @@ export const MessagesContainer = () => {
   }
 
   const handleSendMessageWithThunk = () => {
-    dispatch(sendMessageWithThunk({ author: "user", message: value }, chatId))
+    dispatch(sendMessageInDB({ author: "user", message: value }, chatId))
   }
 
   const sendMessageKey = (code) => {

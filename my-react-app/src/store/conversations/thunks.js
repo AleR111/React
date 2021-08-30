@@ -24,7 +24,7 @@ const getId = () => {
   return data.getTime()
 }
 
-export const createNewConversationToDB = (title) => async (dispatch) => {
+export const createNewConversationInDB = (title) => async (dispatch) => {
   const id = `chat${getId()}`
   await database.ref("conversations").child(id).set({ id, title, value: "" })
   dispatch(createNewConversation(id, title))
