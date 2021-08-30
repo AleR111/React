@@ -38,7 +38,6 @@ export const PublicPage = ({ ...params }) => {
 export const PrivatePage = ({ ...params }) => {
   const classes = useStyles()
   const { data, isPending, error } = useSelector((store) => store.authStore)
-  console.log(isPending)
   if (error) {
     return (
       <Container maxWidth="xl">

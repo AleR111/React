@@ -1,5 +1,5 @@
 import { createTheme, ThemeProvider } from "@material-ui/core/styles"
-import { useLayoutEffect, useMemo } from "react"
+import { useEffect, useLayoutEffect, useMemo } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { Route, Switch } from "react-router-dom"
 import "./App.css"
@@ -8,6 +8,7 @@ import { Chat, Page404, Profile, SignIp, SignUp } from "./pages"
 import { PublicGistsApi } from "./pages/publicGistsApi"
 import { PrivatePage, PublicPage } from "./route"
 import { requestAuth } from "./store/auth/thunks"
+import { getMessageFromDB } from "./store/messages"
 
 const themes = {
   dark: createTheme({
@@ -87,10 +88,16 @@ export const App = () => {
   const themeApp = useSelector(selectorTheme)
   const dispatch = useDispatch()
 
+  useEffect(() => {
+    dispatch(getMessageFromDB())
+  }, [dispatch])
+
   useLayoutEffect(() => {
     ////useLayoutEffect чтоб не мигал сначала чат, потом загрузка и снова чат при перезагрузке страницы
     dispatch(requestAuth())
   }, [dispatch])
+
+
 
   return (
     <ThemeProvider theme={themes[themeApp]}>

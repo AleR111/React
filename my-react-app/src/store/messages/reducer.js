@@ -1,4 +1,4 @@
-import { SEND_MESSAGE, DELETE_CONVERSATION_MESSAGES } from "./types"
+import { SEND_MESSAGE, DELETE_CONVERSATION_MESSAGES, GET_MESSAGES_FROM_DB } from "./types"
 
 const initialState = {
   messages: {
@@ -27,6 +27,11 @@ const deleteMessages = (state, id) => {
 
 export const messagesReducer = (state = initialState, action) => {
   switch (action.type) {
+    case GET_MESSAGES_FROM_DB:
+      return {
+        ...state,
+        messages: {...action.payload}
+      }
     case SEND_MESSAGE:
       return {
         ...state,
