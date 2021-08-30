@@ -2,6 +2,7 @@ import {
   UPDATE_VALUE,
   DELETE_CONVERSATION,
   CREATE_NEW_CONVERSATION,
+    GET_CONVERSATIONS_FROM_DB
 } from "./types"
 
 const initialState = {
@@ -19,6 +20,11 @@ const getId = () => {
 
 export const conversationsReducer = (state = initialState, action) => {
   switch (action.type) {
+    case GET_CONVERSATIONS_FROM_DB:
+      return {
+        ...state,
+        conversations: [...action.payload]
+      }
     case UPDATE_VALUE:
       return {
         ...state,

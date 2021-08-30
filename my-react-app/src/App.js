@@ -8,6 +8,7 @@ import { Chat, Page404, Profile, SignIp, SignUp } from "./pages"
 import { PublicGistsApi } from "./pages/publicGistsApi"
 import { PrivatePage, PublicPage } from "./route"
 import { requestAuth } from "./store/auth/thunks"
+import { getConversationsFromDB } from "./store/conversations"
 import { getMessageFromDB } from "./store/messages"
 
 const themes = {
@@ -90,14 +91,13 @@ export const App = () => {
 
   useEffect(() => {
     dispatch(getMessageFromDB())
+    dispatch(getConversationsFromDB())
   }, [dispatch])
 
   useLayoutEffect(() => {
     ////useLayoutEffect чтоб не мигал сначала чат, потом загрузка и снова чат при перезагрузке страницы
     dispatch(requestAuth())
   }, [dispatch])
-
-
 
   return (
     <ThemeProvider theme={themes[themeApp]}>
