@@ -14,7 +14,7 @@ export const deleteConversation = (contextChatId) => ({
   payload: contextChatId,
 })
 
-export const createNewConversation = (name) => ({
+export const createNewConversation = (id, title) => ({
   type: CREATE_NEW_CONVERSATION,
-  payload: name,
+  payload: {id, title},
 })

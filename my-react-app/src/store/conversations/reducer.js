@@ -2,20 +2,11 @@ import {
   UPDATE_VALUE,
   DELETE_CONVERSATION,
   CREATE_NEW_CONVERSATION,
-    GET_CONVERSATIONS_FROM_DB
+  GET_CONVERSATIONS_FROM_DB,
 } from "./types"
 
 const initialState = {
-  conversations: [
-    { id: "chat123", title: "Keeley Lon", value: "" },
-    { id: "chat241", title: "Angelle Jonty", value: "" },
-    { id: "chat426", title: "Myra Justy", value: "" },
-  ],
-}
-
-const getId = () => {
-  const data = new Date()
-  return data.getTime()
+  conversations: [],
 }
 
 export const conversationsReducer = (state = initialState, action) => {
@@ -23,7 +14,7 @@ export const conversationsReducer = (state = initialState, action) => {
     case GET_CONVERSATIONS_FROM_DB:
       return {
         ...state,
-        conversations: [...action.payload]
+        conversations: [...action.payload],
       }
     case UPDATE_VALUE:
       return {
@@ -49,7 +40,7 @@ export const conversationsReducer = (state = initialState, action) => {
         ...state,
         conversations: [
           ...state.conversations,
-          { id: `chat${getId()}`, title: action.payload, value: "" },
+          { ...action.payload, value: "" },
         ],
       }
     default:

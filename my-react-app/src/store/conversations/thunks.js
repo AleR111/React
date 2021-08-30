@@ -1,10 +1,11 @@
 import { database } from "../../api/firebase"
+import { createNewConversation } from "./actions"
 import { GET_CONVERSATIONS_FROM_DB } from "./types"
 
-export const getConversationsFromDB = () => async (dispatch) => {
+export const getConversationsFromDB = () => (dispatch) => {
   try {
-    await database
-      .ref("messages")
+    database
+      .ref("conversations")
       .get()
       .then((snapshot) => {
         const conversations = []
@@ -16,4 +17,15 @@ export const getConversationsFromDB = () => async (dispatch) => {
   } catch (error) {
     console.log(error.message)
   }
+}
+
+const getId = () => {
+  const data = new Date()
+  return data.getTime()
+}
+
+export const createNewConversationToDB = (title) => async (dispatch) => {
+  const id = `chat${getId()}`
+  await database.ref("conversations").child(id).set({ id, title, value: "" })
+  dispatch(createNewConversation(id, title))
 }
