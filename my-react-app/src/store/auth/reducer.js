@@ -19,7 +19,7 @@ export const authReducer = (state = initialState, action) => {
         ...state,
         isPending: false,
         data: action.payload,
-        error: false
+        error: false,
       }
     case LOADING_ERROR:
       return {

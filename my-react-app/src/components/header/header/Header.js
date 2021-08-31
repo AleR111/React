@@ -110,7 +110,6 @@ export const Header = ({
 }) => {
   const classes = useStyles()
   const theme = useTheme()
-
   return (
     <>
       <CssBaseline />
@@ -164,7 +163,7 @@ export const Header = ({
               <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
             </ListItemAvatar>
             <ListItemText
-              primary="Remy Sharp"
+              primary={auth?.email}
               secondary={<Link to={`/profile`}>Profile</Link>}
             />
           </ListItem>

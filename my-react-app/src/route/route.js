@@ -52,5 +52,5 @@ export const PrivatePage = ({ ...params }) => {
         <LinearProgress />
       </div>
     )
-  } else return data ? <Route {...params} /> : <Redirect to="sign-in" />
+  } else return data ? <Route {...params} /> : <Redirect to="/sign-in" />
 }
