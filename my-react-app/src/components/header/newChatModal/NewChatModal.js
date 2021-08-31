@@ -5,11 +5,12 @@ import {
   TextField,
   ButtonGroup,
   Button,
+  CircularProgress,
 } from "@material-ui/core"
 import { makeStyles } from "@material-ui/core/styles"
 import { useState } from "react"
-import { useDispatch } from "react-redux"
-import {createNewConversationInDB} from "../../../store/conversations"
+import { useDispatch, useSelector } from "react-redux"
+import { createNewConversationInDB } from "../../../store/conversations"
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -31,6 +32,13 @@ export const NewChatModal = ({ handleCloseModal, openModal }) => {
   const [value, setValue] = useState("")
 
   const dispatch = useDispatch()
+
+  const isPending = useSelector(
+    (state) => state.conversationsStore.isPending.newConversation,
+  )
+  const error = useSelector(
+    (state) => state.conversationsStore.error.newConversation,
+  )
 
   const createNewChat = () => {
     console.log(value)
@@ -54,25 +62,33 @@ export const NewChatModal = ({ handleCloseModal, openModal }) => {
       >
         <Fade in={openModal}>
           <div className={classes.paper}>
-            <div>
-              <TextField
-                id="standard-search"
-                label="Chat Name"
-                value={value}
-                onChange={(e) => setValue(e.target.value)}
-                autoFocus={true}
-              />
-            </div>
-            <ButtonGroup
-              orientation="horizontal"
-              color="primary"
-              aria-label="vertical contained primary button group"
-              variant="text"
-              fullWidth={true}
-            >
-              <Button onClick={handleCloseModal}>Cancel</Button>
-              <Button onClick={createNewChat}>Create</Button>
-            </ButtonGroup>
+            {error ? (
+              <h2>{error}</h2>
+            ) : isPending ? (
+              <CircularProgress />
+            ) : (
+              <>
+                <div>
+                  <TextField
+                    id="standard-search"
+                    label="Chat Name"
+                    value={value}
+                    onChange={(e) => setValue(e.target.value)}
+                    autoFocus={true}
+                  />
+                </div>
+                <ButtonGroup
+                  orientation="horizontal"
+                  color="primary"
+                  aria-label="vertical contained primary button group"
+                  variant="text"
+                  fullWidth={true}
+                >
+                  <Button onClick={handleCloseModal}>Cancel</Button>
+                  <Button onClick={createNewChat}>Create</Button>
+                </ButtonGroup>
+              </>
+            )}
           </div>
         </Fade>
       </Modal>
