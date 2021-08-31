@@ -4,9 +4,9 @@ import {
   LOADING_DATA_SUCCESS,
   LOADING_DATA_START,
   LOADING_DATA_ERROR,
-  SEND_MESSAGE_START, SEND_MESSAGE_ERROR
+  SEND_MESSAGE_START,
+  SEND_MESSAGE_ERROR,
 } from "./types"
-
 
 const initialState = {
   messages: {
@@ -46,13 +46,13 @@ export const messagesReducer = (state = initialState, action) => {
       return {
         ...state,
         isPending: { ...state.isPending, data: false },
-        messages: {...action.payload}
+        messages: { ...action.payload },
       }
     case LOADING_DATA_ERROR:
       return {
         ...state,
         isPending: { ...state.isPending, data: false },
-        errorData: { ...state.error, data: action.payload },
+        error: { ...state.error, data: action.payload },
       }
     case SEND_MESSAGE_START:
       return {

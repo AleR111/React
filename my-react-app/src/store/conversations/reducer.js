@@ -25,6 +25,7 @@ export const conversationsReducer = (state = initialState, action) => {
       return {
         ...state,
         isPending: { ...state.isPending, data: false },
+        error: { ...state.error, data: null },
         conversations: [...action.payload],
       }
     case LOADING_DATA_ERROR:

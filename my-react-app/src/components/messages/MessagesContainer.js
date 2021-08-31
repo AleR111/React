@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react"
+import { useRef } from "react"
 import { useSelector, useDispatch } from "react-redux"
 import { useParams } from "react-router-dom"
 import {
@@ -6,11 +6,7 @@ import {
   getCurrentConversations,
   getValue,
 } from "../../store/conversations"
-import {
-  sendMessage,
-  getMessage,
-  sendMessageInDB,
-} from "../../store/messages"
+import { sendMessage, getMessage, sendMessageInDB } from "../../store/messages"
 import { Messages } from "./messages"
 
 export const MessagesContainer = () => {
@@ -22,7 +18,10 @@ export const MessagesContainer = () => {
 
   const value = useSelector((state) => getValue(state, chatId))
 
-  const message = useSelector((state) => getMessage(state, chatId)) || []
+  const { message, isPending, error } = useSelector((state) =>
+    getMessage(state, chatId),
+  )
+  console.log(message, isPending, error)
 
   const dispatch = useDispatch()
 
@@ -46,10 +45,10 @@ export const MessagesContainer = () => {
   const inputRef = useRef(null)
   const scrollRef = useRef(0)
 
-  useEffect(() => {
-    inputRef.current?.focus()
-    scrollRef.current?.scrollTo(0, scrollRef.current.scrollHeight)
-  }, [chatId, message])
+  // useEffect(() => {
+  //   inputRef.current?.focus()
+  //   scrollRef.current?.scrollTo(0, scrollRef.current.scrollHeight)
+  // }, [])
 
   return (
     <Messages
@@ -61,6 +60,8 @@ export const MessagesContainer = () => {
       handleSendMessage={handleSendMessage}
       value={value}
       onUpdateValue={onUpdateValue}
+      isPending={isPending}
+      error={error}
     />
   )
 }
