@@ -6,3 +6,4 @@ export const LOADING_DATA_SUCCESS = '@messages/loading data success'
 export const LOADING_DATA_ERROR = '@messages/loading data error'
 
 export const SEND_MESSAGE_START = '@messages/send message start'
+export const SEND_MESSAGE_ERROR = '@messages/send message error'

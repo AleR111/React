@@ -70,7 +70,7 @@ export const conversationsReducer = (state = initialState, action) => {
       return {
         ...state,
         isPending: { ...state.isPending, newConversation: false },
-        errorData: { ...state.error, newConversation: action.payload },
+        error: { ...state.error, newConversation: action.payload },
       }
     default:
       return state

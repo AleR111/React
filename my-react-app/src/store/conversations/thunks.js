@@ -1,3 +1,4 @@
+import { getDatabase, ref, set, child } from "firebase/database"
 import debounce from "lodash.debounce"
 import { database } from "../../api/firebase"
 import { createNewConversation, updateValue } from "./actions"
@@ -32,23 +33,22 @@ const getId = () => {
   return data.getTime()
 }
 
+const dbRef = ref(getDatabase())
+
 export const createNewConversationInDB = (title) => async (dispatch) => {
   dispatch({ type: LOADING_NEW_CONVERSATION_START })
   const id = `chat${getId()}`
-  await database
-    .ref("conversations")
-    .child(id)
-    .set({ id, title, value: "" }, (error) => {
-      console.log(error)
-      if (error) {
-        console.log(12312321323)
-        dispatch({
-          type: LOADING_NEW_CONVERSATION_ERROR,
-          payload: error.message,
-        })
-      }
-    }) ////////recode
-  dispatch(createNewConversation(id, title))
+  await set(child(dbRef, `conversations/${id}`), { id, title, value: "" })
+    .then(() => {
+      dispatch(createNewConversation(id, title))
+    })
+    .catch((error) => {
+      console.log(121212121212)
+      dispatch({
+        type: LOADING_NEW_CONVERSATION_ERROR,
+        payload: error.message,
+      })
+    })
 }
 
 const inputDebounce = debounce((value, chatId) => {

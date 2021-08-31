@@ -4,8 +4,9 @@ import {
   LOADING_DATA_SUCCESS,
   LOADING_DATA_START,
   LOADING_DATA_ERROR,
-  SEND_MESSAGE_START
+  SEND_MESSAGE_START, SEND_MESSAGE_ERROR
 } from "./types"
+
 
 const initialState = {
   messages: {
@@ -74,6 +75,12 @@ export const messagesReducer = (state = initialState, action) => {
       return {
         ...state,
         messages: deleteMessages(state, action.payload),
+      }
+    case SEND_MESSAGE_ERROR:
+      return {
+        ...state,
+        isPending: { ...state.isPending, sendMessage: false },
+        error: { ...state.error, sendMessage: action.payload },
       }
     default:
       return state
