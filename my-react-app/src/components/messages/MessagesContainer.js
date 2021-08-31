@@ -1,4 +1,4 @@
-import { useRef } from "react"
+import { useEffect, useRef } from "react"
 import { useSelector, useDispatch } from "react-redux"
 import { useParams } from "react-router-dom"
 import {
@@ -45,10 +45,11 @@ export const MessagesContainer = () => {
   const inputRef = useRef(null)
   const scrollRef = useRef(0)
 
-  // useEffect(() => {
-  //   inputRef.current?.focus()
-  //   scrollRef.current?.scrollTo(0, scrollRef.current.scrollHeight)
-  // }, [])
+  useEffect(() => {
+    if (!scrollRef.current || !inputRef.current) return
+    inputRef.current?.focus()
+    scrollRef.current?.scrollTo(0, scrollRef.current.scrollHeight)
+  }, [chatId, message])
 
   return (
     <Messages
