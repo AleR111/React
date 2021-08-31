@@ -1,5 +1,5 @@
 export const getConversations = (state) =>
-  state.conversationsStore.conversations
+  state.conversationsStore
 
 export const getCurrentConversations = (state, chatId) =>
   state.conversationsStore.conversations.find((elem) => elem.id === chatId)

@@ -4,6 +4,7 @@ import {
   ListItemText,
   ListItemIcon,
   Avatar,
+  CircularProgress,
 } from "@material-ui/core"
 import { makeStyles } from "@material-ui/core/styles"
 
@@ -38,6 +39,9 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: "rgba(43,82,120,0.32)",
     },
   },
+  error: {
+    color: "red",
+  },
 }))
 
 export const Chats = () => {
@@ -45,7 +49,8 @@ export const Chats = () => {
 
   const { chatId } = useParams()
 
-  const conversations = useSelector(getConversations)
+  const { conversations, isPending, error } = useSelector(getConversations)
+  console.log(1)
 
   const [contextChatId, setContextChatId] = useState(null)
   const [anchorEl, setAnchorEl] = useState(null)
@@ -55,7 +60,13 @@ export const Chats = () => {
     setAnchorEl(event.currentTarget)
   }
 
-  return (
+  if (error.data) {
+    return <h4 className={classes.error}>{error.data}</h4>
+  }
+
+  return isPending.data ? (
+    <CircularProgress />
+  ) : (
     <List
       className={classes.root}
       component="nav"

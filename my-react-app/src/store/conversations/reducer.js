@@ -31,7 +31,7 @@ export const conversationsReducer = (state = initialState, action) => {
       return {
         ...state,
         isPending: { ...state.isPending, data: false },
-        errorData: { ...state.error, data: action.payload },
+        error: { ...state.error, data: action.payload },
       }
     case UPDATE_VALUE:
       return {
