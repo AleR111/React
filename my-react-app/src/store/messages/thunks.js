@@ -1,10 +1,12 @@
 import { database } from "../../api/firebase"
 import { updateValue } from "../conversations"
 import { sendMessage } from "./actions"
-import { GET_MESSAGES_FROM_DB } from "./types"
+import { LOADING_DATA_SUCCESS, LOADING_DATA_START, LOADING_DATA_ERROR, SEND_MESSAGE_START } from "./types"
 
 export const getMessageFromDB = () => async (dispatch) => {
-  try {
+
+  dispatch({ type: LOADING_DATA_START })
+
     await database
       .ref("messages")
       .get()
@@ -13,15 +15,17 @@ export const getMessageFromDB = () => async (dispatch) => {
         snapshot.forEach((data) => {
           messages[data.key] = Object.values(data.val())
         })
-        dispatch({ type: GET_MESSAGES_FROM_DB, payload: messages })
-      })
-  } catch (error) {
-    console.log(error.message)
-  }
+        dispatch({ type: LOADING_DATA_SUCCESS, payload: messages })
+      }) .catch((error) =>
+            dispatch({ type: LOADING_DATA_ERROR, payload: error.message }),
+        )
+
 }
 
 export const sendMessageInDB = (message, chatId) => async (dispatch) => {
-  try {
+
+    dispatch({type: SEND_MESSAGE_START})
+
     await database.ref("messages").child(chatId).push(message)
 
     dispatch(sendMessage(message, chatId))
@@ -41,7 +45,5 @@ export const sendMessageInDB = (message, chatId) => async (dispatch) => {
         )
       }, 2000)
     }
-  } catch (error) {
-    console.log(error)
-  }
+
 }

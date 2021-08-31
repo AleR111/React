@@ -1,4 +1,11 @@
-import { SEND_MESSAGE, DELETE_CONVERSATION_MESSAGES, GET_MESSAGES_FROM_DB } from "./types"
+import {
+  SEND_MESSAGE,
+  DELETE_CONVERSATION_MESSAGES,
+  LOADING_DATA_SUCCESS,
+  LOADING_DATA_START,
+  LOADING_DATA_ERROR,
+  SEND_MESSAGE_START
+} from "./types"
 
 const initialState = {
   messages: {
@@ -15,6 +22,8 @@ const initialState = {
       { author: "bot", message: "Hi, i'm bot", date: new Date() },
     ],
   },
+  isPending: { data: false, sendMessage: false },
+  error: { data: "" },
 }
 
 const deleteMessages = (state, id) => {
@@ -27,10 +36,27 @@ const deleteMessages = (state, id) => {
 
 export const messagesReducer = (state = initialState, action) => {
   switch (action.type) {
-    case GET_MESSAGES_FROM_DB:
+    case LOADING_DATA_START:
       return {
         ...state,
+        isPending: { ...state.isPending, data: true },
+      }
+    case LOADING_DATA_SUCCESS:
+      return {
+        ...state,
+        isPending: { ...state.isPending, data: false },
         messages: {...action.payload}
+      }
+    case LOADING_DATA_ERROR:
+      return {
+        ...state,
+        isPending: { ...state.isPending, data: false },
+        errorData: { ...state.error, data: action.payload },
+      }
+    case SEND_MESSAGE_START:
+      return {
+        ...state,
+        isPending: { ...state.isPending, sendMessage: true },
       }
     case SEND_MESSAGE:
       return {
@@ -42,6 +68,7 @@ export const messagesReducer = (state = initialState, action) => {
             { ...action.payload.message, date: new Date() },
           ],
         },
+        isPending: { ...state.isPending, sendMessage: false },
       }
     case DELETE_CONVERSATION_MESSAGES:
       return {

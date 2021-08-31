@@ -12,7 +12,7 @@ import { switcherReducer } from "./themeSwitcher"
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["themeSwitcher"],
+  whitelist: ["themeSwitcher", 'conversationsStore'],
 }
 
 const rootPersistReducer = persistReducer(
