@@ -1,3 +1,5 @@
 export * from './chat'
 export * from './page404'
 export * from './profile'
+export * from './signIp'
+export * from './signUp'

@@ -2,15 +2,11 @@ import { useEffect, useRef } from "react"
 import { useSelector, useDispatch } from "react-redux"
 import { useParams } from "react-router-dom"
 import {
-  updateValue,
+  updateValueInDB,
   getCurrentConversations,
   getValue,
 } from "../../store/conversations"
-import {
-  sendMessage,
-  getMessage,
-  sendMessageWithThunk,
-} from "../../store/messages"
+import { sendMessage, getMessage, sendMessageInDB } from "../../store/messages"
 import { Messages } from "./messages"
 
 export const MessagesContainer = () => {
@@ -22,17 +18,20 @@ export const MessagesContainer = () => {
 
   const value = useSelector((state) => getValue(state, chatId))
 
-  const message = useSelector((state) => getMessage(state, chatId)) || []
+  const { message, isPending, error } = useSelector((state) =>
+    getMessage(state, chatId),
+  )
+  console.log(message, isPending, error)
 
   const dispatch = useDispatch()
 
   const handleSendMessage = () => {
     dispatch(sendMessage({ author: "user", message: value }, chatId))
-    dispatch(updateValue("", chatId))
+    dispatch(updateValueInDB("", chatId))
   }
 
   const handleSendMessageWithThunk = () => {
-    dispatch(sendMessageWithThunk({ author: "user", message: value }, chatId))
+    dispatch(sendMessageInDB({ author: "user", message: value }, chatId))
   }
 
   const sendMessageKey = (code) => {
@@ -40,13 +39,14 @@ export const MessagesContainer = () => {
   }
 
   const onUpdateValue = (e) => {
-    dispatch(updateValue(e.target.value, chatId))
+    dispatch(updateValueInDB(e.target.value, chatId))
   }
 
   const inputRef = useRef(null)
   const scrollRef = useRef(0)
 
   useEffect(() => {
+    if (!scrollRef.current || !inputRef.current) return
     inputRef.current?.focus()
     scrollRef.current?.scrollTo(0, scrollRef.current.scrollHeight)
   }, [chatId, message])
@@ -61,6 +61,8 @@ export const MessagesContainer = () => {
       handleSendMessage={handleSendMessage}
       value={value}
       onUpdateValue={onUpdateValue}
+      isPending={isPending}
+      error={error}
     />
   )
 }

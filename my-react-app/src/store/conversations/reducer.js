@@ -2,23 +2,38 @@ import {
   UPDATE_VALUE,
   DELETE_CONVERSATION,
   CREATE_NEW_CONVERSATION,
+  LOADING_DATA_SUCCESS,
+  LOADING_DATA_START,
+  LOADING_DATA_ERROR,
+  LOADING_NEW_CONVERSATION_START, LOADING_NEW_CONVERSATION_ERROR
 } from "./types"
 
 const initialState = {
-  conversations: [
-    { id: "chat123", title: "Keeley Lon", value: "" },
-    { id: "chat241", title: "Angelle Jonty", value: "" },
-    { id: "chat426", title: "Myra Justy", value: "" },
-  ],
-}
-
-const getId = () => {
-  const data = new Date()
-  return data.getTime()
+  conversations: [],
+  isPending: { data: false, newConversation: false },
+  error: { data: "" },
 }
 
 export const conversationsReducer = (state = initialState, action) => {
   switch (action.type) {
+    case LOADING_DATA_START:
+      return {
+        ...state,
+        isPending: { ...state.isPending, data: true },
+      }
+    case LOADING_DATA_SUCCESS:
+      return {
+        ...state,
+        isPending: { ...state.isPending, data: false },
+        error: { ...state.error, data: null },
+        conversations: [...action.payload],
+      }
+    case LOADING_DATA_ERROR:
+      return {
+        ...state,
+        isPending: { ...state.isPending, data: false },
+        error: { ...state.error, data: action.payload },
+      }
     case UPDATE_VALUE:
       return {
         ...state,
@@ -38,13 +53,25 @@ export const conversationsReducer = (state = initialState, action) => {
           (elem) => elem.id !== action.payload,
         ),
       }
+    case LOADING_NEW_CONVERSATION_START:
+      return {
+        ...state,
+        isPending: { ...state.isPending, newConversation: true },
+      }
     case CREATE_NEW_CONVERSATION:
       return {
         ...state,
         conversations: [
           ...state.conversations,
-          { id: `chat${getId()}`, title: action.payload, value: "" },
+          { ...action.payload, value: "" },
         ],
+        isPending: { ...state.isPending, newConversation: false  },
+      }
+    case LOADING_NEW_CONVERSATION_ERROR:
+      return {
+        ...state,
+        isPending: { ...state.isPending, newConversation: false },
+        error: { ...state.error, newConversation: action.payload },
       }
     default:
       return state

@@ -13,6 +13,7 @@ import {
   FormControlLabel,
   Avatar,
   ListItemAvatar,
+  Button,
 } from "@material-ui/core"
 import { makeStyles, useTheme } from "@material-ui/core/styles"
 import {
@@ -35,6 +36,9 @@ const useStyles = makeStyles((theme) => ({
   },
   root: {
     display: "flex",
+  },
+  grow: {
+    flexGrow: 1,
   },
   appBar: {
     transition: theme.transitions.create(["margin", "width"], {
@@ -89,6 +93,9 @@ const useStyles = makeStyles((theme) => ({
     }),
     marginLeft: 0,
   },
+  button: {
+    textDecoration: "none",
+  },
 }))
 
 export const Header = ({
@@ -98,10 +105,11 @@ export const Header = ({
   themeApp,
   onSwitcher,
   open,
+  auth,
+  signOut,
 }) => {
   const classes = useStyles()
   const theme = useTheme()
-
   return (
     <>
       <CssBaseline />
@@ -116,14 +124,28 @@ export const Header = ({
         )}
       >
         <Toolbar>
-          <IconButton
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            edge="start"
-            className={classNames(classes.menuButton, open && classes.hide)}
-          >
-            <Menu />
-          </IconButton>
+          {auth && (
+            <IconButton
+              aria-label="open drawer"
+              onClick={handleDrawerOpen}
+              edge="start"
+              className={classNames(classes.menuButton, open && classes.hide)}
+            >
+              <Menu />
+            </IconButton>
+          )}
+          <div className={classes.grow} />
+          <div>
+            {auth ? (
+              <Button color="secondary" onClick={signOut}>
+                Sign out
+              </Button>
+            ) : (
+              <Link className={classes.button} to={`/sign-in`}>
+                <Button color="primary">sign in</Button>
+              </Link>
+            )}
+          </div>
         </Toolbar>
       </AppBar>
       <Drawer
@@ -141,7 +163,7 @@ export const Header = ({
               <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
             </ListItemAvatar>
             <ListItemText
-              primary="Remy Sharp"
+              primary={auth?.email}
               secondary={<Link to={`/profile`}>Profile</Link>}
             />
           </ListItem>

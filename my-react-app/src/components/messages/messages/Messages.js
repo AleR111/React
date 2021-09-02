@@ -1,4 +1,9 @@
-import { IconButton, Input, InputAdornment } from "@material-ui/core"
+import {
+  IconButton,
+  Input,
+  InputAdornment,
+  CircularProgress,
+} from "@material-ui/core"
 import { makeStyles } from "@material-ui/core/styles"
 import { SendRounded } from "@material-ui/icons"
 import classNames from "classnames"
@@ -46,14 +51,22 @@ export const Messages = ({
   handleSendMessage,
   value,
   onUpdateValue,
+  isPending,
+  error,
 }) => {
   const classes = useStyles()
-  return (
+
+  if (error.data) {
+    return <h2>{error.data}</h2>
+  }
+
+  return isPending.data ? (
+    <CircularProgress />
+  ) : (
     <>
       <div className={classNames(classes.messagesHeader, styles.recipient)}>
         <h4>{currentConversation?.title}</h4>
       </div>
-
       <div
         ref={scrollRef}
         className={classNames(classes.massages, styles.messagesList)}
@@ -70,7 +83,7 @@ export const Messages = ({
           </div>
         ))}
       </div>
-
+      {error.sendMessage && <h2>{error.sendMessage}df</h2>}
       <Input
         className={classes.input}
         inputRef={inputRef}
@@ -83,7 +96,11 @@ export const Messages = ({
         endAdornment={
           <InputAdornment position="end">
             <IconButton color="primary" onClick={() => handleSendMessage()}>
-              {value && <SendRounded />}
+              {isPending.sendMessage ? (
+                <CircularProgress />
+              ) : (
+                value && <SendRounded />
+              )}
             </IconButton>
           </InputAdornment>
         }
