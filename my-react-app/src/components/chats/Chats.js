@@ -49,7 +49,7 @@ export const Chats = () => {
 
   const { chatId } = useParams()
 
-  const { conversations, isPending, error } = useSelector(getConversations)
+  const { conversations, isPendingData, errorData } = useSelector(getConversations)
   console.log(1)
 
   const [contextChatId, setContextChatId] = useState(null)
@@ -60,11 +60,11 @@ export const Chats = () => {
     setAnchorEl(event.currentTarget)
   }
 
-  if (error.data) {
-    return <h4 className={classes.error}>{error.data}</h4>
+  if (errorData) {
+    return <h4 className={classes.error}>{errorData}</h4>
   }
 
-  return isPending.data ? (
+  return isPendingData ? (
     <CircularProgress />
   ) : (
     <List

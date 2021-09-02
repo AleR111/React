@@ -5,13 +5,16 @@ import {
   LOADING_DATA_SUCCESS,
   LOADING_DATA_START,
   LOADING_DATA_ERROR,
-  LOADING_NEW_CONVERSATION_START, LOADING_NEW_CONVERSATION_ERROR
+  LOADING_NEW_CONVERSATION_START,
+  LOADING_NEW_CONVERSATION_ERROR,
 } from "./types"
 
 const initialState = {
   conversations: [],
-  isPending: { data: false, newConversation: false },
-  error: { data: "" },
+  isPendingData: false,
+  isPendingNewConversation: false,
+  errorData: "",
+  errorNewConversation: "",
 }
 
 export const conversationsReducer = (state = initialState, action) => {
@@ -19,20 +22,20 @@ export const conversationsReducer = (state = initialState, action) => {
     case LOADING_DATA_START:
       return {
         ...state,
-        isPending: { ...state.isPending, data: true },
+        isPendingData: true,
       }
     case LOADING_DATA_SUCCESS:
       return {
         ...state,
-        isPending: { ...state.isPending, data: false },
-        error: { ...state.error, data: null },
+        isPendingData: false,
+        errorData: null,
         conversations: [...action.payload],
       }
     case LOADING_DATA_ERROR:
       return {
         ...state,
-        isPending: { ...state.isPending, data: false },
-        error: { ...state.error, data: action.payload },
+        isPendingData: false,
+        errorData: action.payload ,
       }
     case UPDATE_VALUE:
       return {
@@ -56,7 +59,7 @@ export const conversationsReducer = (state = initialState, action) => {
     case LOADING_NEW_CONVERSATION_START:
       return {
         ...state,
-        isPending: { ...state.isPending, newConversation: true },
+        isPendingNewConversation: true,
       }
     case CREATE_NEW_CONVERSATION:
       return {
@@ -65,13 +68,13 @@ export const conversationsReducer = (state = initialState, action) => {
           ...state.conversations,
           { ...action.payload, value: "" },
         ],
-        isPending: { ...state.isPending, newConversation: false  },
+        isPendingNewConversation: false,
       }
     case LOADING_NEW_CONVERSATION_ERROR:
       return {
         ...state,
-        isPending: { ...state.isPending, newConversation: false },
-        error: { ...state.error, newConversation: action.payload },
+        isPendingNewConversation: false,
+        errorNewConversation: action.payload,
       }
     default:
       return state

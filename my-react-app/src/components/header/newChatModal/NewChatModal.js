@@ -34,10 +34,10 @@ export const NewChatModal = ({ handleCloseModal, openModal }) => {
   const dispatch = useDispatch()
 
   const isPending = useSelector(
-    (state) => state.conversationsStore.isPending.newConversation,
+    (state) => state.conversationsStore.isPendingNewConversation,
   )
   const error = useSelector(
-    (state) => state.conversationsStore.error.newConversation,
+    (state) => state.conversationsStore.errorNewConversation,
   )
 
   const createNewChat = () => {
