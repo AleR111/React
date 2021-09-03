@@ -1,8 +1,10 @@
-import { conversationsReducer, updateValue, deleteConversation } from "../../conversations"
+import { conversationsReducer, updateValue, deleteConversation, createNewConversationSuccess } from "../../conversations"
 import {
   LOADING_DATA_ERROR,
   LOADING_DATA_START,
   LOADING_DATA_SUCCESS,
+    LOADING_NEW_CONVERSATION_START,
+    LOADING_NEW_CONVERSATION_ERROR,
 } from "../../conversations/types"
 
 describe("test conversation reducer", () => {
@@ -70,5 +72,45 @@ describe("test conversation reducer", () => {
         )
 
         expect(state.conversations.map(e => e.id)).toEqual(['chat2'])
+    })
+
+    it("should loading new conversation start", () => {
+        const state = conversationsReducer(
+            {
+                conversations: [],
+                isPendingNewConversation: false
+            },
+            { type: LOADING_NEW_CONVERSATION_START },
+        )
+
+        expect(state.isPendingNewConversation).toBe(true)
+    })
+
+    it("should create new conversation success", () => {
+        const state = conversationsReducer(
+            {
+                conversations: [],
+                isPendingNewConversation: true
+            },
+            createNewConversationSuccess('chat1', 'test'),
+        )
+
+        expect(state.conversations[0]).toEqual({id: 'chat1', title: 'test', value: ''})
+        expect(state.isPendingNewConversation).toBe(false)
+    })
+
+    it("should loading new conversation error", () => {
+        const state = conversationsReducer(
+            {
+                conversations: [],
+                isPendingNewConversation: true,
+                errorNewConversation: "",
+            },
+            { type: LOADING_NEW_CONVERSATION_ERROR, payload: "error" },
+        )
+
+        expect(state.conversations).toEqual([])
+        expect(state.isPendingNewConversation).toBe(false)
+        expect(state.errorNewConversation).toBe("error")
     })
 })
