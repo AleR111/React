@@ -40,6 +40,9 @@ const useStyles = makeStyles((theme) => ({
     fontSize: " 15px",
     borderLeft: "1px solid #000",
   },
+  error: {
+    color: 'red'
+  }
 }))
 
 export const Messages = ({
@@ -57,7 +60,7 @@ export const Messages = ({
   const classes = useStyles()
 
   if (error.data) {
-    return <h2>{error.data}</h2>
+    return <h2 className={classes.error}>{error.data}</h2>
   }
 
   return isPending.data ? (
