@@ -1,12 +1,12 @@
 import {
   UPDATE_VALUE,
   DELETE_CONVERSATION,
-  CREATE_NEW_CONVERSATION,
   LOADING_DATA_SUCCESS,
   LOADING_DATA_START,
   LOADING_DATA_ERROR,
   LOADING_NEW_CONVERSATION_START,
   LOADING_NEW_CONVERSATION_ERROR,
+  CREATE_NEW_CONVERSATION_SUCCESS,
 } from "./types"
 
 const initialState = {
@@ -35,7 +35,7 @@ export const conversationsReducer = (state = initialState, action) => {
       return {
         ...state,
         isPendingData: false,
-        errorData: action.payload ,
+        errorData: action.payload,
       }
     case UPDATE_VALUE:
       return {
@@ -61,7 +61,7 @@ export const conversationsReducer = (state = initialState, action) => {
         ...state,
         isPendingNewConversation: true,
       }
-    case CREATE_NEW_CONVERSATION:
+    case CREATE_NEW_CONVERSATION_SUCCESS:
       return {
         ...state,
         conversations: [

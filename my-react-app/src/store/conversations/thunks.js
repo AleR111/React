@@ -1,7 +1,7 @@
 import { getDatabase, ref, set, child } from "firebase/database"
 import debounce from "lodash.debounce"
 import { database } from "../../api/firebase"
-import { createNewConversation, updateValue } from "./actions"
+import { createNewConversationSuccess, updateValue } from "./actions"
 import {
   LOADING_DATA_START,
   LOADING_DATA_SUCCESS,
@@ -40,7 +40,7 @@ export const createNewConversationInDB = (title) => async (dispatch) => {
   const id = `chat${getId()}`
   await set(child(dbRef, `conversations/${id}`), { id, title, value: "" })
     .then(() => {
-      dispatch(createNewConversation(id, title))
+      dispatch(createNewConversationSuccess(id, title))
     })
     .catch((error) => {
       console.log(121212121212)
