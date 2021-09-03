@@ -1,5 +1,6 @@
 import { createTheme, ThemeProvider } from "@material-ui/core/styles"
 import { render } from "@testing-library/react"
+import { renderWithThemeProvider } from "../../../utils/renderWithThemeProvider"
 import { Messages } from "./Messages"
 
 const themes = {
@@ -71,28 +72,24 @@ const themes = {
 
 describe("tests messages component", () => {
   it("should render with error props", () => {
-    const { container } = render(
-      <ThemeProvider theme={themes.dark}>
-        <Messages error={{ data: "error" }} />
-      </ThemeProvider>,
+    const { container } = renderWithThemeProvider(
+      <Messages error={{ data: "error" }} />,
     )
 
-    const node = container.querySelector(".error")
+    const node = container.querySelector("h2")
     expect(node).toHaveTextContent("error")
-    console.log(node)
   })
-  it("should render with isPending props", () => {
+  it("should render message props", () => {
     const { container } = render(
       <ThemeProvider theme={themes.dark}>
         <Messages
           message={[{ author: "user", message: "test" }]}
-          error={{ data: "" }}
-          isPending={{ data: false }}
+          currentConversation={{ id: "chat1", title: "test", value: "" }}
         />
       </ThemeProvider>,
     )
 
-      const nodes = [...container.querySelectorAll(".messages")]
-    console.log(nodes)
+    const node = container.querySelector(".recipient")
+    expect(node).toHaveTextContent("test")
   })
 })

@@ -59,11 +59,11 @@ export const Messages = ({
 }) => {
   const classes = useStyles()
 
-  if (error.data) {
+  if (error?.data) {
     return <h2 className={classes.error}>{error.data}</h2>
   }
 
-  return isPending.data ? (
+  return isPending?.data ? (
     <CircularProgress />
   ) : (
     <>
@@ -86,7 +86,7 @@ export const Messages = ({
           </div>
         ))}
       </div>
-      {error.sendMessage && <h2>{error.sendMessage}df</h2>}
+      {error?.sendMessage && <h2>{error?.sendMessage}df</h2>}
       <Input
         className={classes.input}
         inputRef={inputRef}
@@ -99,7 +99,7 @@ export const Messages = ({
         endAdornment={
           <InputAdornment position="end">
             <IconButton color="primary" onClick={() => handleSendMessage()}>
-              {isPending.sendMessage ? (
+              {isPending?.sendMessage ? (
                 <CircularProgress />
               ) : (
                 value && <SendRounded />
