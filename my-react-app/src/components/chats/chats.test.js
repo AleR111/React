@@ -45,18 +45,4 @@ describe("test chats component", () => {
     expect(node).toHaveTextContent("error")
   })
 
-  it("should render chat with handleListItemClick prop", () => {
-    // const handleListItemClick = jest.fn()
-
-    const { getByRole } = renderWithRedux(
-        <Chats />,
-        {
-          initialState: state,
-        },
-    )
-
-    userEvent.selectOptions(getByRole("button"))
-
-    // expect(getByRole("button")).toHaveClass("Mui-selected")
-  })
 })
