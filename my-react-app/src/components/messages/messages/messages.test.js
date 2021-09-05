@@ -5,19 +5,20 @@ import { Messages } from "./Messages"
 describe("tests messages component", () => {
   it("should render with error props", () => {
     const { container } = renderWithThemeProvider(
-      <Messages isPending={{ data: "error" }} />,
+      <Messages error={{ data: "error" }} />,
+    )
+
+    const node = container.querySelector(".error")
+    expect(node).toHaveTextContent("error")
+  })
+
+  it("should render with isPending data props", () => {
+    const { container } = renderWithThemeProvider(
+      <Messages isPending={{ data: true }} />,
     )
 
     const node = container.querySelector("svg")
     expect(node).toHaveClass("MuiCircularProgress-svg")
-  })
-
-  it("should render with isPending data props", () => {
-    const { getByRole } = renderWithThemeProvider(
-      <Messages isPending={{ data: true }} />,
-    )
-
-    console.log(getByRole)
   })
 
   it("should render with message props", () => {
@@ -45,13 +46,7 @@ describe("tests messages component", () => {
 
   it("should render with input props", () => {
     const { container } = renderWithThemeProvider(
-      <Messages
-        message={[
-          { author: "user", message: "test" },
-          { author: "bot", message: "test bot" },
-        ]}
-        value={"test value"}
-      />,
+      <Messages value={"test value"} />,
     )
 
     const node = container.querySelector(".MuiInputBase-input")
@@ -61,13 +56,7 @@ describe("tests messages component", () => {
   it("should render send click props", () => {
     const handleSendMessage = jest.fn()
     const { getByRole } = renderWithThemeProvider(
-      <Messages
-        message={[
-          { author: "user", message: "test" },
-          { author: "bot", message: "test bot" },
-        ]}
-        handleSendMessage={handleSendMessage}
-      />,
+      <Messages handleSendMessage={handleSendMessage} />,
     )
 
     userEvent.click(getByRole("button"))

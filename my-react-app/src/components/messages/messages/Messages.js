@@ -39,9 +39,6 @@ const useStyles = makeStyles((theme) => ({
     padding: "10px 15px",
     fontSize: " 15px",
     borderLeft: "1px solid #000",
-  },
-  error: {
-    color: 'red'
   }
 }))
 
@@ -60,7 +57,7 @@ export const Messages = ({
   const classes = useStyles()
 
   if (error?.data) {
-    return <h2 className={classes.error}>{error.data}</h2>
+    return <h2 className={styles.error}>{error.data}</h2>
   }
 
   return isPending?.data ? (
@@ -74,7 +71,7 @@ export const Messages = ({
         ref={scrollRef}
         className={classNames(classes.massages, styles.messagesList)}
       >
-        {message.map((elem, id) => (
+        {message?.map((elem, id) => (
           <div
             className={classNames(styles.messageBox, classes.message, {
               [classes.userMessage]: elem.author === "user",
