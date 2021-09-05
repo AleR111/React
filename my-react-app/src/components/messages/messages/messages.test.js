@@ -1,5 +1,5 @@
 import userEvent from "@testing-library/user-event"
-import { renderWithThemeProvider } from "../../../utils/renderWithThemeProvider"
+import { renderWithThemeProvider } from "../../../utils"
 import { Messages } from "./Messages"
 
 describe("tests messages component", () => {

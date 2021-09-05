@@ -39,15 +39,13 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: "rgba(43,82,120,0.32)",
     },
   },
-  error: {
-    color: "red",
-  },
 }))
 
 export const Chats = () => {
   const classes = useStyles()
 
   const { chatId } = useParams()
+  console.log(chatId)
 
   const { conversations, isPendingData, errorData } = useSelector(getConversations)
   console.log(1)
@@ -61,7 +59,7 @@ export const Chats = () => {
   }
 
   if (errorData) {
-    return <h4 className={classes.error}>{errorData}</h4>
+    return <h4 className={styles.error}>{errorData}</h4>
   }
 
   return isPendingData ? (
@@ -73,7 +71,7 @@ export const Chats = () => {
       aria-label="contacts"
       onContextMenu={(e) => e.preventDefault()}
     >
-      {conversations.map((elem) => (
+      {conversations?.map((elem) => (
         <Link to={`/chat/${elem.id}`} key={elem.id}>
           <ListItem
             button={true}
