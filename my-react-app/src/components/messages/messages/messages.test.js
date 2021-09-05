@@ -1,95 +1,77 @@
-import { createTheme, ThemeProvider } from "@material-ui/core/styles"
-import { render } from "@testing-library/react"
+import userEvent from "@testing-library/user-event"
 import { renderWithThemeProvider } from "../../../utils/renderWithThemeProvider"
 import { Messages } from "./Messages"
-
-const themes = {
-  dark: createTheme({
-    font: {
-      color: "rgba(255,255,255,0.89)",
-    },
-    background: {
-      color: "#19181f",
-    },
-    fontColor: {
-      color: "rgba(255,255,255,0.89)",
-    },
-    header: {
-      backgroundColor: "#212227",
-    },
-    burger: {
-      color: "#fff",
-    },
-    chats: {
-      backgroundColor: "#242a37",
-    },
-    messagesList: {
-      backgroundColor: "#19181f",
-      border: "4px solid #09141f",
-    },
-    messagesInput: {
-      backgroundColor: "#353f4b",
-    },
-    userMessage: {
-      backgroundColor: "#2b5278",
-    },
-    companionMessage: {
-      backgroundColor: "#353f4b",
-    },
-  }),
-
-  light: createTheme({
-    font: {
-      color: "rgba(0,0,0,0.89)",
-    },
-    background: {
-      color: "#ffffff",
-    },
-    header: {
-      backgroundColor: "#edf4f6",
-    },
-    burger: {
-      color: "#000",
-    },
-    chats: {
-      backgroundColor: "#d7dad9",
-    },
-    messagesList: {
-      backgroundColor: "#badde5",
-      border: "4px solid #357b58e3",
-    },
-    messagesInput: {
-      backgroundColor: "#f2f8fc",
-    },
-    userMessage: {
-      backgroundColor: "#76ada2",
-    },
-    companionMessage: {
-      backgroundColor: "#7f8db2",
-    },
-  }),
-}
 
 describe("tests messages component", () => {
   it("should render with error props", () => {
     const { container } = renderWithThemeProvider(
-      <Messages error={{ data: "error" }} />,
+      <Messages isPending={{ data: "error" }} />,
     )
 
-    const node = container.querySelector("h2")
-    expect(node).toHaveTextContent("error")
+    const node = container.querySelector("svg")
+    expect(node).toHaveClass("MuiCircularProgress-svg")
   })
-  it("should render message props", () => {
-    const { container } = render(
-      <ThemeProvider theme={themes.dark}>
-        <Messages
-          message={[{ author: "user", message: "test" }]}
-          currentConversation={{ id: "chat1", title: "test", value: "" }}
-        />
-      </ThemeProvider>,
+
+  it("should render with isPending data props", () => {
+    const { getByRole } = renderWithThemeProvider(
+      <Messages isPending={{ data: true }} />,
     )
 
-    const node = container.querySelector(".recipient")
-    expect(node).toHaveTextContent("test")
+    console.log(getByRole)
+  })
+
+  it("should render with message props", () => {
+    const { container } = renderWithThemeProvider(
+      <Messages
+        message={[
+          { author: "user", message: "test" },
+          { author: "bot", message: "test bot" },
+        ]}
+        currentConversation={{ id: "chat1", title: "test", value: "" }}
+      />,
+    )
+
+    const recipientNodes = [...container.querySelectorAll(".recipient")]
+    expect(recipientNodes[0]).toHaveTextContent("test")
+
+    const messagesListNodes = [...container.querySelectorAll(".messagesList")]
+    expect(messagesListNodes[0]).toHaveTextContent("test")
+
+    const messageBoxNodes = [...container.querySelectorAll(".messageBox")]
+
+    expect(messageBoxNodes[0]).toHaveClass("makeStyles-userMessage-5")
+    expect(messageBoxNodes[1]).not.toHaveClass("makeStyles-userMessage-5")
+  })
+
+  it("should render with input props", () => {
+    const { container } = renderWithThemeProvider(
+      <Messages
+        message={[
+          { author: "user", message: "test" },
+          { author: "bot", message: "test bot" },
+        ]}
+        value={"test value"}
+      />,
+    )
+
+    const node = container.querySelector(".MuiInputBase-input")
+    expect(node.value).toBe("test value")
+  })
+
+  it("should render send click props", () => {
+    const handleSendMessage = jest.fn()
+    const { getByRole } = renderWithThemeProvider(
+      <Messages
+        message={[
+          { author: "user", message: "test" },
+          { author: "bot", message: "test bot" },
+        ]}
+        handleSendMessage={handleSendMessage}
+      />,
+    )
+
+    userEvent.click(getByRole("button"))
+
+    expect(handleSendMessage).toBeCalledTimes(1)
   })
 })
