@@ -39,17 +39,15 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: "rgba(43,82,120,0.32)",
     },
   },
-  error: {
-    color: "red",
-  },
 }))
 
 export const Chats = () => {
   const classes = useStyles()
 
   const { chatId } = useParams()
+  console.log(chatId)
 
-  const { conversations, isPending, error } = useSelector(getConversations)
+  const { conversations, isPendingData, errorData } = useSelector(getConversations)
   console.log(1)
 
   const [contextChatId, setContextChatId] = useState(null)
@@ -60,11 +58,11 @@ export const Chats = () => {
     setAnchorEl(event.currentTarget)
   }
 
-  if (error.data) {
-    return <h4 className={classes.error}>{error.data}</h4>
+  if (errorData) {
+    return <h4 className={styles.error}>{errorData}</h4>
   }
 
-  return isPending.data ? (
+  return isPendingData ? (
     <CircularProgress />
   ) : (
     <List
@@ -73,7 +71,7 @@ export const Chats = () => {
       aria-label="contacts"
       onContextMenu={(e) => e.preventDefault()}
     >
-      {conversations.map((elem) => (
+      {conversations?.map((elem) => (
         <Link to={`/chat/${elem.id}`} key={elem.id}>
           <ListItem
             button={true}

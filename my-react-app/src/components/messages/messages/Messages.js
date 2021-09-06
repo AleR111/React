@@ -39,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
     padding: "10px 15px",
     fontSize: " 15px",
     borderLeft: "1px solid #000",
-  },
+  }
 }))
 
 export const Messages = ({
@@ -56,11 +56,11 @@ export const Messages = ({
 }) => {
   const classes = useStyles()
 
-  if (error.data) {
-    return <h2>{error.data}</h2>
+  if (error?.data) {
+    return <h2 className={styles.error}>{error.data}</h2>
   }
 
-  return isPending.data ? (
+  return isPending?.data ? (
     <CircularProgress />
   ) : (
     <>
@@ -71,7 +71,7 @@ export const Messages = ({
         ref={scrollRef}
         className={classNames(classes.massages, styles.messagesList)}
       >
-        {message.map((elem, id) => (
+        {message?.map((elem, id) => (
           <div
             className={classNames(styles.messageBox, classes.message, {
               [classes.userMessage]: elem.author === "user",
@@ -83,7 +83,7 @@ export const Messages = ({
           </div>
         ))}
       </div>
-      {error.sendMessage && <h2>{error.sendMessage}df</h2>}
+      {error?.sendMessage && <h2>{error?.sendMessage}df</h2>}
       <Input
         className={classes.input}
         inputRef={inputRef}
@@ -96,7 +96,7 @@ export const Messages = ({
         endAdornment={
           <InputAdornment position="end">
             <IconButton color="primary" onClick={() => handleSendMessage()}>
-              {isPending.sendMessage ? (
+              {isPending?.sendMessage ? (
                 <CircularProgress />
               ) : (
                 value && <SendRounded />

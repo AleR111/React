@@ -15,15 +15,17 @@ const persistConfig = {
   whitelist: ["themeSwitcher", 'conversationsStore'],
 }
 
-const rootPersistReducer = persistReducer(
-  persistConfig,
-  combineReducers({
+export const reducers = combineReducers({
     themeSwitcher: switcherReducer,
     conversationsStore: conversationsReducer,
     messagesStore: messagesReducer,
     publicGistsStore: publicGistsReducer,
     authStore: authReducer,
-  }),
+})
+
+const rootPersistReducer = persistReducer(
+  persistConfig,
+  reducers,
 )
 
 export const store = createStore(
