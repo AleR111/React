@@ -18,11 +18,13 @@ export const MessagesContainer = () => {
 
   const value = useSelector((state) => getValue(state, chatId))
 
-  const { message, isPending, error } = useSelector((state) =>
-    getMessage(state, chatId),
-  )
-  console.log(message, isPending, error)
-
+  const {
+    message,
+    isPendingData,
+    isPendingSendMessage,
+    errorData,
+    errorSendMessage,
+  } = useSelector((state) => getMessage(state, chatId))
   const dispatch = useDispatch()
 
   const handleSendMessage = () => {
@@ -61,8 +63,10 @@ export const MessagesContainer = () => {
       handleSendMessage={handleSendMessage}
       value={value}
       onUpdateValue={onUpdateValue}
-      isPending={isPending}
-      error={error}
+      isPendingData={isPendingData}
+      isPendingSendMessage={isPendingSendMessage}
+      errorData={errorData}
+      errorSendMessage={errorSendMessage}
     />
   )
 }

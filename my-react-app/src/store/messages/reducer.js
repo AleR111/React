@@ -24,7 +24,10 @@ const initialState = {
     ],
   },
   isPending: { data: false, sendMessage: false },
-  error: { data: "" },
+  isPendingData: false,
+  isPendingSendMessage: false,
+  errorData: "",
+  errorSendMessage: "",
 }
 
 const deleteMessages = (state, id) => {
@@ -40,24 +43,24 @@ export const messagesReducer = (state = initialState, action) => {
     case LOADING_DATA_START:
       return {
         ...state,
-        isPending: { ...state.isPending, data: true },
+        isPendingData: true,
       }
     case LOADING_DATA_SUCCESS:
       return {
         ...state,
-        isPending: { ...state.isPending, data: false },
+        isPendingData: false,
         messages: { ...action.payload },
       }
     case LOADING_DATA_ERROR:
       return {
         ...state,
-        isPending: { ...state.isPending, data: false },
-        error: { ...state.error, data: action.payload },
+        isPendingData: false,
+        errorData: action.payload,
       }
     case SEND_MESSAGE_START:
       return {
         ...state,
-        isPending: { ...state.isPending, sendMessage: true },
+        isPendingSendMessage: true,
       }
     case SEND_MESSAGE:
       return {
@@ -69,7 +72,7 @@ export const messagesReducer = (state = initialState, action) => {
             { ...action.payload.message, date: new Date() },
           ],
         },
-        isPending: { ...state.isPending, sendMessage: false },
+        isPendingSendMessage: false,
       }
     case DELETE_CONVERSATION_MESSAGES:
       return {
@@ -79,8 +82,8 @@ export const messagesReducer = (state = initialState, action) => {
     case SEND_MESSAGE_ERROR:
       return {
         ...state,
-        isPending: { ...state.isPending, sendMessage: false },
-        error: { ...state.error, sendMessage: action.payload },
+        isPendingSendMessage: false,
+        errorSendMessage: action.payload,
       }
     default:
       return state

@@ -35,10 +35,10 @@ const getId = () => {
 
 const dbRef = ref(getDatabase())
 
-export const createNewConversationInDB = (title) => async (dispatch) => {
+export const createNewConversationInDB = (title) => (dispatch) => {
   dispatch({ type: LOADING_NEW_CONVERSATION_START })
   const id = `chat${getId()}`
-  await set(child(dbRef, `conversations/${id}`), { id, title, value: "" })
+  set(child(dbRef, `conversations/${id}`), { id, title, value: "" })
     .then(() => {
       dispatch(createNewConversationSuccess(id, title))
     })

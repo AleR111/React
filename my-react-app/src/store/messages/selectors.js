@@ -1,7 +1,9 @@
 export const getMessage = (state, chatId) => {
   return {
     message: state.messagesStore.messages[chatId] || [],
-    isPending: state.messagesStore.isPending,
-    error: state.messagesStore.error,
+    isPendingData: state.messagesStore.isPendingData,
+    isPendingSendMessage: state.messagesStore.isPendingSendMessage,
+    errorData: state.messagesStore.errorData,
+    errorSendMessage: state.messagesStore.errorSendMessage,
   }
 }

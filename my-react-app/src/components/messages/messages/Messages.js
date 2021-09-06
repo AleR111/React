@@ -39,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
     padding: "10px 15px",
     fontSize: " 15px",
     borderLeft: "1px solid #000",
-  }
+  },
 }))
 
 export const Messages = ({
@@ -51,16 +51,18 @@ export const Messages = ({
   handleSendMessage,
   value,
   onUpdateValue,
-  isPending,
-  error,
+  isPendingData,
+  isPendingSendMessage,
+  errorData,
+  errorSendMessage,
 }) => {
   const classes = useStyles()
 
-  if (error?.data) {
-    return <h2 className={styles.error}>{error.data}</h2>
+  if (errorData) {
+    return <h2 className={styles.error}>{errorData}</h2>
   }
 
-  return isPending?.data ? (
+  return isPendingData ? (
     <CircularProgress />
   ) : (
     <>
@@ -83,7 +85,7 @@ export const Messages = ({
           </div>
         ))}
       </div>
-      {error?.sendMessage && <h2>{error?.sendMessage}df</h2>}
+      {errorSendMessage && <h2>{errorSendMessage}df</h2>}
       <Input
         className={classes.input}
         inputRef={inputRef}
@@ -96,7 +98,7 @@ export const Messages = ({
         endAdornment={
           <InputAdornment position="end">
             <IconButton color="primary" onClick={() => handleSendMessage()}>
-              {isPending?.sendMessage ? (
+              {isPendingSendMessage ? (
                 <CircularProgress />
               ) : (
                 value && <SendRounded />
