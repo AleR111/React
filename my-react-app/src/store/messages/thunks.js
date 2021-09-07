@@ -1,6 +1,6 @@
 import { database } from "../../api/firebase"
 import { updateValue } from "../conversations"
-import { sendMessage } from "./actions"
+import { sendMessageSuccess } from "./actions"
 import {
   LOADING_DATA_SUCCESS,
   LOADING_DATA_START,
@@ -9,10 +9,10 @@ import {
   SEND_MESSAGE_ERROR,
 } from "./types"
 
-export const getMessageFromDB = () => async (dispatch) => {
+export const getMessageFromDB = () => (dispatch) => {
   dispatch({ type: LOADING_DATA_START })
 
-  await database
+  database
     .ref("messages")
     .get()
     .then((snapshot) => {
@@ -32,7 +32,7 @@ export const sendMessageInDB = (message, chatId) => async (dispatch) => {
   try {
     await database.ref("messages").child(chatId).push(message)
 
-    dispatch(sendMessage(message, chatId))
+    dispatch(sendMessageSuccess(message, chatId))
     dispatch(updateValue("", chatId))
 
     if (message.author === "user") {
@@ -41,11 +41,10 @@ export const sendMessageInDB = (message, chatId) => async (dispatch) => {
           .ref("messages")
           .child(chatId)
           .push({ author: "bot", message: "Hi, i'm bot, from thunk" })
-        dispatch(
-          sendMessage(
-            { author: "bot", message: "Hi, i'm bot, from thunk" },
-            chatId,
-          ),
+
+        sendMessageInDB(
+          { author: "bot", message: "Hi, i'm bot, from thunk" },
+          chatId,
         )
       }, 2000)
     }

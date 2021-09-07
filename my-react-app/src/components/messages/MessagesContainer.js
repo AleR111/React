@@ -6,7 +6,7 @@ import {
   getCurrentConversations,
   getValue,
 } from "../../store/conversations"
-import { sendMessage, getMessage, sendMessageInDB } from "../../store/messages"
+import { getMessage, sendMessageInDB } from "../../store/messages"
 import { Messages } from "./messages"
 
 export const MessagesContainer = () => {
@@ -26,11 +26,6 @@ export const MessagesContainer = () => {
     errorSendMessage,
   } = useSelector((state) => getMessage(state, chatId))
   const dispatch = useDispatch()
-
-  const handleSendMessage = () => {
-    dispatch(sendMessage({ author: "user", message: value }, chatId))
-    dispatch(updateValueInDB("", chatId))
-  }
 
   const handleSendMessageWithThunk = () => {
     dispatch(sendMessageInDB({ author: "user", message: value }, chatId))
@@ -60,7 +55,7 @@ export const MessagesContainer = () => {
       message={message}
       inputRef={inputRef}
       sendMessageKey={sendMessageKey}
-      handleSendMessage={handleSendMessage}
+      handleSendMessage={handleSendMessageWithThunk}
       value={value}
       onUpdateValue={onUpdateValue}
       isPendingData={isPendingData}

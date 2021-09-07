@@ -1,5 +1,5 @@
 import {
-  SEND_MESSAGE,
+  SEND_MESSAGE_SUCCESS,
   DELETE_CONVERSATION_MESSAGES,
   LOADING_DATA_SUCCESS,
   LOADING_DATA_START,
@@ -62,7 +62,7 @@ export const messagesReducer = (state = initialState, action) => {
         ...state,
         isPendingSendMessage: true,
       }
-    case SEND_MESSAGE:
+    case SEND_MESSAGE_SUCCESS:
       return {
         ...state,
         messages: {
