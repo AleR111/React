@@ -43,7 +43,6 @@ export const createNewConversationInDB = (title) => (dispatch) => {
       dispatch(createNewConversationSuccess(id, title))
     })
     .catch((error) => {
-      console.log(121212121212)
       dispatch({
         type: LOADING_NEW_CONVERSATION_ERROR,
         payload: error.message,
@@ -55,7 +54,8 @@ const inputDebounce = debounce((value, chatId) => {
   database.ref("conversations").child(chatId).update({ value })
 }, 500)
 
-export const updateValueInDB = (value, chatId) => (dispatch) => {
-  inputDebounce(value, chatId)
+export const updateValueInDB = (value, chatId) => async (dispatch) => {
+  await inputDebounce(value, chatId)
+
   dispatch(updateValue(value, chatId))
 }

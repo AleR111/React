@@ -1,5 +1,5 @@
 import { database } from "../../api/firebase"
-import { updateValue } from "../conversations"
+import { updateValueInDB} from "../conversations"
 import { sendMessageSuccess } from "./actions"
 import {
   LOADING_DATA_SUCCESS,
@@ -33,19 +33,15 @@ export const sendMessageInDB = (message, chatId) => async (dispatch) => {
     await database.ref("messages").child(chatId).push(message)
 
     dispatch(sendMessageSuccess(message, chatId))
-    dispatch(updateValue("", chatId))
+    if (message.author === "user") dispatch(updateValueInDB('', chatId))
 
     if (message.author === "user") {
-      setTimeout(() => {
-        database
-          .ref("messages")
-          .child(chatId)
-          .push({ author: "bot", message: "Hi, i'm bot, from thunk" })
+      setTimeout( () => {
 
-        sendMessageInDB(
+        dispatch(sendMessageInDB(
           { author: "bot", message: "Hi, i'm bot, from thunk" },
           chatId,
-        )
+        ))
       }, 2000)
     }
   } catch (error) {
