@@ -9,9 +9,9 @@ import {
 import { makeStyles } from "@material-ui/core/styles"
 
 import classNames from "classnames"
-import { useState } from "react"
+import { useState, useCallback, useEffect } from "react"
 import { useSelector } from "react-redux"
-import { Link, useParams } from "react-router-dom"
+import { Link, useParams, useHistory } from "react-router-dom"
 import { getConversations } from "../../store/conversations"
 
 import styles from "./chats.module.scss"
@@ -45,10 +45,10 @@ export const Chats = () => {
   const classes = useStyles()
 
   const { chatId } = useParams()
-  console.log(chatId)
+  const { push } = useHistory()
 
-  const { conversations, isPendingData, errorData } = useSelector(getConversations)
-  console.log(1)
+  const { conversations, isPendingData, errorData } =
+    useSelector(getConversations)
 
   const [contextChatId, setContextChatId] = useState(null)
   const [anchorEl, setAnchorEl] = useState(null)
@@ -57,6 +57,20 @@ export const Chats = () => {
     setContextChatId(id)
     setAnchorEl(event.currentTarget)
   }
+
+  const handlerEscape = useCallback(
+    (e) => {
+      if (e.code === "Escape") {
+        push("/chat")
+      }
+    },
+    [push],
+  )
+
+  useEffect(() => {
+    document.addEventListener("keydown", handlerEscape)
+    return () => document.removeEventListener("keydown", handlerEscape)
+  }, [handlerEscape])
 
   if (errorData) {
     return <h4 className={styles.error}>{errorData}</h4>
