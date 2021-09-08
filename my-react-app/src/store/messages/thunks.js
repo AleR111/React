@@ -29,10 +29,11 @@ export const getMessageFromDB = () => (dispatch) => {
 
 export const sendMessageInDB = (message, chatId) => async (dispatch) => {
   dispatch({ type: SEND_MESSAGE_START })
+  const date = new Date().toString()
   try {
-    await database.ref("messages").child(chatId).push(message)
+    await database.ref("messages").child(chatId).push({...message, date})
 
-    dispatch(sendMessageSuccess(message, chatId))
+    dispatch(sendMessageSuccess({...message, date}, chatId))
     if (message.author === "user") dispatch(updateValueInDB('', chatId))
 
     if (message.author === "user") {

@@ -73,17 +73,18 @@ export const Messages = ({
         ref={scrollRef}
         className={classNames(classes.massages, styles.messagesList)}
       >
-        {message?.map((elem, id) => (
-          <div
-            className={classNames(styles.messageBox, classes.message, {
-              [classes.userMessage]: elem.author === "user",
-            })}
-            key={id}
+        {message?.map((elem, id) => {
+          console.log(elem)
+          return <div
+              className={classNames(styles.messageBox, classes.message, {
+                [classes.userMessage]: elem.author === "user",
+              })}
+              key={id}
           >
             <p>{elem.message}</p>
-            <div className={styles.time}>1:59</div>
+            <div className={styles.time}>{elem.date}</div>
           </div>
-        ))}
+        })}
       </div>
       {errorSendMessage && <h2>{errorSendMessage}df</h2>}
       <Input

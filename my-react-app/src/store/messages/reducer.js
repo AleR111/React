@@ -69,7 +69,7 @@ export const messagesReducer = (state = initialState, action) => {
           ...state.messages,
           [action.payload.chatId]: [
             ...(state.messages[action.payload.chatId] || []),
-            { ...action.payload.message, date: new Date() },
+            { ...action.payload.message },
           ],
         },
         isPendingSendMessage: false,
