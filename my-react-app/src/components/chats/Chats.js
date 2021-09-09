@@ -1,7 +1,7 @@
-import { List, CircularProgress } from "@material-ui/core"
+import {List, CircularProgress} from "@material-ui/core"
 import { useState, useCallback, useEffect } from "react"
 import { useSelector } from "react-redux"
-import { useParams, useHistory } from "react-router-dom"
+import {useParams, useHistory, Link} from "react-router-dom"
 import { getConversations } from "../../store/conversations"
 import { Chat } from "./chat"
 import styles from "./chats.module.scss"
@@ -52,11 +52,13 @@ export const Chats = () => {
       aria-label="contacts"
       onContextMenu={(e) => e.preventDefault()}
     >
-      <Chat
-        conversations={conversations}
-        chatId={chatId}
-        handleClick={handleClick}
-      />
+      {
+        conversations?.map((elem) => (
+            <Link to={`/chat/${elem.id}`} key={elem.id}>
+              <Chat handleClick={handleClick} chatData={elem}/>
+            </Link>
+        ))
+      }
       <PopoverComp
         anchorEl={anchorEl}
         setAnchorEl={setAnchorEl}

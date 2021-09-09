@@ -31,7 +31,7 @@ export const getMessageFromDB = () => (dispatch) => {
 
 export const sendMessageInDB = (message, chatId) => async (dispatch) => {
   dispatch({ type: SEND_MESSAGE_START })
-  const date = format(new Date(), 'MM.dd.yyyy, h:m')
+  const date = format(new Date(), 'Pp')
   try {
     await database.ref("messages").child(chatId).push({...message, date})
 
