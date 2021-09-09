@@ -1,3 +1,4 @@
+import { format } from 'date-fns'
 import { database } from "../../api/firebase"
 import { updateValueInDB} from "../conversations"
 import { sendMessageSuccess } from "./actions"
@@ -8,6 +9,7 @@ import {
   SEND_MESSAGE_START,
   SEND_MESSAGE_ERROR,
 } from "./types"
+
 
 export const getMessageFromDB = () => (dispatch) => {
   dispatch({ type: LOADING_DATA_START })
@@ -29,7 +31,7 @@ export const getMessageFromDB = () => (dispatch) => {
 
 export const sendMessageInDB = (message, chatId) => async (dispatch) => {
   dispatch({ type: SEND_MESSAGE_START })
-  const date = new Date().toString()
+  const date = format(new Date(), 'MM.dd.yyyy, h:m')
   try {
     await database.ref("messages").child(chatId).push({...message, date})
 
