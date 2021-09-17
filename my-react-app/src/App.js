@@ -1,5 +1,5 @@
 import { createTheme, ThemeProvider } from "@material-ui/core/styles"
-import { useEffect, useLayoutEffect, useMemo } from "react"
+import { useEffect, useMemo } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { Route, Switch } from "react-router-dom"
 import "./App.css"
@@ -94,7 +94,7 @@ export const App = () => {
     dispatch(getConversationsFromDB())
   }, [dispatch])
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     ////useLayoutEffect чтоб не мигал сначала чат, потом загрузка и снова чат при перезагрузке страницы
     dispatch(requestAuth())
   }, [dispatch])
@@ -105,11 +105,11 @@ export const App = () => {
         <HeaderContainer />
 
         <Switch>
+          <PublicPage path={"/sign-in"} component={SignIp} />
+          <PublicPage path={"/sign-up"} component={SignUp} />
           <PrivatePage path={"/chat"} component={Chat} />
           <PrivatePage path={"/profile"} component={Profile} />
           <Route path={"/public_gists_api"} component={PublicGistsApi} />
-          <PublicPage path={"/sign-in"} component={SignIp} />
-          <PublicPage path={"/sign-up"} component={SignUp} />
           <Route path={"*"} component={Page404} />
         </Switch>
       </div>

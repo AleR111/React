@@ -20,19 +20,19 @@ export const PublicPage = ({ ...params }) => {
   const { data, isPending, error } = useSelector((store) => store.authStore)
 
   if (isPending) {
-    if (error) {
-      return (
-        <Container maxWidth="xl">
-          <h1 className={classes.error}>{error}</h1>
-        </Container>
-      )
-    }
+
     return (
       <div className={classes.root}>
         <LinearProgress />
       </div>
     )
-  } else return data ? <Redirect to="/chat" /> : <Route {...params} />
+  } else if (error) {
+    return (
+        <Container maxWidth="xl">
+          <h1 className={classes.error}>{error}</h1>
+        </Container>
+    )
+  } else return data ? <Redirect to="/sign-in" /> : <Route {...params} />
 }
 
 export const PrivatePage = ({ ...params }) => {

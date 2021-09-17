@@ -10,7 +10,7 @@ import { useStyles } from "./styles"
 
 export const Chats = () => {
   const classes = useStyles()
-
+  const { data } = useSelector((store) => store.authStore)
   const { chatId } = useParams()
   const { push } = useHistory()
 
@@ -46,7 +46,7 @@ export const Chats = () => {
   return isPendingData ? (
     <CircularProgress />
   ) : (
-    <List
+    data && <List
       className={classes.root}
       component="nav"
       aria-label="contacts"
