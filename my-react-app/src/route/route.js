@@ -32,7 +32,7 @@ export const PublicPage = ({ ...params }) => {
           <h1 className={classes.error}>{error}</h1>
         </Container>
     )
-  } else return data ? <Redirect to="/sign-in" /> : <Route {...params} />
+  } else return data ? <Redirect to="/chat" /> : <Route {...params} />
 }
 
 export const PrivatePage = ({ ...params }) => {

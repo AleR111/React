@@ -9,20 +9,7 @@ import {
 } from "./types"
 
 const initialState = {
-  messages: {
-    chat123: [
-      { author: "user", message: "Hi", date: new Date() },
-      { author: "bot", message: "Hi, i'm bot", date: new Date() },
-    ],
-    chat241: [
-      { author: "user", message: "Hi", date: new Date() },
-      { author: "bot", message: "Hi, i'm bot, lol", date: new Date() },
-    ],
-    chat426: [
-      { author: "user", message: "Hi", date: new Date() },
-      { author: "bot", message: "Hi, i'm bot", date: new Date() },
-    ],
-  },
+  messages: {},
   isPending: { data: false, sendMessage: false },
   isPendingData: false,
   isPendingSendMessage: false,

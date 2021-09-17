@@ -1,12 +1,14 @@
 import {List, CircularProgress} from "@material-ui/core"
 import { useState, useCallback, useEffect } from "react"
-import { useSelector } from "react-redux"
+import {useDispatch, useSelector} from "react-redux"
 import {useParams, useHistory, Link} from "react-router-dom"
-import { getConversations } from "../../store/conversations"
+import {getConversations, getConversationsFromDB} from "../../store/conversations"
+import {getMessageFromDB} from "../../store/messages";
 import { Chat } from "./chat"
 import styles from "./chats.module.scss"
 import { PopoverComp } from "./popover"
 import { useStyles } from "./styles"
+
 
 export const Chats = () => {
   const classes = useStyles()
@@ -34,10 +36,18 @@ export const Chats = () => {
     [push],
   )
 
+  const dispatch = useDispatch()
+
   useEffect(() => {
     document.addEventListener("keydown", handlerEscape)
     return () => document.removeEventListener("keydown", handlerEscape)
   }, [handlerEscape])
+
+
+  useEffect(() => {
+    dispatch(getConversationsFromDB())
+    dispatch(getMessageFromDB())
+  }, [dispatch])
 
   if (errorData) {
     return <h4 className={styles.error}>{errorData}</h4>
