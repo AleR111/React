@@ -11,11 +11,12 @@ import {
 } from "./types"
 
 
-export const getMessageFromDB = () => (dispatch) => {
+export const getMessageFromDB = () => (dispatch, getState) => {
   dispatch({ type: LOADING_DATA_START })
-
+const { data } = getState().authStore
+  console.log(data.uid)
   database
-    .ref("messages")
+    .ref(`messages/${data.uid}`)
     .get()
     .then((snapshot) => {
       const messages = {}
@@ -25,15 +26,17 @@ export const getMessageFromDB = () => (dispatch) => {
       dispatch({ type: LOADING_DATA_SUCCESS, payload: messages })
     })
     .catch((error) =>
-      dispatch({ type: LOADING_DATA_ERROR, payload: error.message }),
+      dispatch({ type: LOADING_DATA_ERROR, payload: error.message })
     )
 }
 
-export const sendMessageInDB = (message, chatId) => async (dispatch) => {
+export const sendMessageInDB = (message, chatId) => async (dispatch, getState) => {
+  const { data } = getState().authStore
+
   dispatch({ type: SEND_MESSAGE_START })
   const date = format(new Date(), 'Pp')
   try {
-    await database.ref("messages").child(chatId).push({...message, date})
+    await database.ref("messages").child(data.uid).child(chatId).push({...message, date})
 
     dispatch(sendMessageSuccess({...message, date}, chatId))
     if (message.author === "user") dispatch(updateValueInDB('', chatId))
