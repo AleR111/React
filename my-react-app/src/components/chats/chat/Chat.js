@@ -5,12 +5,6 @@ import {getLastMessageOfChat} from "../../../store/messages";
 import styles from "../chats.module.scss"
 import { useStyles } from "../styles"
 
-
-
-const getAvatar = (name) => {
-  return name.match(/[A-Z]/i).join("")
-}
-
 export const Chat = ({chatData, chatId, handleClick }) => {
   const classes = useStyles()
 
@@ -25,7 +19,7 @@ export const Chat = ({chatData, chatId, handleClick }) => {
       onContextMenu={handleClick(chatData.id)}
   >
       <ListItemIcon>
-          <Avatar>{getAvatar(chatData.title)}</Avatar>
+          <Avatar />
       </ListItemIcon>
       <ListItemText primary={chatData.title} />
       <div className={styles.time}>{lastMessage?.date}</div>
