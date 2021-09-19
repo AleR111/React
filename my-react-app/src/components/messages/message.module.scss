@@ -1,7 +1,9 @@
 .recipient {
   min-height: 50px;
-  border-left: 1px solid #000;
-  text-align: center;
+  border-left: 1px solid rgba(0,0,0,0.27);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .messagesList {

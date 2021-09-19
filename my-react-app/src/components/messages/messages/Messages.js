@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
     color: "#9a9fa1",
     padding: "10px 15px",
     fontSize: " 15px",
-    borderLeft: "1px solid #000",
+    borderLeft: "1px solid rgba(0,0,0,0.27)",
   },
 }))
 

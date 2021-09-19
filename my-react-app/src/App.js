@@ -63,8 +63,8 @@ const themes = {
       backgroundColor: "#d7dad9",
     },
     messagesList: {
-      backgroundColor: "#badde5",
-      border: "4px solid #357b58e3",
+      backgroundColor: "rgba(157,190,186,0.47)",
+      border: "4px solid #357b5821",
     },
     messagesInput: {
       backgroundColor: "#f2f8fc",

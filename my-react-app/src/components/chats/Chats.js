@@ -64,8 +64,8 @@ export const Chats = () => {
     >
       {
         conversations?.map((elem) => (
-            <Link to={`/chat/${elem.id}`} key={elem.id}>
-              <Chat handleClick={handleClick} chatData={elem}/>
+            <Link className={classes.root} to={`/chat/${elem.id}`} key={elem.id}>
+              <Chat handleClick={handleClick} chatData={elem} chatId={chatId}/>
             </Link>
         ))
       }
