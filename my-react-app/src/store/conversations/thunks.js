@@ -1,7 +1,12 @@
-import { getDatabase, ref, set, child } from "firebase/database"
+import { getDatabase, ref, set, child, remove } from "firebase/database"
 import debounce from "lodash.debounce"
 import { database } from "../../api/firebase"
-import {  updateValue, createNewConversationSuccess } from "./actions"
+import { deleteConversationMessagesFromDB } from "../messages"
+import {
+  updateValue,
+  createNewConversationSuccess,
+  deleteConversation,
+} from "./actions"
 import {
   LOADING_DATA_START,
   LOADING_DATA_SUCCESS,
@@ -61,4 +66,17 @@ export const updateValueInDB = (value, chatId) => async (dispatch) => {
   await inputDebounce(value, chatId)
 
   dispatch(updateValue(value, chatId))
+}
+
+export const deleteConversationFromDB = (id) => (dispatch, getState) => {
+  const { data } = getState().authStore
+
+  remove(child(dbRef, `conversations/${data.uid}/${id}`))
+    .then(() => {
+      dispatch(deleteConversation(id))
+      dispatch(deleteConversationMessagesFromDB(id))
+    })
+    .catch((error) => {
+      console.log(error)
+    })
 }

@@ -7,6 +7,7 @@ import {
   LOADING_NEW_CONVERSATION_START,
   LOADING_NEW_CONVERSATION_ERROR,
   CREATE_NEW_CONVERSATION_SUCCESS,
+  DELETE_CONVERSATION_ERROR,
 } from "./types"
 
 const initialState = {
@@ -15,6 +16,7 @@ const initialState = {
   isPendingNewConversation: false,
   errorData: "",
   errorNewConversation: "",
+  errorDelete: "",
 }
 
 export const conversationsReducer = (state = initialState, action) => {
@@ -75,6 +77,10 @@ export const conversationsReducer = (state = initialState, action) => {
         ...state,
         isPendingNewConversation: false,
         errorNewConversation: action.payload,
+      }
+    case DELETE_CONVERSATION_ERROR:
+      return {
+        errorDelete: action.payload,
       }
     default:
       return state

@@ -8,3 +8,5 @@ export const LOADING_DATA_ERROR = "@messages/loading data error"
 export const SEND_MESSAGE_START = "@messages/send message start"
 export const SEND_MESSAGE_SUCCESS = "@messages/send message success"
 export const SEND_MESSAGE_ERROR = "@messages/send message error"
+
+export const DELETE_MESSAGES_ERROR = "@messages/delete messages error"

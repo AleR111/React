@@ -8,3 +8,5 @@ export const LOADING_DATA_ERROR = '@conversations/loading data error'
 export const LOADING_NEW_CONVERSATION_START = '@conversations/loading new conversation start'
 export const CREATE_NEW_CONVERSATION_SUCCESS = '@conversation/create new conversation success'
 export const LOADING_NEW_CONVERSATION_ERROR = '@conversations/loading new conversation error'
+
+export const DELETE_CONVERSATION_ERROR = '@conversations/delete conversation error'

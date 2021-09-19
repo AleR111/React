@@ -6,6 +6,7 @@ import {
   LOADING_DATA_ERROR,
   SEND_MESSAGE_START,
   SEND_MESSAGE_ERROR,
+  DELETE_MESSAGES_ERROR,
 } from "./types"
 
 const initialState = {
@@ -15,6 +16,7 @@ const initialState = {
   isPendingSendMessage: false,
   errorData: "",
   errorSendMessage: "",
+  errorDelete: "",
 }
 
 const deleteMessages = (state, id) => {
@@ -71,6 +73,11 @@ export const messagesReducer = (state = initialState, action) => {
         ...state,
         isPendingSendMessage: false,
         errorSendMessage: action.payload,
+      }
+    case DELETE_MESSAGES_ERROR:
+      return {
+        ...state,
+        errorDelete: action.payload,
       }
     default:
       return state
