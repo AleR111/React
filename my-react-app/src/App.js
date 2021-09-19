@@ -25,6 +25,9 @@ const themes = {
     header: {
       backgroundColor: "#212227",
     },
+    drawer: {
+      backgroundColor: "rgb(45,48,51)",
+    },
     burger: {
       color: "#fff",
     },
@@ -54,6 +57,9 @@ const themes = {
       color: "#ffffff",
     },
     header: {
+      backgroundColor: "#edf4f6",
+    },
+    drawer: {
       backgroundColor: "#edf4f6",
     },
     burger: {
