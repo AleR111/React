@@ -13,7 +13,14 @@ import {
   Switch,
 } from "@material-ui/core"
 import { useTheme } from "@material-ui/core/styles"
-import { ChevronLeft, ChevronRight, Inbox, Mail } from "@material-ui/icons"
+import {
+  ChevronLeft,
+  ChevronRight,
+  AddBox,
+  Mail,
+  Contacts,
+  SettingsApplications,
+} from "@material-ui/icons"
 import classNames from "classnames"
 import { Link } from "react-router-dom"
 import { useStyles } from "../styles"
@@ -29,78 +36,91 @@ export const HeaderDrawer = ({
   const classes = useStyles()
   const theme = useTheme()
 
+  const linkList = [
+    { type: "page", href: `/chat`, icon: <Mail />, primary: "Chats" },
+    {
+      type: "button",
+      function: handleOpenModal,
+      icon: <AddBox />,
+      primary: "New Chat",
+    },
+    {
+      type: "page",
+      href: `/contacts`,
+      icon: <Contacts />,
+      primary: "Contacts",
+    },
+    {
+      type: "page",
+      href: `/settings`,
+      icon: <SettingsApplications />,
+      primary: "Settings",
+    },
+  ]
+
   return (
     <Drawer
       className={classNames(classes.drawer, classes.themeDrawer)}
-      variant="persistent"
       anchor="left"
       open={open}
       classes={{
         paper: classes.drawerPaper,
       }}
+      onClose={handleDrawerClose}
     >
       <div className={classes.drawerHeader}>
         <ListItem alignItems="flex-start">
           <ListItemAvatar>
-            <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
+            <Avatar src="/static/images/avatar/1.jpg" />
           </ListItemAvatar>
           <ListItemText
             primary={auth?.email}
             secondary={
               <Link to={`/profile`}>
-                <LinkUI className={classes.themeLink}>Profile</LinkUI>
+                <LinkUI
+                  onClick={handleDrawerClose}
+                  className={classes.themeLink}
+                >
+                  Profile
+                </LinkUI>
               </Link>
             }
           />
         </ListItem>
-        <IconButton onClick={handleDrawerClose}>
+        <IconButton onClick={handleDrawerClose} className={classes.themeLink}>
           {theme.direction === "ltr" ? <ChevronLeft /> : <ChevronRight />}
         </IconButton>
       </div>
       <Divider />
       <List>
-        <Link to={`/chat`}>
-          <ListItem button={true}>
-            <ListItemIcon>
-              <Mail />
-            </ListItemIcon>
-            <ListItemText primary={"Chats"} />
-          </ListItem>
-        </Link>
-        <Link to={`/public_gists_api`}>
-          <ListItem button={true}>
-            <ListItemIcon>
-              <Mail />
-            </ListItemIcon>
-            <ListItemText primary={"Public Gists Api"} />
-          </ListItem>
-        </Link>
-        <ListItem button={true} onClick={handleOpenModal}>
-          <ListItemIcon>
-            <Inbox />
-          </ListItemIcon>
-          <ListItemText primary={"New Chat"} />
-        </ListItem>
-        {["New Channel", "Contacts", "Setting"].map((text, index) => (
-          <ListItem button={true} key={text}>
-            <ListItemIcon>
-              {index % 2 === 0 ? <Inbox /> : <Mail />}
-            </ListItemIcon>
-            <ListItemText primary={text} />
-          </ListItem>
-        ))}
-        <FormControlLabel
-          labelPlacement="end"
-          control={
-            <Switch
-              checked={themeApp === "dark"}
-              onChange={onSwitcher}
-              color="primary"
-            />
-          }
-          label="Dark Mode"
-        />
+        {linkList.map((elem, idx) => {
+          return elem.type === "page" ? (
+            <Link className={classes.themeLink} to={elem.href} key={idx}>
+              <ListItem button={true} onClick={handleDrawerClose}>
+                <ListItemIcon>{elem.icon}</ListItemIcon>
+                <ListItemText primary={elem.primary} />
+              </ListItem>
+            </Link>
+          ) : (
+            <ListItem button={true} onClick={elem.function} key={idx}>
+              <ListItemIcon>{elem.icon}</ListItemIcon>
+              <ListItemText primary={elem.primary} />
+            </ListItem>
+          )
+        })}
       </List>
+      <FormControlLabel
+        className={classes.themeSwitcher}
+        labelPlacement="end"
+        control={
+          <Switch
+            checked={themeApp === "dark"}
+            onChange={onSwitcher}
+            color="primary"
+          />
+        }
+        label="Dark Mode"
+      />
     </Drawer>
   )
 }

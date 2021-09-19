@@ -42,7 +42,7 @@ export const useStyles = makeStyles((theme) => ({
   drawerPaper: {
     width: drawerWidth,
     backgroundColor: theme.drawer.backgroundColor,
-    color: theme.font.color
+    color: theme.font.color,
   },
   drawerHeader: {
     display: "flex",
@@ -73,6 +73,9 @@ export const useStyles = makeStyles((theme) => ({
     textDecoration: "none",
   },
   themeLink: {
-    color: theme.font.color
-  }
+    color: theme.font.color,
+  },
+  themeSwitcher: {
+    paddingLeft: "16px",
+  },
 }))

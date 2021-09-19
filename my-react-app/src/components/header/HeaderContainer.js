@@ -35,6 +35,7 @@ export const HeaderContainer = () => {
 
   const handleOpenModal = () => {
     dispatch(openNewChatModal())
+    handleDrawerClose()
   }
 
   const handleCloseModal = () => {
