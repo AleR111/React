@@ -2,7 +2,7 @@ export const Page404 = () => {
   return (
     <div>
       <img
-        src="https://www.rheinzink.com/fileadmin/redaktion/RHEINZINK_DE/Bilder/08_nicht_im_Menue/04_Funktionsseiten/404error.jpg"
+        src="https://www.rheinzink.com/fileadmin/_processed_/0/e/csm_404error_4a9d139ad8.jpg"
         alt="404"
         width={"100%"}
       />
