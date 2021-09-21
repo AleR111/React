@@ -1,22 +1,17 @@
 import { useEffect, useRef } from "react"
-import { useSelector, useDispatch } from "react-redux"
+import { useSelector, shallowEqual } from "react-redux"
 import { useParams } from "react-router-dom"
-import {
-  updateValueInDB,
-  getCurrentConversations,
-  getValue,
-} from "../../store/conversations"
-import { getMessage, sendMessageInDB } from "../../store/messages"
+import { getCurrentConversations } from "../../store/conversations"
+import { getMessage } from "../../store/messages"
 import { Messages } from "./messages"
 
 export const MessagesContainer = () => {
   const { chatId } = useParams()
 
-  const currentConversation = useSelector((state) =>
-    getCurrentConversations(state, chatId),
+  const currentConversation = useSelector(
+    (state) => getCurrentConversations(state, chatId),
+    (prev, next) => prev.title === next.title,
   )
-
-  const value = useSelector((state) => getValue(state, chatId))
 
   const {
     message,
@@ -24,20 +19,7 @@ export const MessagesContainer = () => {
     isPendingSendMessage,
     errorData,
     errorSendMessage,
-  } = useSelector((state) => getMessage(state, chatId))
-  const dispatch = useDispatch()
-
-  const handleSendMessageWithThunk = () => {
-    dispatch(sendMessageInDB({ author: "user", message: value }, chatId))
-  }
-
-  const sendMessageKey = (code) => {
-    if (code === "Enter" && value) handleSendMessageWithThunk()
-  }
-
-  const onUpdateValue = (e) => {
-    dispatch(updateValueInDB(e.target.value, chatId))
-  }
+  } = useSelector((state) => getMessage(state, chatId), shallowEqual)
 
   const inputRef = useRef(null)
   const scrollRef = useRef(0)
@@ -54,10 +36,6 @@ export const MessagesContainer = () => {
       scrollRef={scrollRef}
       message={message}
       inputRef={inputRef}
-      sendMessageKey={sendMessageKey}
-      handleSendMessage={handleSendMessageWithThunk}
-      value={value}
-      onUpdateValue={onUpdateValue}
       isPendingData={isPendingData}
       isPendingSendMessage={isPendingSendMessage}
       errorData={errorData}
