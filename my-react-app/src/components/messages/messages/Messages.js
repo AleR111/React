@@ -1,13 +1,9 @@
-import {
-  IconButton,
-  Input,
-  InputAdornment,
-  CircularProgress,
-} from "@material-ui/core"
+import { CircularProgress } from "@material-ui/core"
 import { makeStyles } from "@material-ui/core/styles"
-import { SendRounded } from "@material-ui/icons"
 import classNames from "classnames"
+
 import styles from "../message.module.scss"
+import { MessageInput } from "./input"
 
 const useStyles = makeStyles((theme) => ({
   messagesHeader: {
@@ -38,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
     color: "#9a9fa1",
     padding: "10px 15px",
     fontSize: " 15px",
-    borderLeft: "1px solid #000",
+    borderLeft: "1px solid rgba(0,0,0,0.27)",
   },
 }))
 
@@ -47,10 +43,6 @@ export const Messages = ({
   scrollRef,
   message,
   inputRef,
-  sendMessageKey,
-  handleSendMessage,
-  value,
-  onUpdateValue,
   isPendingData,
   isPendingSendMessage,
   errorData,
@@ -75,40 +67,23 @@ export const Messages = ({
       >
         {message?.map((elem, id) => {
           console.log(elem)
-          return <div
+          return (
+            <div
               className={classNames(styles.messageBox, classes.message, {
                 [classes.userMessage]: elem.author === "user",
               })}
               key={id}
-          >
-            <p>{elem.message}</p>
-            <div className={styles.time}>{elem.date}</div>
-          </div>
+            >
+              <p>{elem.message}</p>
+              <div className={styles.time}>{elem.date}</div>
+            </div>
+          )
         })}
       </div>
       {errorSendMessage && <h2>{errorSendMessage}df</h2>}
-      <Input
-        className={classes.input}
+      <MessageInput
+        isPendingSendMessage={isPendingSendMessage}
         inputRef={inputRef}
-        fullWidth={true}
-        placeholder="Write a message..."
-        autoFocus={true}
-        onKeyDown={(e) => {
-          sendMessageKey(e.code)
-        }}
-        endAdornment={
-          <InputAdornment position="end">
-            <IconButton color="primary" onClick={() => handleSendMessage()}>
-              {isPendingSendMessage ? (
-                <CircularProgress />
-              ) : (
-                value && <SendRounded />
-              )}
-            </IconButton>
-          </InputAdornment>
-        }
-        value={value}
-        onChange={(e) => onUpdateValue(e)}
       />
     </>
   )

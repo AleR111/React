@@ -6,27 +6,26 @@ import { authReducer } from "./auth"
 import { conversationsReducer } from "./conversations"
 import { messagesReducer } from "./messages"
 import { botAnswer } from "./middlewares/botAnswer"
+import { modalReducer } from "./newChatModal"
 import { publicGistsReducer } from "./publicGists"
 import { switcherReducer } from "./themeSwitcher"
 
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["themeSwitcher", 'conversationsStore'],
+  whitelist: ["themeSwitcher"],
 }
 
 export const reducers = combineReducers({
-    themeSwitcher: switcherReducer,
-    conversationsStore: conversationsReducer,
-    messagesStore: messagesReducer,
-    publicGistsStore: publicGistsReducer,
-    authStore: authReducer,
+  themeSwitcher: switcherReducer,
+  conversationsStore: conversationsReducer,
+  messagesStore: messagesReducer,
+  publicGistsStore: publicGistsReducer,
+  authStore: authReducer,
+  newChatModal: modalReducer,
 })
 
-const rootPersistReducer = persistReducer(
-  persistConfig,
-  reducers,
-)
+const rootPersistReducer = persistReducer(persistConfig, reducers)
 
 export const store = createStore(
   rootPersistReducer,

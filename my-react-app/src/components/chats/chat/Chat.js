@@ -1,31 +1,33 @@
 import { Avatar, ListItem, ListItemIcon, ListItemText } from "@material-ui/core"
 import classNames from "classnames"
-import { Link } from "react-router-dom"
+import { useSelector } from "react-redux"
+import { getLastMessageOfChat } from "../../../store/messages"
 import styles from "../chats.module.scss"
 import { useStyles } from "../styles"
 
-const getAvatar = (name) => {
-  return name.match(/[A-Z]/g).join("")
-}
-
-export const Chat = ({ conversations, chatId, handleClick }) => {
+export const Chat = ({ chatData, chatId, handleClick }) => {
   const classes = useStyles()
-  return conversations?.map((elem) => (
-    <Link to={`/chat/${elem.id}`} key={elem.id}>
-      <ListItem
-        button={true}
-        selected={elem.id === chatId}
-        className={classNames(classes.item, classes.itemSelected)}
-        variant="contained"
-        color="primary"
-        onContextMenu={handleClick(elem.id)}
-      >
-        <ListItemIcon>
-          <Avatar>{getAvatar(elem.title)}</Avatar>
-        </ListItemIcon>
-        <ListItemText primary={elem.title} />
-        <div className={styles.time}>6</div>
-      </ListItem>
-    </Link>
-  ))
+
+  const lastMessage = useSelector((state) =>
+    getLastMessageOfChat(state, chatData.id),
+  )
+
+  return (
+    <ListItem
+      button={true}
+      selected={chatData.id === chatId}
+      className={classNames(classes.item, classes.itemSelected)}
+      variant="contained"
+      color="primary"
+      onContextMenu={handleClick(chatData.id)}
+    >
+      <ListItemIcon>
+        <Avatar />
+      </ListItemIcon>
+      <div className={styles.box}>
+        <ListItemText primary={chatData.title} />
+        <div className={styles.time}>{lastMessage?.date}</div>
+      </div>
+    </ListItem>
+  )
 }

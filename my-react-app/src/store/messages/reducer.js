@@ -6,28 +6,17 @@ import {
   LOADING_DATA_ERROR,
   SEND_MESSAGE_START,
   SEND_MESSAGE_ERROR,
+  DELETE_MESSAGES_ERROR,
 } from "./types"
 
 const initialState = {
-  messages: {
-    chat123: [
-      { author: "user", message: "Hi", date: new Date() },
-      { author: "bot", message: "Hi, i'm bot", date: new Date() },
-    ],
-    chat241: [
-      { author: "user", message: "Hi", date: new Date() },
-      { author: "bot", message: "Hi, i'm bot, lol", date: new Date() },
-    ],
-    chat426: [
-      { author: "user", message: "Hi", date: new Date() },
-      { author: "bot", message: "Hi, i'm bot", date: new Date() },
-    ],
-  },
+  messages: {},
   isPending: { data: false, sendMessage: false },
   isPendingData: false,
   isPendingSendMessage: false,
   errorData: "",
   errorSendMessage: "",
+  errorDelete: "",
 }
 
 const deleteMessages = (state, id) => {
@@ -84,6 +73,11 @@ export const messagesReducer = (state = initialState, action) => {
         ...state,
         isPendingSendMessage: false,
         errorSendMessage: action.payload,
+      }
+    case DELETE_MESSAGES_ERROR:
+      return {
+        ...state,
+        errorDelete: action.payload,
       }
     default:
       return state

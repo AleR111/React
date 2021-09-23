@@ -1,8 +1,8 @@
 import { LOADING_START, LOADING_SUCCESS, LOADING_ERROR } from "./types"
 
 const initialState = {
-  data: [],
-  isPending: false,
+  data: null,
+  isPending: true,
   error: "",
 }
 

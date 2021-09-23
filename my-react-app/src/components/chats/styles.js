@@ -4,6 +4,7 @@ export const useStyles = makeStyles((theme) => ({
   root: {
     width: "100%",
     color: theme.font.color,
+    textDecoration: "none"
     // background: 'rgba(27, 33, 47, 0.96)',
   },
   chats: {
@@ -11,10 +12,10 @@ export const useStyles = makeStyles((theme) => ({
   },
   itemSelected: {
     "&.Mui-selected": {
-      backgroundColor: "#2b5278",
+      backgroundColor: "rgba(43,82,120,0.37)",
     },
     "&.Mui-selected:hover": {
-      backgroundColor: "#2b5278",
+      backgroundColor: "rgba(43,82,120,0.37)",
     },
   },
   item: {

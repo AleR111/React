@@ -1,8 +1,12 @@
 import { List, CircularProgress } from "@material-ui/core"
 import { useState, useCallback, useEffect } from "react"
-import { useSelector } from "react-redux"
-import { useParams, useHistory } from "react-router-dom"
-import { getConversations } from "../../store/conversations"
+import { useDispatch, useSelector } from "react-redux"
+import { useParams, useHistory, Link } from "react-router-dom"
+import {
+  getConversations,
+  getConversationsFromDB,
+} from "../../store/conversations"
+import { getMessageFromDB } from "../../store/messages"
 import { Chat } from "./chat"
 import styles from "./chats.module.scss"
 import { PopoverComp } from "./popover"
@@ -10,13 +14,15 @@ import { useStyles } from "./styles"
 
 export const Chats = () => {
   const classes = useStyles()
-
+  const { data } = useSelector((store) => store.authStore)
   const { chatId } = useParams()
   const { push } = useHistory()
 
-  const { conversations, isPendingData, errorData } =
-    useSelector(getConversations)
-
+  const { conversations, isPendingData, errorData } = useSelector(
+    getConversations,
+    (prev, next) => prev.conversations.length === next.conversations.length,
+  )
+  console.log(123232132323123)
   const [contextChatId, setContextChatId] = useState(null)
   const [anchorEl, setAnchorEl] = useState(null)
 
@@ -34,10 +40,17 @@ export const Chats = () => {
     [push],
   )
 
+  const dispatch = useDispatch()
+
   useEffect(() => {
     document.addEventListener("keydown", handlerEscape)
     return () => document.removeEventListener("keydown", handlerEscape)
   }, [handlerEscape])
+
+  useEffect(() => {
+    dispatch(getConversationsFromDB())
+    dispatch(getMessageFromDB())
+  }, [dispatch])
 
   if (errorData) {
     return <h4 className={styles.error}>{errorData}</h4>
@@ -46,23 +59,25 @@ export const Chats = () => {
   return isPendingData ? (
     <CircularProgress />
   ) : (
-    <List
-      className={classes.root}
-      component="nav"
-      aria-label="contacts"
-      onContextMenu={(e) => e.preventDefault()}
-    >
-      <Chat
-        conversations={conversations}
-        chatId={chatId}
-        handleClick={handleClick}
-      />
-      <PopoverComp
-        anchorEl={anchorEl}
-        setAnchorEl={setAnchorEl}
-        contextChatId={contextChatId}
-        chatId={chatId}
-      />
-    </List>
+    data && (
+      <List
+        className={classes.root}
+        component="nav"
+        aria-label="contacts"
+        onContextMenu={(e) => e.preventDefault()}
+      >
+        {conversations?.map((elem) => (
+          <Link className={classes.root} to={`/chat/${elem.id}`} key={elem.id}>
+            <Chat handleClick={handleClick} chatData={elem} chatId={chatId} />
+          </Link>
+        ))}
+        <PopoverComp
+          anchorEl={anchorEl}
+          setAnchorEl={setAnchorEl}
+          contextChatId={contextChatId}
+          chatId={chatId}
+        />
+      </List>
+    )
   )
 }

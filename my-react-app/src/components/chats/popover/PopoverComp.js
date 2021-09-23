@@ -2,8 +2,7 @@ import { Popover, Paper, Button } from "@material-ui/core"
 import { Delete } from "@material-ui/icons"
 import { useDispatch } from "react-redux"
 import { useHistory } from "react-router-dom"
-import { deleteConversation } from "../../../store/conversations"
-import { deleteConversationMessages } from "../../../store/messages"
+import { deleteConversationFromDB } from "../../../store/conversations"
 
 export const PopoverComp = ({
   anchorEl,
@@ -21,8 +20,7 @@ export const PopoverComp = ({
   const dispatch = useDispatch()
 
   const deleteChat = () => {
-    dispatch(deleteConversation(contextChatId))
-    dispatch(deleteConversationMessages(contextChatId))
+    dispatch(deleteConversationFromDB(contextChatId))
     handleClose()
     if (contextChatId === chatId) history.push("/chat")
   }

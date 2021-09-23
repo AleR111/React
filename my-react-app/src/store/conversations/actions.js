@@ -16,5 +16,5 @@ export const deleteConversation = (contextChatId) => ({
 
 export const createNewConversationSuccess = (id, title) => ({
   type: CREATE_NEW_CONVERSATION_SUCCESS,
-  payload: {id, title},
+  payload: { id, title },
 })

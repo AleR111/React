@@ -41,7 +41,6 @@ export const NewChatModal = ({ handleCloseModal, openModal }) => {
   )
 
   const createNewChat = () => {
-    console.log(value)
     dispatch(createNewConversationInDB(value))
     handleCloseModal()
   }

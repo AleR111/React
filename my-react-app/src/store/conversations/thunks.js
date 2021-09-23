@@ -1,7 +1,12 @@
-import { getDatabase, ref, set, child } from "firebase/database"
+import { getDatabase, ref, set, child, remove } from "firebase/database"
 import debounce from "lodash.debounce"
 import { database } from "../../api/firebase"
-import { createNewConversationSuccess, updateValue } from "./actions"
+import { deleteConversationMessagesFromDB } from "../messages"
+import {
+  updateValue,
+  createNewConversationSuccess,
+  deleteConversation,
+} from "./actions"
 import {
   LOADING_DATA_START,
   LOADING_DATA_SUCCESS,
@@ -10,11 +15,12 @@ import {
   LOADING_NEW_CONVERSATION_ERROR,
 } from "./types"
 
-export const getConversationsFromDB = () => (dispatch) => {
+export const getConversationsFromDB = () => (dispatch, getState) => {
+  const { data } = getState().authStore
   dispatch({ type: LOADING_DATA_START })
 
   database
-    .ref("conversations")
+    .ref(`conversations/${data.uid}`)
     .get()
     .then((snapshot) => {
       const conversations = []
@@ -35,10 +41,12 @@ const getId = () => {
 
 const dbRef = ref(getDatabase())
 
-export const createNewConversationInDB = (title) => (dispatch) => {
+export const createNewConversationInDB = (title) => (dispatch, getState) => {
+  const { data } = getState().authStore
+
   dispatch({ type: LOADING_NEW_CONVERSATION_START })
   const id = `chat${getId()}`
-  set(child(dbRef, `conversations/${id}`), { id, title, value: "" })
+  set(child(dbRef, `conversations/${data.uid}/${id}`), { id, title, value: "" })
     .then(() => {
       dispatch(createNewConversationSuccess(id, title))
     })
@@ -58,4 +66,17 @@ export const updateValueInDB = (value, chatId) => async (dispatch) => {
   await inputDebounce(value, chatId)
 
   dispatch(updateValue(value, chatId))
+}
+
+export const deleteConversationFromDB = (id) => (dispatch, getState) => {
+  const { data } = getState().authStore
+
+  remove(child(dbRef, `conversations/${data.uid}/${id}`))
+    .then(() => {
+      dispatch(deleteConversation(id))
+      dispatch(deleteConversationMessagesFromDB(id))
+    })
+    .catch((error) => {
+      console.log(error)
+    })
 }

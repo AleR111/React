@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react"
 import { useSelector, useDispatch } from "react-redux"
 import { firebaseApp } from "../../api/firebase"
+import { closeNewChatModal, openNewChatModal } from "../../store/newChatModal"
 import { switcher } from "../../store/themeSwitcher"
 import { Header } from "./header"
 import { NewChatModal } from "./newChatModal"
@@ -30,14 +31,15 @@ export const HeaderContainer = () => {
     dispatch(switcher())
   }
 
-  const [openModal, setOpenModal] = useState(false)
+  const openModal = useSelector((state) => state.newChatModal.isOpenedModal)
 
   const handleOpenModal = () => {
-    setOpenModal(true)
+    dispatch(openNewChatModal())
+    handleDrawerClose()
   }
 
   const handleCloseModal = () => {
-    setOpenModal(false)
+    dispatch(closeNewChatModal())
   }
   const { data } = useSelector((store) => store.authStore)
   const signOut = () => firebaseApp.auth().signOut()
