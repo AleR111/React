@@ -24,6 +24,8 @@
 
 Проект находится в процессе разработки. Ожидается добавление таких функций как: редактирование/удаление сообщений, редактирование профиля, добавление фото.
 
+Сайт: [http://aler111-react.space/sign-in](http://aler111-react.space/sign-in)
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
