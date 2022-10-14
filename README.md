@@ -22,10 +22,6 @@
 * Material-UI
 * Jest
 
-Проект находится в процессе разработки. Ожидается добавление таких функций как: редактирование/удаление сообщений, редактирование профиля, добавление фото.
-
-Сайт: [http://aler111-react.space/sign-in](http://aler111-react.space/sign-in)                                                              
-                                     (login: test@test.com, password: test123)
 
 # Getting Started with Create React App
 
